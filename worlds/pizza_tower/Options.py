@@ -111,7 +111,7 @@ class LockTransfoList(OptionSet):
     Which transformations should be randomized?
     """
     display_name = "Transfos to Randomize"
-    default = **item_transfo
+    #default = **item_transfo
 
 class UnlockMode(Toggle):
     """

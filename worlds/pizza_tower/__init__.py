@@ -1,7 +1,8 @@
-from worlds.AutoWorld import World, WebWorld
+from worlds.AutoWorld import World, WebWorld, Region
 from .Items import PTItem, item_list
-from .Locations import PTLocation, locations_data_list
+from .Locations import PTLocation, pt_locations
 from .Options import PTOptions
+from .Regions import create_regions
 import typing
 
 class PizzaTowerWebWorld(WebWorld):
@@ -14,5 +15,8 @@ class PizzaTowerWorld(World):
     topology_present = False
     options_dataclass = PTOptions
     options: PTOptions
-    item_name_to_id = item_list
-    location_name_to_id = {locations_data_list[i]: i for i in location_data_list}
+
+    def create_items(self):
+        pizzaitempool = []
+
+        self.multiworld.itempool += pizzaitempool

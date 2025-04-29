@@ -1,5 +1,5 @@
 from BaseClasses import Item, ItemClassification
-from typing import NamedTuple
+from typing import typing, NamedTuple
 
 class PTItem(Item):
     game: str = "Pizza Tower"
@@ -9,17 +9,16 @@ class PTItemData(NamedTuple):
     classification: any
 
 item_progression = {
-    "Toppin": PTItemData(100, ItemClassification.progression_skip_balancing),
-    "Boss Key": PTItemData(101, ItemClassification.progression),
+    "Toppin": PTItemData(101, ItemClassification.progression_skip_balancing),
+    "Boss Key": PTItemData(102, ItemClassification.progression),
 }
 
 item_moveset = {
-    "Mach 4": PTItemData(102, ItemClassification.useful),
-    "Uppercut": PTItemData(103, ItemClassification.useful),
-    "Superjump": PTItemData(104, ItemClassification.progression),
-    "Grab": PTItemData(105, ItemClassification.progression),
-    "Carry": PTItemData(106, ItemClassification.progression),
-    "Piledrive": PTItemData(107, ItemClassification.useful),
+    "Mach 4": PTItemData(103, ItemClassification.useful),
+    "Uppercut": PTItemData(104, ItemClassification.useful),
+    "Superjump": PTItemData(105, ItemClassification.progression),
+    "Grab": PTItemData(106, ItemClassification.progression),
+    #"Piledrive": PTItemData(107, ItemClassification.useful), #redundant
     "Taunt": PTItemData(108, ItemClassification.useful),
     "Supertaunt": PTItemData(109, ItemClassification.useful),
     "Bodyslam": PTItemData(110, ItemClassification.progression),
@@ -43,9 +42,9 @@ item_moveset_noise = {
 
 item_trap = {
     "Clown Trap": PTItemData(121, ItemClassification.trap),
-    "One-Minute War Timer": PTItemData(122, ItemClassification.trap),
+    "One-Minute Timer": PTItemData(122, ItemClassification.trap),
     "Pizzaface Trap": PTItemData(123, ItemClassification.trap),
-    "Mach 2 Trap": PTItemData(124, ItemClassification.trap),
+    "Slow Trap": PTItemData(124, ItemClassification.trap),
     "Oktoberfest!": PTItemData(125, ItemClassification.trap),
 }
 
@@ -54,38 +53,5 @@ item_other = {
     "Cross Buff": PTItemData(127, ItemClassification.filler),
     "Pizza Shield": PTItemData(128, ItemClassification.filler),
     "Rat-B-Gone": PTItemData(129, ItemClassification.filler),
-    "1,000 Points": PTItemData(130, ItemClassification.filler)
-}
-
-item_transfo = {
-    "Ball": PTItemData(131, ItemClassification.useful),
-    "Knight": PTItemData(132, ItemClassification.useful),
-    "Firemouth": PTItemData(133, ItemClassification.useful),
-    "Ghost": PTItemData(134, ItemClassification.useful),
-    "Mort": PTItemData(135, ItemClassification.useful),
-    "Weenie": PTItemData(136, ItemClassification.progression),
-    "Barrel": PTItemData(137, ItemClassification.useful),
-    "Antigrav Bubble": PTItemData(138, ItemClassification.useful),
-    "Rocket": PTItemData(139, ItemClassification.progression),
-    "Rat Balloon": PTItemData(140, ItemClassification.useful),
-    "Pizzabox": PTItemData(141, ItemClassification.useful),
-    "Sticky Cheese": PTItemData(142, ItemClassification.useful),
-    "Pepper Pizza": PTItemData(143, ItemClassification.useful),
-    "Shotgun": PTItemData(144, ItemClassification.progression),
-}
-
-item_data_list = {
-    **item_progression,
-    **item_moveset,
-    **item_moveset_peppino,
-    **item_moveset_noise,
-    **item_trap,
-    **item_other,
-}
-
-item_list = {name: data.code for name, data in item_data_list.items()}
-item_moveset_all = {
-    **item_moveset,
-    **item_moveset_peppino,
-    **item_moveset_noise,
+    "1,000 Points": PTItemData(130, ItemClassification.filler),
 }
