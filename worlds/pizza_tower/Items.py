@@ -15,11 +15,11 @@ item_progression = {
 
 item_moveset = {
     "Mach 4": PTItemData(103, ItemClassification.useful),
-    "Uppercut": PTItemData(104, ItemClassification.useful),
+    "Uppercut": PTItemData(104, ItemClassification.progression),
     "Superjump": PTItemData(105, ItemClassification.progression),
     "Grab": PTItemData(106, ItemClassification.progression),
     #"Piledrive": PTItemData(107, ItemClassification.useful), #redundant
-    "Taunt": PTItemData(108, ItemClassification.useful),
+    "Taunt": PTItemData(108, ItemClassification.progression),
     "Supertaunt": PTItemData(109, ItemClassification.useful),
     "Bodyslam": PTItemData(110, ItemClassification.progression),
     "Breakdance": PTItemData(111, ItemClassification.filler),
@@ -27,11 +27,11 @@ item_moveset = {
 
 item_moveset_peppino = {
     "Peppino: Wallclimb": PTItemData(112, ItemClassification.progression),
-    "Peppino: Dive": PTItemData(113, ItemClassification.useful),
+    "Peppino: Dive": PTItemData(113, ItemClassification.progression),
     "Gustavo & Brick: Double Jump": PTItemData(114, ItemClassification.progression),
-    "Gustavo & Brick: Rat Kick": PTItemData(115, ItemClassification.useful),
-    "Gustavo & Brick: Walljump": PTItemData(116, ItemClassification.useful),
-    "Gustavo: Spin Attack": PTItemData(117, ItemClassification.useful),
+    "Gustavo & Brick: Rat Kick": PTItemData(115, ItemClassification.progression),
+    "Gustavo & Brick: Walljump": PTItemData(116, ItemClassification.progression),
+    "Gustavo: Spin Attack": PTItemData(117, ItemClassification.progression),
 }
 
 item_moveset_noise = {
