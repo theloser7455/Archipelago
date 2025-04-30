@@ -106,13 +106,13 @@ def set_rules(world: World, multiworld: MultiWorld):
         "Deep-Dish 9 S Rank": lambda state: state.has_any(["Bodyslam", "Peppino: Dive", "Grab"], player) and state.has_any(["Superjump", "Peppino: Wallclimb"]),
 
     #GOLF
-        "GOLF Complete": lambda state: state.has_any(["Superjump", "Bodyslam", "Peppino: Wallclimb"], player),
+        "GOLF Complete": lambda state: state.has_any(["Superjump", "Bodyslam", "Peppino: Wallclimb", "Uppercut"], player),
         "GOLF Mushroom Toppin": None,
         "GOLF Cheese Toppin": None,
         "GOLF Tomato Toppin": None,
         "GOLF Sausage Toppin": None,
         "GOLF Pineapple Toppin": None,
-        "GOLF S Rank": lambda state: state.has_any(["Superjump", "Bodyslam", "Peppino: Wallclimb"], player),
+        "GOLF S Rank": lambda state: state.has_any(["Superjump", "Bodyslam", "Peppino: Wallclimb", "Uppercut"], player),
 
     #The Pig City
         "The Pig City Complete": lambda state: (state.has_any(["Bodyslam", "Peppino: Dive"], player) and state.has("Gustavo & Brick: Double Jump", player) and state.has_any(["Gustavo: Spin Attack", "Gustavo & Brick: Rat Kick", "Gustavo & Brick: Walljump"], player)),

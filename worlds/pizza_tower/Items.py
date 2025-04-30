@@ -16,7 +16,7 @@ pt_items = {
     "Uppercut": PTItemData(104, ItemClassification.progression),
     "Superjump": PTItemData(105, ItemClassification.progression),
     "Grab": PTItemData(106, ItemClassification.progression),
-    #"Piledrive": PTItemData(107, ItemClassification.useful), #redundant
+    #ID 107 has been reassigned to "Noise: Bomb"
     "Taunt": PTItemData(108, ItemClassification.progression),
     "Supertaunt": PTItemData(109, ItemClassification.useful),
     "Bodyslam": PTItemData(110, ItemClassification.progression),
@@ -32,6 +32,7 @@ pt_items = {
     "Noise: Wallbounce": PTItemData(118, ItemClassification.progression),
     "Noise: Tornado": PTItemData(119, ItemClassification.useful),
     "Noise: Crusher": PTItemData(120, ItemClassification.progression),
+    "Noise: Bomb": PTItemData(107, ItemClassification.progression),
 
     "Clown Trap": PTItemData(121, ItemClassification.trap),
     "One-Minute Timer": PTItemData(122, ItemClassification.trap),
