@@ -11,23 +11,24 @@ class PTItemData(NamedTuple):
 pt_items = {
     "Toppin": PTItemData(101, ItemClassification.progression_skip_balancing),
     "Boss Key": PTItemData(102, ItemClassification.progression),
+    "Lap 2 Portals": PTItemData(132, ItemClassification.useful),
 
     "Mach 4": PTItemData(103, ItemClassification.useful),
-    "Uppercut": PTItemData(104, ItemClassification.progression),
+    "Uppercut": PTItemData(104, ItemClassification.useful),
     "Superjump": PTItemData(105, ItemClassification.progression),
     "Grab": PTItemData(106, ItemClassification.progression),
     #ID 107 has been reassigned to "Noise: Bomb"
     "Taunt": PTItemData(108, ItemClassification.progression),
-    "Supertaunt": PTItemData(109, ItemClassification.useful),
+    "Supertaunt": PTItemData(109, ItemClassification.progression),
     "Bodyslam": PTItemData(110, ItemClassification.progression),
     "Breakdance": PTItemData(111, ItemClassification.filler),
 
     "Peppino: Wallclimb": PTItemData(112, ItemClassification.progression),
-    "Peppino: Dive": PTItemData(113, ItemClassification.progression),
+    "Peppino: Dive": PTItemData(113, ItemClassification.useful),
     "Gustavo & Brick: Double Jump": PTItemData(114, ItemClassification.progression),
     "Gustavo & Brick: Rat Kick": PTItemData(115, ItemClassification.progression),
-    "Gustavo & Brick: Walljump": PTItemData(116, ItemClassification.progression),
-    "Gustavo: Spin Attack": PTItemData(117, ItemClassification.progression),
+    "Gustavo & Brick: Wall Jump": PTItemData(116, ItemClassification.progression),
+    "Gustavo: Spin Attack": PTItemData(117, ItemClassification.useful),
 
     "Noise: Wallbounce": PTItemData(118, ItemClassification.progression),
     "Noise: Tornado": PTItemData(119, ItemClassification.useful),
@@ -35,14 +36,15 @@ pt_items = {
     "Noise: Bomb": PTItemData(107, ItemClassification.progression),
 
     "Clown Trap": PTItemData(121, ItemClassification.trap),
-    "One-Minute Timer": PTItemData(122, ItemClassification.trap),
-    "Pizzaface Trap": PTItemData(123, ItemClassification.trap),
-    "Slow Trap": PTItemData(124, ItemClassification.trap),
+    "Timer Trap": PTItemData(122, ItemClassification.trap),
+    "Pizzaface": PTItemData(123, ItemClassification.trap),
+    "Fake Santa Trap": PTItemData(124, ItemClassification.trap),
     "Oktoberfest!": PTItemData(125, ItemClassification.trap),
 
-    "Tower Secret Treasure": PTItemData(126, ItemClassification.filler),
-    "Cross Buff": PTItemData(127, ItemClassification.filler),
-    "Pizza Shield": PTItemData(128, ItemClassification.filler),
-    "Rat-B-Gone": PTItemData(129, ItemClassification.filler),
-    "1,000 Points": PTItemData(130, ItemClassification.filler),
+    "Permanent 10 Points": PTItemData(126, ItemClassification.filler),
+    "Permanent 50 Points": PTItemData(127, ItemClassification.filler),
+    "Permanent 100 Points": PTItemData(128, ItemClassification.filler),
+    "1000 Points": PTItemData(129, ItemClassification.filler),
+    "Cross Buff": PTItemData(130, ItemClassification.filler),
+    "Pizza Shield": PTItemData(131, ItemClassification.filler),
 }
