@@ -173,6 +173,7 @@ class TrapPercentage(Range):
     """
     Set a percentage of how many filler items are replaced with traps here
     """
+    display_name = "Trap Percentage"
     range_start = 0
     range_end = 100
     default = 10
@@ -181,6 +182,7 @@ class EnabledTraps(ItemSet):
     """
     A trap sent to you can be any of these
     """
+    display_name = "Enabled Traps"
     verify_item_name = True
     default = [
         "Clown Trap",
@@ -195,3 +197,44 @@ class Jumpscare(Toggle):
     Replace the Oktoberfest trap with a jumpscare. Not for the faint of heart!
     """
     display_name = "Replace Oktoberfest with Jumpscare"
+
+#not yet implemented so not very useful right now
+#class SkillLevel(Choice):
+#    """
+#    Determines whether the randomizer is allowed to put items in hard-to-reach places
+#    Simple: a level will not expect you to do anything in a level that you normally would not do
+#    Advanced: a level may expect you to use unorthodox strategies or advanced techniques in order to reach an item
+#    """
+#    display_name = "Logic Difficulty"
+#    option_Simple = 0
+#    option_Advanced = 1
+#    default = 0
+
+@dataclass
+class PTOptions(PerGameCommonOptions):
+    toppin_count = ToppinCount
+    floor_1_cost = Floor1Door
+    floor_2_cost = Floor2Door
+    floor_3_cost = Floor3Door
+    floor_4_cost = Floor4Door
+    floor_5_cost = Floor5Door
+    treasure_checks = TreasureChecks
+    secret_checks = SecretChecks
+    srank_checks = SRankChecks
+    prank_checks = PRankChecks
+    cheftask_checks = ChefTaskChecks
+    shuffle_boss_keys = ShuffleBossKeys
+    character = CharacterToPlay
+    lock_moves_list = LockMovesList
+    lock_transfo = LockTransfo
+    lock_transfo_list = LockTransfoList
+    randomize_levels = RandomizeLevels
+    randomize_bosses = RandomizeBosses
+    open_world = OpenWorld
+    boss_unlock_mode = BossUnlockMode
+    bonus_ladders = BonusLadders
+    trap_percentage = TrapPercentage
+    enabled_traps = EnabledTraps
+    jumpscare = Jumpscare
+    #skill_level = SkillLevel
+    #death_link = DeathLink

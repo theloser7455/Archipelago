@@ -1,6 +1,7 @@
 from BaseClasses import Region, Location, MultiWorld, Entrance
 from AutoWorld import World
 from .Locations import PTLocation, pt_locations
+from .Options import PTOptions
 import typing
 
 floors_list = [
@@ -116,30 +117,5 @@ def create_regions(player: int, world: MultiWorld):
     for i in range(4):
         world.get_region(floors_list[i], player).connect(world.get_region(floors_list[i+1], player), rule=(lambda state: state.has("Boss Key", i)))
 
-    #connect floors to levels and bosses; declare rules
-    world.get_region("Floor 1 Tower Lobby", player).connect(world.get_region("Tutorial", player))
-    world.get_region("Floor 1 Tower Lobby", player).connect(world.get_region("John Gutter", player))
-    world.get_region("Floor 1 Tower Lobby", player).connect(world.get_region("Pizzascape", player))
-    world.get_region("Floor 1 Tower Lobby", player).connect(world.get_region("Ancient Cheese", player)) #bonus ladder
-    world.get_region("Floor 1 Tower Lobby", player).connect(world.get_region("Bloodsauce Dungeon", player)) #bonus ladder
-    world.get_region("Floor 1 Tower Lobby", player).connect(world.get_region("Pepperman", player), rule=(lambda state: state.has("Toppin", player, 10)))
-    world.get_region("Floor 2 Western District", player).connect(world.get_region("Oregano Desert", player))
-    world.get_region("Floor 2 Western District", player).connect(world.get_region("Wasteyard", player))
-    world.get_region("Floor 2 Western District", player).connect(world.get_region("Fun Farm", player))
-    world.get_region("Floor 2 Western District", player).connect(world.get_region("Fastfood Saloon", player)) #bonus ladder
-    world.get_region("Floor 2 Western District", player).connect(world.get_region("The Vigilante", player), rule=(lambda state: state.has("Toppin", player, 25)))
-    world.get_region("Floor 3 Vacation Resort", player).connect(world.get_region("Crust Cove", player))
-    world.get_region("Floor 3 Vacation Resort", player).connect(world.get_region("Gnome Forest", player)) #bonus ladder
-    world.get_region("Floor 3 Vacation Resort", player).connect(world.get_region("Deep-Dish 9", player), rule=(lambda state: state.has_any(["Superjump", "Peppino: Wallclimb"], player)))
-    world.get_region("Floor 3 Vacation Resort", player).connect(world.get_region("GOLF", player), rule=(lambda state: state.has_any(["Superjump", "Peppino: Wallclimb"], player)))
-    world.get_region("Floor 3 Vacation Resort", player).connect(world.get_region("The Noise", player), rule=(lambda state: state.has("Toppin", player, 45)))
-    world.get_region("Floor 4 Slum", player).connect(world.get_region("The Pig City", player))
-    world.get_region("Floor 4 Slum", player).connect(world.get_region("Peppibot Factory", player)) #bonus ladder
-    world.get_region("Floor 4 Slum", player).connect(world.get_region("Oh Shit!", player)) #bonus ladder
-    world.get_region("Floor 4 Slum", player).connect(world.get_region("Freezerator", player), rule=(lambda state: state.has_any(["Superjump", "Peppino: Wallclimb"], player)))
-    world.get_region("Floor 4 Slum", player).connect(world.get_region("Fake Peppino", player), rule=(lambda state: state.has("Toppin", player, 65)))
-    world.get_region("Floor 5 Staff Only", player).connect(world.get_region("Pizzascare", player), rule=(lambda state: state.has_any(["Superjump", "Peppino: Wallclimb"], player)))
-    world.get_region("Floor 5 Staff Only", player).connect(world.get_region("Don't Make a Sound", player), rule=(lambda state: state.has_any(["Superjump", "Peppino: Wallclimb"], player)))
-    world.get_region("Floor 5 Staff Only", player).connect(world.get_region("WAR", player), rule=(lambda state: state.has("Superjump", player)))
-    world.get_region("Floor 5 Staff Only", player).connect(world.get_region("Pizzaface", player), rule=(lambda state: state.has("Superjump", player) and state.has("Toppin", player, 86)))
-    world.get_region("Pizzaface", player).connect(world.get_region("The Crumbling Tower of Pizza", player))
+def connect_regions(world: World, multiworld: MultiWorld, options: PTOptions):
+    pass
