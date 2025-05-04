@@ -3,8 +3,7 @@ from BaseClasses import Location, Region
 from .Locations import PTLocation
 from .Options import PTOptions
 
-def set_rules(world: World, multiworld: MultiWorld, options: PTOptions):
-    player: int = world.player
+def set_rules(world: World, multiworld: MultiWorld, player: int, options: PTOptions):
 
     def must_unlock(transfo):
         return options.lock_transfo and transfo in options.lock_transfo_list
@@ -20,7 +19,7 @@ def set_rules(world: World, multiworld: MultiWorld, options: PTOptions):
 
     #lambda function aliases for easier reading
     requires_uppercut = lambda state: state.has("Uppercut", player)
-    requires_grab = lambda state: state.has("Uppercut", player)
+    requires_grab = lambda state: state.has("Grab", player)
     requires_superjump = lambda state: state.has("Superjump", player)
     requires_taunt = lambda state: state.has("Taunt", player)
     requires_supertaunt = lambda state: state.has("Supertaunt", player)
@@ -44,7 +43,40 @@ def set_rules(world: World, multiworld: MultiWorld, options: PTOptions):
     requires_shotgun = lambda state: state.has("Shotgun", player) or not must_unlock("Shotgun")
     requires_revolver = lambda state: state.has("Revolver", player) or not must_unlock("Revolver")
 
-    pt_peppino_rules_simple = {
+    peppino_level_access_rule_by_index = {
+        # indices correspond to gate locations in-game
+        # comments indicate which levels are usually there in vanilla
+        # may be overridden by bonus ladders
+        # only counts from floor entrance to level gate; floor access rules are assumed
+        0: None, #John Gutter
+        1: None, #Pizzascape
+        2: peppino_requires_upward_mobility, #Ancient Cheese
+        3: peppino_requires_upward_mobility, #Bloodsauce Dungeon
+        4: None, #Oregano Desert
+        5: None, #Wasteyard
+        6: None, #Fun Farm
+        7: None, #Fastfood Saloon; can get down but cannot get back up without upward mobility or bonus ladder
+        8: None, #Crust Cove
+        9: peppino_requires_upward_mobility or requires_uppercut, #Gnome Forest
+        10: peppino_requires_upward_mobility or requires_antigrav, #Deep-Dish 9
+        11: peppino_requires_upward_mobility, #GOLF
+        12: None, #The Pig City
+        13: None, #Peppibot Factory; can get down but not up
+        14: None, #Oh Shit!; can get down but not up
+        15: peppino_requires_upward_mobility, #Freezer
+        16: peppino_requires_upward_mobility, #Pizzascare
+        17: peppino_requires_upward_mobility, #DMAS
+        18: requires_superjump, #WAR
+    }
+
+    peppino_boss_access_rule_by_index = {
+        0: None, #Pepperman
+        1: None, #Vigilante
+        2: peppino_requires_upward_mobility or requires_uppercut, #Noise; can get down but not up
+        3: peppino_requires_upward_mobility #Fake Pep
+    }
+
+    pt_peppino_rules_simple = { #access rules within levels, which do not change
     #John Gutter
         "John Gutter Complete": peppino_requires_upward_mobility,
         "John Gutter Mushroom Toppin": peppino_requires_upward_mobility or requires_uppercut,

@@ -40,6 +40,7 @@ pt_items = {
     "Pizzaface": PTItemData(123, ItemClassification.trap),
     "Fake Santa Trap": PTItemData(124, ItemClassification.trap),
     "Oktoberfest!": PTItemData(125, ItemClassification.trap),
+    "Granny Trap": PTItemData(147, ItemClassification.trap),
 
     "Permanent 10 Points": PTItemData(126, ItemClassification.filler),
     "Permanent 50 Points": PTItemData(127, ItemClassification.filler),
@@ -62,4 +63,6 @@ pt_items = {
     "Satan's Choice": PTItemData(143, ItemClassification.progression),
     "Shotgun": PTItemData(144, ItemClassification.progression),
     "Revolver": PTItemData(145, ItemClassification.progression),
+
+    "Sorry Nothing": PTItemData(146, ItemClassification.filler), #may or may not ever get used
 }

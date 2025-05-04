@@ -52,7 +52,7 @@ class PizzaTowerWorld(World):
         for i in range(95): pizza_itempool.append(self.create_item("Toppin"))
 
         #fill the rest of the pool with points. get around to putting more stuff in the pool later
-        for i in range(locations_to_fill - len(pizza_itempool)): pizza_itempool.append(self.create_item("1,000 Points"))
+        for i in range(locations_to_fill - len(pizza_itempool)): pizza_itempool.append(self.create_item("1000 Points"))
 
         self.multiworld.itempool += pizza_itempool
 

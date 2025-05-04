@@ -4,6 +4,8 @@ class PTLocation(Location):
     game: str = "Pizza Tower"
 
 pt_locations = { 
+    #basics
+
 #John Gutter
     "John Gutter Complete": 100,
     "John Gutter Mushroom Toppin": 101,
@@ -177,9 +179,9 @@ pt_locations = {
     "Tutorial Tomato Toppin": 249,
     "Tutorial Sausage Toppin": 250,
     "Tutorial Pineapple Toppin": 251,
-}
+    
+    #s ranks
 
-pt_sranks = {
     #Levels
     "John Gutter S Rank": 106,
     "Pizzascape S Rank": 113,
@@ -207,9 +209,9 @@ pt_sranks = {
     "The Vigilante S Rank": 238,
     "The Noise S Rank": 240,
     "Fake Peppino S Rank": 242,
-}
 
-pt_secrets = {
+    #secrets 
+
     #John Gutter
     "John Gutter Secret 1": 252,
     "John Gutter Secret 2": 253,
@@ -303,10 +305,10 @@ pt_secrets = {
     #WAR
     "WAR Secret 1": 306,
     "WAR Secret 2": 307,
-    "WAR Secret 3": 308
-}
+    "WAR Secret 3": 308,
 
-pt_pranks = {
+    #p ranks
+
     #Levels
     "John Gutter P Rank": 309,
     "Pizzascape P Rank": 310,
@@ -333,10 +335,10 @@ pt_pranks = {
     "Pepperman P Rank": 329,
     "The Vigilante P Rank": 330,
     "The Noise P Rank": 331,
-    "Fake Peppino P Rank": 332
-}
+    "Fake Peppino P Rank": 332,
 
-pt_cheftasks = {
+    #cheftasks
+
     #John Gutter
     "Chef Task: John Gutted": 333,
     "Chef Task: Primate Rage": 334,
@@ -449,10 +451,9 @@ pt_cheftasks = {
     "Chef Task: The Ugly": 401,
     "Chef Task: Denoise": 402,
     "Chef Task: Faker": 403,
-    "Chef Task: Face-Off": 404
-}
+    "Chef Task: Face-Off": 404,
 
-pt_treasures = {
+    #treasures
     "John Gutter Treasure": 405,
     "Pizzascape Treasure": 406,
     "Ancient Cheese Treasure": 407,
