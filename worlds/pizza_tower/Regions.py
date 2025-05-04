@@ -769,7 +769,7 @@ def create_regions(player: int, world: MultiWorld, options: PTOptions):
     for flr in floors_list:
         tower_regions.append(Region(flr, player, world))
 
-    region_tut = Region("Tutorial", player, world)
+    region_tut = Region("Tutorial", player, world, None)
     for chk in tutorial_checks:
         check_name = "Tutorial " + chk
         new_location = PTLocation(player, check_name, pt_locations[check_name], region_tut)
@@ -797,8 +797,8 @@ def create_regions(player: int, world: MultiWorld, options: PTOptions):
         tower_regions.append(check_region)
 
     #odd regions
-    region_pface = Region("Pizzaface", player, world)
-    region_ctop = Region("The Crumbling Tower of Pizza", player, world)
+    region_pface = Region("Pizzaface", player, world, None)
+    region_ctop = Region("The Crumbling Tower of Pizza", player, world, None)
 
     #odd locations
     region_pface.locations.append(PTLocation(player, "Pizzaface Defeated", 243, region_pface))
@@ -823,11 +823,17 @@ def create_regions(player: int, world: MultiWorld, options: PTOptions):
             for ii in range(3):
                 task_index = (i * 3) + ii
                 task_name = cheftasks_checks[task_index]
-                region_curr.locations.append(PTLocation(player, task_name, pt_locations[task_name], region_curr))
+                new_location = PTLocation(player, task_name, pt_locations[task_name], region_curr)
+                new_location.access_rule = pt_cheftasks[task_name]
+                region_curr.locations.append(new_location)
         for i in range(4):
             task_name = cheftasks_checks[i + 67]
-            world.get_region(bosses_list[i], player).locations.append(PTLocation(player, task_name, pt_locations[task_name], world.get_region(bosses_list[i], player)))
-        region_pface.locations.append(PTLocation(player, "Chef Task: Face-Off", 405, region_pface))
+            new_location = PTLocation(player, task_name, pt_locations[task_name], world.get_region(bosses_list[i], player))
+            new_location.access_rule = pt_cheftasks[task_name]
+            world.get_region(bosses_list[i], player).locations.append(new_location)
+        loc_pface_task = PTLocation(player, "Chef Task: Face-Off", 405, region_pface)
+        loc_pface_task.access_rule = pt_cheftasks["Chef Task: Face-Off"]
+        region_pface.locations.append(loc_pface_task)
         for i in range(5):
             curr_floor = world.get_region(floors_list[i], player)
             curr_floor.locations.append(PTLocation(player, "Chef Task: S Ranked #" + (i + 1), pt_locations["Chef Task: S Ranked #" + (i + 1)], curr_floor))
@@ -847,6 +853,13 @@ def create_regions(player: int, world: MultiWorld, options: PTOptions):
         boss_queue = randomized_list[1]
     else:
         boss_queue = bosses_list
+
+    toppin_numbers = [
+        options.floor_1_cost,
+        options.floor_2_cost,
+        options.floor_3_cost,
+        options.floor_4_cost
+    ]
 
     world.get_region("Menu", player).connect(world.get_region("Floor 1 Tower Lobby", player), "Menu to Floor 1 Tower Lobby")
     world.get_region("Floor 1 Tower Lobby", player).connect(world.get_region("Tutorial", player), "Floor 1 Tower Lobby to Tutorial")
@@ -870,13 +883,16 @@ def create_regions(player: int, world: MultiWorld, options: PTOptions):
     for i in range(4):
         curr_floor_name = floors_list[i]
         curr_boss_name = boss_queue.pop(0)
-        world.get_region(curr_floor_name, player).connect(world.get_region(curr_boss_name, player), curr_floor_name + " to " + curr_boss_name)
+        world.get_region(curr_floor_name, player).connect(world.get_region(curr_boss_name, player), curr_floor_name + " to " + curr_boss_name, lambda state: state.has("Toppin", player, toppin_numbers[i]))
     #connect floors to each other
     for i in range(4):
         curr_floor_name = floors_list[i]
         next_floor_name = floors_list[i+1]
-        world.get_region(curr_floor_name, player).connect(world.get_region(next_floor_name, player), curr_floor_name + " to " + next_floor_name)
-    world.get_region("Floor 5 Staff Only", player).connect(world.get_region("Pizzaface", player), "Floor 5 Staff Only to Pizzaface")
+        if options.open_world:
+            world.get_region(curr_floor_name, player).connect(world.get_region(next_floor_name, player), curr_floor_name + " to " + next_floor_name, None)
+        else:
+            world.get_region(curr_floor_name, player).connect(world.get_region(next_floor_name, player), curr_floor_name + " to " + next_floor_name, lambda state: state.has("Boss Key", player, i+1))
+    world.get_region("Floor 5 Staff Only", player).connect(world.get_region("Pizzaface", player), "Floor 5 Staff Only to Pizzaface", lambda state: state.has("Toppin", player, options.floor_5_cost))
     world.get_region("Pizzaface", player).connect(world.get_region("The Crumbling Tower of Pizza", player), "Pizzaface to The Crumbling Tower of Pizza")
 
 

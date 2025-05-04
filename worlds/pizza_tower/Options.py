@@ -5,6 +5,7 @@ from .Items import item_moveset_all, item_transfo
 class ToppinCount(Range):
     """
     Number of toppins shuffled into the item pool
+    May be less than expected if the item pool is too small
     """
     display_name = "Toppin Count"
     range_start = 0
@@ -146,17 +147,6 @@ class OpenWorld(Toggle):
     """
     display_name = "Open World"
 
-class BossUnlockMode(Choice):
-    """
-    Toppins: Bosses are unlocked by collecting enough Toppins and paying Mr. Stick/Noisette
-    All Levels: Bosses are unlocked by completing every level on the floor
-    """
-    display_name = "Boss Unlock Mode"
-    option_Toppins = 0
-    option_All_Levels = 1
-    alias_Levels = 1
-    default = 0
-
 class BonusLadders(NamedRange):
     """
     Add bonus ladders to Hub to make accessing levels easier.
@@ -231,7 +221,6 @@ class PTOptions(PerGameCommonOptions):
     randomize_levels = RandomizeLevels
     randomize_bosses = RandomizeBosses
     open_world = OpenWorld
-    boss_unlock_mode = BossUnlockMode
     bonus_ladders = BonusLadders
     trap_percentage = TrapPercentage
     enabled_traps = EnabledTraps

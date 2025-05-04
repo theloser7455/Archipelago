@@ -27,7 +27,17 @@ class PizzaTowerWorld(World):
     def create_items(self):
         pizza_itempool = []
 
-        locations_to_fill = 152
+        locations_to_fill = 120
+        if self.options.secret_checks: locations_to_fill += 57
+        if self.options.treasure_checks: locations_to_fill += 19
+        if self.options.srank_checks: locations_to_fill += 24
+        if self.options.prank_checks: locations_to_fill += 24
+        if self.options.cheftask_checks: locations_to_fill += 72
+        if self.options.character == 0:
+            locations_to_fill += 7 #2 tutorial checks and its 5 toppins
+        elif self.options.character == 1:
+            locations_to_fill += 2 #no toppins in noise tutorial
+        #no tutorial in swap mode, so no tutorial checks
 
         #shared moves
         pizza_itempool.append(self.create_item("Mach 4"))
@@ -40,21 +50,40 @@ class PizzaTowerWorld(World):
         pizza_itempool.append(self.create_item("Breakdance"))
 
         #peppino's moves (and gus + brick)
-        pizza_itempool.append(self.create_item("Peppino: Wallclimb"))
-        pizza_itempool.append(self.create_item("Peppino: Dive"))
-        pizza_itempool.append(self.create_item("Gustavo & Brick: Double Jump"))
-        pizza_itempool.append(self.create_item("Gustavo & Brick: Rat Kick"))
-        pizza_itempool.append(self.create_item("Gustavo & Brick: Walljump"))
-        pizza_itempool.append(self.create_item("Gustavo: Spin Attack"))
+        if self.options.character != 1:
+            pizza_itempool.append(self.create_item("Peppino: Wallclimb"))
+            pizza_itempool.append(self.create_item("Peppino: Dive"))
+            pizza_itempool.append(self.create_item("Gustavo & Brick: Double Jump"))
+            pizza_itempool.append(self.create_item("Gustavo & Brick: Rat Kick"))
+            pizza_itempool.append(self.create_item("Gustavo & Brick: Wall Jump"))
+            pizza_itempool.append(self.create_item("Gustavo: Spin Attack"))
 
-        #add keys and toppins
-        for i in range(4): pizza_itempool.append(self.create_item("Boss Key"))
-        for i in range(95): pizza_itempool.append(self.create_item("Toppin"))
-
+        #noise's moves
+        if self.options.character != 0:
+            pizza_itempool.append(self.create_item("Noise: Wallbounce"))
+            pizza_itempool.append(self.create_item("Noise: Tornado"))
+            pizza_itempool.append(self.create_item("Noise: Crusher"))
+        
+        #add keys
+        if not self.options.open_world:
+            if self.options.shuffle_boss_keys:
+                for i in range(4): pizza_itempool.append(self.create_item("Boss Key"))
+            else:
+                self.multiworld.get_location("Pepperman Defeated").place_locked_item(self.create_item("Boss Key"))
+                self.multiworld.get_location("The Vigilante Defeated").place_locked_item(self.create_item("Boss Key"))
+                self.multiworld.get_location("The Noise Defeated").place_locked_item(self.create_item("Boss Key"))
+                self.multiworld.get_location("Fake Peppino Defeated").place_locked_item(self.create_item("Boss Key"))
+        
+        #add toppins, if we can
+        if self.options.toppin_count > (locations_to_fill - len(pizza_itempool)):
+            for i in range(locations_to_fill - len(pizza_itempool)): pizza_itempool.append(self.create_item("Toppin"))
+        else:
+            for i in range(self.options.toppin_count): pizza_itempool.append(self.create_item("Toppin"))
+        
         #fill the rest of the pool with points. get around to putting more stuff in the pool later
         for i in range(locations_to_fill - len(pizza_itempool)): pizza_itempool.append(self.create_item("1000 Points"))
 
         self.multiworld.itempool += pizza_itempool
 
     def set_rules(self):
-        set_rules(self, self.multiworld)
+        self.multiworld.completion_condition[self.player] = lambda state: state.can_reach("The Crumbling Tower of Pizza Complete", "Location", self.player)
