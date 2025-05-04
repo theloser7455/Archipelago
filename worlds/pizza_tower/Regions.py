@@ -863,27 +863,33 @@ def create_regions(player: int, world: MultiWorld, options: PTOptions):
 
     world.get_region("Menu", player).connect(world.get_region("Floor 1 Tower Lobby", player), "Menu to Floor 1 Tower Lobby")
     world.get_region("Floor 1 Tower Lobby", player).connect(world.get_region("Tutorial", player), "Floor 1 Tower Lobby to Tutorial")
+
+    #levels
     for i in range(4):
         curr_floor_name = floors_list[i]
         curr_floor = world.get_region(curr_floor_name, player)
+        #figure out which levels we need to get ranks in on this floor before we pop them from the list
         if options.cheftask_checks:
             world.get_location("Chef Task: S Ranked #" + (i + 1), player).access_rule = pt_peppino_srank_rules[level_queue[0]] and pt_peppino_srank_rules[level_queue[1]] and pt_peppino_srank_rules[level_queue[2]] and pt_peppino_srank_rules[level_queue[3]]
             world.get_location("Chef Task: P Ranked #" + (i + 1), player).access_rule = pt_peppino_srank_rules[level_queue[0]] and pt_peppino_srank_rules[level_queue[1]] and pt_peppino_srank_rules[level_queue[2]] and pt_peppino_srank_rules[level_queue[3]]
-        for i in range(4):
+        for ii in range(4):
             curr_level_name = level_queue.pop(0)
             curr_level = world.get_region(curr_level_name, player)
-            curr_floor.connect(curr_level, curr_floor_name + " to " + curr_level_name)
+            curr_floor.connect(curr_level, curr_floor_name + " to " + curr_level_name, peppino_level_access_rule_by_index[(i*4)+ii])
     if options.cheftask_checks:
         world.get_location("Chef Task: S Ranked #5", player).access_rule = pt_peppino_srank_rules[level_queue[0]] and pt_peppino_srank_rules[level_queue[1]] and pt_peppino_srank_rules[level_queue[2]]
         world.get_location("Chef Task: P Ranked #5", player).access_rule = pt_peppino_srank_rules[level_queue[0]] and pt_peppino_srank_rules[level_queue[1]] and pt_peppino_srank_rules[level_queue[2]]
     for i in range(3):
         curr_level_name = level_queue.pop(0)
         curr_level = world.get_region(curr_level_name, player)
-        world.get_region("Floor 5 Staff Only", player).connect(curr_level, "Floor 5 Staff Only to " + curr_level_name)
+        world.get_region("Floor 5 Staff Only", player).connect(curr_level, "Floor 5 Staff Only to " + curr_level_name, peppino_level_access_rule_by_index[16+i])
+    
+    #bosses
     for i in range(4):
         curr_floor_name = floors_list[i]
         curr_boss_name = boss_queue.pop(0)
-        world.get_region(curr_floor_name, player).connect(world.get_region(curr_boss_name, player), curr_floor_name + " to " + curr_boss_name, lambda state: state.has("Toppin", player, toppin_numbers[i]))
+        world.get_region(curr_floor_name, player).connect(world.get_region(curr_boss_name, player), curr_floor_name + " to " + curr_boss_name, lambda state: state.has("Toppin", player, toppin_numbers[i]) and peppino_boss_access_rule_by_index[i])
+
     #connect floors to each other
     for i in range(4):
         curr_floor_name = floors_list[i]
@@ -892,7 +898,9 @@ def create_regions(player: int, world: MultiWorld, options: PTOptions):
             world.get_region(curr_floor_name, player).connect(world.get_region(next_floor_name, player), curr_floor_name + " to " + next_floor_name, None)
         else:
             world.get_region(curr_floor_name, player).connect(world.get_region(next_floor_name, player), curr_floor_name + " to " + next_floor_name, lambda state: state.has("Boss Key", player, i+1))
-    world.get_region("Floor 5 Staff Only", player).connect(world.get_region("Pizzaface", player), "Floor 5 Staff Only to Pizzaface", lambda state: state.has("Toppin", player, options.floor_5_cost))
+    
+    #odd connections
+    world.get_region("Floor 5 Staff Only", player).connect(world.get_region("Pizzaface", player), "Floor 5 Staff Only to Pizzaface", lambda state: state.has("Toppin", player, options.floor_5_cost) and state.has("Superjump", player))
     world.get_region("Pizzaface", player).connect(world.get_region("The Crumbling Tower of Pizza", player), "Pizzaface to The Crumbling Tower of Pizza")
 
 
