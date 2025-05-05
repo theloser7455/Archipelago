@@ -185,9 +185,9 @@ def create_regions(player: int, world: MultiWorld, options: PTOptions):
     peppino_requires_upward_mobility = lambda state: state.has_any(["Superjump", "Peppino: Wallclimb"], player)
     peppino_requires_downward_mobility = lambda state: state.has(["Bodyslam"], player)
     gustavo_requires_upward_mobility = lambda state: state.has("Gustavo & Brick: Double Jump", player) and state.has_any(["Gustavo & Brick: Rat Kick", "Gustavo & Brick: Wall Jump", "Gustavo: Spin Attack"], player)
-    noise_requires_upward_mobility = lambda state: state.has_any(["Superjump", "Noise: Crusher"], player)
-    noise_requires_small_upward_mobility = lambda state: state.has_any(["Superjump", "Noise: Crusher", "Uppercut", "Noise: Wallbounce"], player)
-    noise_requires_downward_mobility = lambda state: state.has_any(["Bodyslam", "Noise: Tornado"], player)
+    noise_requires_big_upward_mobility = lambda state: state.has_any(["Superjump", "Noise: Crusher"], player)
+    noise_requires_upward_mobility = lambda state: state.has_any(["Superjump", "Noise: Crusher", "Uppercut", "Noise: Wallbounce"], player)
+    noise_requires_downward_mobility = lambda state: state.has_any(["Bodyslam", "Noise: Tornado", "Noise: Crusher"], player)
     requires_any_grab = lambda state: state.has_any(["Grab", "Uppercut"], player)
 
     #lambda function aliases for easier reading
@@ -203,6 +203,8 @@ def create_regions(player: int, world: MultiWorld, options: PTOptions):
     gustavo_requires_attack = lambda state: state.has_any(["Gustavo & Brick: Rat Kick", "Gustavo: Spin Attack"], player)
     gustavo_requires_kick = lambda state: state.has("Gustavo & Brick: Rat Kick", player)
     noise_requires_crusher = lambda state: state.has("Noise: Crusher", player)
+    noise_requires_wallbounce = lambda state: state.has("Noise: Wallbounce", player)
+    noise_requires_tornado = lambda state: state.has("Noise: Tornado", player)
 
     requires_ball = lambda state: state.has("Ball", player) or not must_unlock("Ball")
     requires_knight = lambda state: state.has("Knight", player) or not must_unlock("Knight")
@@ -260,7 +262,7 @@ def create_regions(player: int, world: MultiWorld, options: PTOptions):
         "John Gutter Tomato Toppin": peppino_requires_upward_mobility or requires_uppercut or requires_grab or peppino_requires_downward_mobility,
         "John Gutter Sausage Toppin": peppino_requires_upward_mobility,
         "John Gutter Pineapple Toppin": peppino_requires_upward_mobility,
-        "John Gutter Secret 1": peppino_requires_upward_mobility or requires_uppercut,
+        "John Gutter Secret 1": peppino_requires_upward_mobility or requires_uppercut or requires_grab or peppino_requires_downward_mobility,
         "John Gutter Secret 2": peppino_requires_upward_mobility,
         "John Gutter Secret 3": peppino_requires_upward_mobility,
         "John Gutter Treasure": peppino_requires_upward_mobility,
@@ -682,16 +684,16 @@ def create_regions(player: int, world: MultiWorld, options: PTOptions):
     pt_noise_rules = { #access rules within levels, which do not change
     #John Gutter
         "John Gutter Complete": noise_requires_upward_mobility,
-        "John Gutter Mushroom Toppin": noise_requires_upward_mobility or requires_uppercut or requires_grab or noise_requires_downward_mobility,
-        "John Gutter Cheese Toppin": noise_requires_upward_mobility or requires_uppercut or requires_grab or noise_requires_downward_mobility,
-        "John Gutter Tomato Toppin": noise_requires_upward_mobility or requires_uppercut or requires_grab or noise_requires_downward_mobility,
+        "John Gutter Mushroom Toppin": noise_requires_upward_mobility or requires_grab or requires_bodyslam,
+        "John Gutter Cheese Toppin": noise_requires_upward_mobility or requires_grab or requires_bodyslam,
+        "John Gutter Tomato Toppin": noise_requires_upward_mobility or requires_grab or requires_bodyslam,
         "John Gutter Sausage Toppin": noise_requires_upward_mobility,
         "John Gutter Pineapple Toppin": noise_requires_upward_mobility,
-        "John Gutter Secret 1": noise_requires_upward_mobility or requires_uppercut,
+        "John Gutter Secret 1": noise_requires_upward_mobility or requires_grab or requires_bodyslam,
         "John Gutter Secret 2": noise_requires_upward_mobility,
         "John Gutter Secret 3": noise_requires_upward_mobility,
         "John Gutter Treasure": noise_requires_upward_mobility,
-        "John Gutter Extra": noise_requires_wallclimb, #secret 2 requires wallclimb only
+        "John Gutter Extra": None, 
         "Chef Task: John Gutted": noise_requires_upward_mobility,
         "Chef Task: Primate Rage": noise_requires_upward_mobility,
         "Chef Task: Let's Make This Quick": noise_requires_upward_mobility,
@@ -699,7 +701,7 @@ def create_regions(player: int, world: MultiWorld, options: PTOptions):
         "John Gutter P Rank": pt_noise_rules["John Gutter S Rank"],
 
     #Pizzascape
-        "Pizzascape Complete": requires_any_grab and (noise_requires_wallclimb or (requires_superjump and requires_grab) or requires_uppercut) and requires_knight,
+        "Pizzascape Complete": requires_any_grab and noise_requires_upward_mobility and requires_knight,
         "Pizzascape Mushroom Toppin": None,
         "Pizzascape Cheese Toppin": None,
         "Pizzascape Tomato Toppin": requires_any_grab and requires_knight,
@@ -720,9 +722,9 @@ def create_regions(player: int, world: MultiWorld, options: PTOptions):
         "Ancient Cheese Complete": requires_any_grab and noise_requires_upward_mobility and noise_requires_downward_mobility,
         "Ancient Cheese Mushroom Toppin": None,
         "Ancient Cheese Cheese Toppin": requires_any_grab,
-        "Ancient Cheese Tomato Toppin": requires_any_grab and (noise_requires_upward_mobility or requires_uppercut),
-        "Ancient Cheese Sausage Toppin": requires_any_grab and (noise_requires_upward_mobility or requires_uppercut) and noise_requires_downward_mobility,
-        "Ancient Cheese Pineapple Toppin": requires_any_grab and (noise_requires_upward_mobility or requires_uppercut) and noise_requires_downward_mobility,
+        "Ancient Cheese Tomato Toppin": requires_any_grab and noise_requires_upward_mobility and noise_requires_downward_mobility, #noise can't use bombs to reach tomato cuz he's too slow
+        "Ancient Cheese Sausage Toppin": requires_any_grab and noise_requires_upward_mobility and noise_requires_downward_mobility,
+        "Ancient Cheese Pineapple Toppin": requires_any_grab and noise_requires_upward_mobility and noise_requires_downward_mobility,
         "Ancient Cheese Secret 1": None,
         "Ancient Cheese Secret 2": requires_any_grab and noise_requires_upward_mobility,
         "Ancient Cheese Secret 3": requires_any_grab and noise_requires_upward_mobility and noise_requires_downward_mobility,
@@ -745,7 +747,7 @@ def create_regions(player: int, world: MultiWorld, options: PTOptions):
         "Bloodsauce Dungeon Secret 2": requires_superjump and noise_requires_downward_mobility,
         "Bloodsauce Dungeon Secret 3": noise_requires_upward_mobility and noise_requires_downward_mobility,
         "Bloodsauce Dungeon Treasure": noise_requires_downward_mobility and noise_requires_upward_mobility,
-        "Bloodsauce Dungeon Extra": noise_requires_wallclimb, #secret 2 requires wallclimb; lava boost gets you high enough but does not break blocks
+        "Bloodsauce Dungeon Extra": noise_requires_crusher or noise_requires_wallbounce or requires_uppercut, #secret 2 requires anything but a superjump
         "Chef Task: Eruption Man": noise_requires_downward_mobility and requires_superjump,
         "Chef Task: Very Very Hot Sauce": pt_noise_rules["Bloodsauce Dungeon Complete"],
         "Chef Task: Unsliced Pizzaman": pt_noise_rules["Bloodsauce Dungeon Complete"],
@@ -1050,11 +1052,11 @@ def create_regions(player: int, world: MultiWorld, options: PTOptions):
         "The Noise P Rank": None,
 
     #Fake Pep
-        "Fake noise Defeated": None,
-        "Fake noise Extra": None,
-        "Chef Task: Faker": pt_noise_rules["Fake noise Defeated"],
-        "Fake noise S Rank": None,
-        "Fake noise P Rank": None,
+        "Fake Peppino Defeated": None,
+        "Fake Peppino Extra": None,
+        "Chef Task: Faker": pt_noise_rules["Fake Peppino Defeated"],
+        "Fake Peppino S Rank": None,
+        "Fake Peppino P Rank": None,
 
     #Pizzaface
         "Pizzaface Defeated": requires_grab and requires_revolver,
