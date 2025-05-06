@@ -472,5 +472,10 @@ pt_locations = {
     "Freezerator Treasure": 420,
     "Pizzascare Treasure": 421,
     "Don't Make a Sound Treasure": 422,
-    "WAR Treasure": 423
+    "WAR Treasure": 423,
+
+    #doise
+    "The Doise Defeated": 424,
+    "The Doise S Rank": 425,
+    "The Doise P Rank": 426
 }
