@@ -65,4 +65,6 @@ pt_items = {
     "Revolver": PTItemData(145, ItemClassification.progression),
 
     "Sorry Nothing": PTItemData(146, ItemClassification.filler), #may or may not ever get used
+
+    "Jumpscare": PTItemData(148, ItemClassification.filler) #replaces oktoberfest if options.jumpscare == true
 }

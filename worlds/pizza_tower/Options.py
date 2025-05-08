@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 from Options import DefaultOnToggle, ItemSet, Range, NamedRange, Toggle, DeathLink, Choice, PerGameCommonOptions, OptionSet, OptionGroup
-from .Items import item_moveset_all, item_transfo
+from .Items import pt_items
 
 class ToppinCount(Range):
     """
@@ -14,62 +14,62 @@ class ToppinCount(Range):
 
 class Floor1Door(Range):
     """
-    Number of Toppins required to fight the Floor 1 Boss
+    Percentage of Toppins required to fight the Floor 1 Boss
     """
     display_name = "Floor 1 Boss Toppins"
     range_start = 0
-    range_end = 150
-    default = 10
+    range_end = 100
+    default = 11
 
 class Floor2Door(Range):
     """
-    Number of Toppins required to fight the Floor 2 Boss
+    Percentage of Toppins required to fight the Floor 2 Boss
     """
     display_name = "Floor 2 Boss Toppins"
     range_start = 0
-    range_end = 150
-    default = 15
+    range_end = 100
+    default = 16
 
 class Floor3Door(Range):
     """
-    Number of Toppins required to fight the Floor 3 Boss
+    Percentage of Toppins required to fight the Floor 3 Boss
     """
     display_name = "Floor 3 Boss Toppins"
     range_start = 0
-    range_end = 150
-    default = 20
+    range_end = 100
+    default = 22
 
 class Floor4Door(Range):
     """
-    Number of Toppins required to fight the Floor 4 Boss
+    Percentage of Toppins required to fight the Floor 4 Boss
     """
     display_name = "Floor 4 Boss Toppins"
     range_start = 0
-    range_end = 150
-    default = 20
+    range_end = 100
+    default = 22
 
 class Floor5Door(Range):
     """
-    Number of Toppins required to fight the Floor 5 Boss
+    Percentage of Toppins required to fight the Floor 5 Boss
     """
     display_name = "Floor 5 Boss Toppins"
     range_start = 0
     range_end = 150
-    default = 21
+    default = 23
 
-class TreasureChecks(Toggle):
+class TreasureChecks(DefaultOnToggle):
     """
     Adds the game's 19 Treasures to the pool as locations
     """
     display_name = "Treasures Award Checks"
 
-class SecretChecks(Toggle):
+class SecretChecks(DefaultOnToggle):
     """
-    Adds the game's 57 secrets to the pool as locations
+    Adds the game's 57 Secrets to the pool as locations
     """
     display_name = "Secrets Award Checks"
 
-class SRankChecks(DefaultOnToggle):
+class SRankChecks(Toggle):
     """
     Adds the game's 24 S Ranks to the pool as locations
     Obtaining a P Rank in a level will also check its corresponding S Rank location
@@ -114,7 +114,7 @@ class LockMovesList(OptionSet):
     Which moves should be randomized?
     """
     display_name = "Moves to Randomize"
-    default = item_moveset_all
+    default = [move for move in pt_items if pt_items[move][0] >= 103 and pt_items[move][0] >= 120]
 
 class LockTransfo(Toggle):
     """
@@ -127,7 +127,22 @@ class LockTransfoList(OptionSet):
     Which transformations should be randomized?
     """
     display_name = "Transfos to Randomize"
-    #default = **item_transfo
+    default = [
+        "Ball",
+        "Knight",
+        "Firemouth",
+        "Ghost",
+        "Mort",
+        "Weenie",
+        "Barrel",
+        "Anti-Grav Bubble",
+        "Rocket",
+        "Pizzabox",
+        "Sticky Cheese",
+        "Satan's Choice",
+        "Shotgun",
+        "Revolver"
+    ]
 
 class RandomizeLevels(Toggle):
     """
@@ -141,17 +156,24 @@ class RandomizeBosses(Toggle):
     """
     display_name = "Shuffle Boss Gates"
 
+class RandomizeSecrets(Toggle):
+    """
+    Shuffle Secrets between levels
+    """
+    display_name = "Shuffle Secrets"
+
 class OpenWorld(Toggle):
     """
-    Unlock all floors from the start, making more levels accessible from the start
+    Unlock all floors immediately, making more levels accessible from the start
+    If active, boss keys will be removed from the item pool
     """
     display_name = "Open World"
 
 class BonusLadders(NamedRange):
     """
-    Add bonus ladders to Hub to make accessing levels easier.
-    Floors up to and including the selected floor number are affected.
-    Set to 0 to disable bonus ladders.
+    Add bonus ladders to Hub to make accessing levels easier
+    Floors up to and including the selected floor number are affected
+    Set to 0 to disable bonus ladders
     """
     display_name = "Bonus Ladders"
     range_start = 0
@@ -168,7 +190,7 @@ class TrapPercentage(Range):
     range_end = 100
     default = 10
 
-class EnabledTraps(ItemSet):
+class EnabledTraps(OptionSet):
     """
     A trap sent to you can be any of these
     """
@@ -188,17 +210,9 @@ class Jumpscare(Toggle):
     """
     display_name = "Replace Oktoberfest with Jumpscare"
 
-#not yet implemented so not very useful right now
-#class SkillLevel(Choice):
-#    """
-#    Determines whether the randomizer is allowed to put items in hard-to-reach places
-#    Simple: a level will not expect you to do anything in a level that you normally would not do
-#    Advanced: a level may expect you to use unorthodox strategies or advanced techniques in order to reach an item
-#    """
-#    display_name = "Logic Difficulty"
-#    option_Simple = 0
-#    option_Advanced = 1
-#    default = 0
+pt_option_groups = [
+    OptionGroup("")
+]
 
 @dataclass
 class PTOptions(PerGameCommonOptions):
@@ -220,10 +234,9 @@ class PTOptions(PerGameCommonOptions):
     lock_transfo_list = LockTransfoList
     randomize_levels = RandomizeLevels
     randomize_bosses = RandomizeBosses
+    randomize_secrets = RandomizeSecrets
     open_world = OpenWorld
     bonus_ladders = BonusLadders
     trap_percentage = TrapPercentage
     enabled_traps = EnabledTraps
     jumpscare = Jumpscare
-    #skill_level = SkillLevel
-    #death_link = DeathLink

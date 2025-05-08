@@ -3,7 +3,7 @@ from BaseClasses import MultiWorld
 from .Items import PTItem, pt_items
 from .Locations import PTLocation, pt_locations
 from .Options import PTOptions
-from .Regions import create_regions
+from .Regions import create_regions, floors_list, bosses_list
 from .Rules import set_rules
 import typing
 
@@ -17,6 +17,12 @@ class PizzaTowerWorld(World):
     topology_present = False
     options_dataclass = PTOptions
     options: PTOptions
+
+    toppin_number: int
+
+    level_map: dict[str, str]
+    boss_map: dict[str, str]
+    secret_map: dict[str, str]
 
     def create_item(self, item: str) -> PTItem:
         return PTItem(item, pt_items[item][1], pt_items[item][0], self.player)
@@ -71,13 +77,16 @@ class PizzaTowerWorld(World):
             else:
                 self.multiworld.get_location("Pepperman Defeated").place_locked_item(self.create_item("Boss Key"))
                 self.multiworld.get_location("The Vigilante Defeated").place_locked_item(self.create_item("Boss Key"))
-                self.multiworld.get_location("The Noise Defeated").place_locked_item(self.create_item("Boss Key"))
+                if self.options.character == 0: self.multiworld.get_location("The Noise Defeated").place_locked_item(self.create_item("Boss Key"))
+                else: self.multiworld.get_location("The Doise Defeated").place_locked_item(self.create_item("Boss Key"))
                 self.multiworld.get_location("Fake Peppino Defeated").place_locked_item(self.create_item("Boss Key"))
         
         #add toppins, if we can
         if self.options.toppin_count > (locations_to_fill - len(pizza_itempool)):
+            self.toppin_number = (locations_to_fill - len(pizza_itempool))
             for i in range(locations_to_fill - len(pizza_itempool)): pizza_itempool.append(self.create_item("Toppin"))
         else:
+            self.toppin_number = self.options.toppin_count
             for i in range(self.options.toppin_count): pizza_itempool.append(self.create_item("Toppin"))
         
         #fill the rest of the pool with points. get around to putting more stuff in the pool later
@@ -86,4 +95,6 @@ class PizzaTowerWorld(World):
         self.multiworld.itempool += pizza_itempool
 
     def set_rules(self):
+        set_rules(self.multiworld, self, self.options, self.toppin_number)
+
         self.multiworld.completion_condition[self.player] = lambda state: state.can_reach("The Crumbling Tower of Pizza Complete", "Location", self.player)
