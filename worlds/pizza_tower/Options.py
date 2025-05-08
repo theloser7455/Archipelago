@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from Options import DefaultOnToggle, ItemSet, Range, NamedRange, Toggle, DeathLink, Choice, PerGameCommonOptions, OptionSet, OptionGroup
+from Options import DefaultOnToggle, Range, NamedRange, Toggle, Choice, PerGameCommonOptions, OptionSet, OptionGroup
 from .Items import pt_items
 
 class ToppinCount(Range):

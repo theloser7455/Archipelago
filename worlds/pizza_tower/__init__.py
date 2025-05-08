@@ -1,11 +1,9 @@
-from worlds.AutoWorld import World, WebWorld, Region
-from BaseClasses import MultiWorld
+from worlds.AutoWorld import World, WebWorld
 from .Items import PTItem, pt_items
 from .Locations import PTLocation, pt_locations
 from .Options import PTOptions, pt_option_groups
 from .Regions import create_regions, floors_list, bosses_list
 from .Rules import set_rules
-import typing
 
 class PizzaTowerWebWorld(WebWorld):
     theme = "stone"
