@@ -1,181 +1,179 @@
-from BaseClasses import Region, Location, MultiWorld, Entrance
-from AutoWorld import World
+from BaseClasses import Region, MultiWorld
 from .Locations import PTLocation, pt_locations
 from .Options import PTOptions
-import typing
-
-floors_list = [
-    "Floor 1 Tower Lobby",
-    "Floor 2 Western District",
-    "Floor 3 Vacation Resort",
-    "Floor 4 Slum",
-    "Floor 5 Staff Only"
-]
-
-levels_list = [ #ctop handled separately
-    "John Gutter",
-    "Pizzascape",
-    "Ancient Cheese",
-    "Bloodsauce Dungeon",
-    "Oregano Desert",
-    "Wasteyard",
-    "Fun Farm",
-    "Fastfood Saloon",
-    "Crust Cove",
-    "Gnome Forest",
-    "Deep-Dish 9",
-    "GOLF",
-    "The Pig City",
-    "Peppibot Factory",
-    "Oh Shit!",
-    "Freezerator",
-    "Pizzascare",
-    "Don't Make a Sound",
-    "WAR"
-]
-
-levels_checks = [
-    "Mushroom Toppin",
-    "Cheese Toppin",
-    "Tomato Toppin",
-    "Sausage Toppin",
-    "Pineapple Toppin",
-    "Complete"
-]
-
-bosses_list = [ #pizzaface is handled separately because he does not give a rank
-    "Pepperman",
-    "The Vigilante",
-    "The Noise",
-    "Fake Peppino"
-]
-
-bosses_checks = [
-    "Defeated"
-]
-
-tutorial_checks = [
-    "Complete",
-    "Complete in under 2 minutes"
-]
-
-cheftasks_checks = [
-    #John Gutter
-    "Chef Task: John Gutted",
-    "Chef Task: Primate Rage",
-    "Chef Task: Let's Make This Quick",
-
-    #Pizzascape
-    "Chef Task: Shining Armor",
-    "Chef Task: Spoonknight",
-    "Chef Task: Spherical",
-
-    #Ancient Cheese
-    "Chef Task: Thrill Seeker",
-    "Chef Task: Volleybomb",
-    "Chef Task: Delicacy",
-
-    #Bloodsauce Dungeon
-    "Chef Task: Eruption Man",
-    "Chef Task: Very Very Hot Sauce",
-    "Chef Task: Unsliced Pizzaman",
-
-    #Oregano Desert
-    "Chef Task: Peppino's Rain Dance",
-    "Chef Task: Unnecessary Violence",
-    "Chef Task: Alien Cow",
-
-    #Wasteyard
-    "Chef Task: Alive and Well",
-    "Chef Task: Pretend Ghost",
-    "Chef Task: Ghosted",
-
-    #Fun Farm
-    "Chef Task: Good Egg",
-    "Chef Task: No One Is Safe",
-    "Chef Task: Cube Menace",
-
-    #Fastfood Saloon
-    "Chef Task: Royal Flush",
-    "Chef Task: Non-Alcoholic",
-    "Chef Task: Already Pressed",
-
-    #Crust Cove
-    "Chef Task: Demolition Expert",
-    "Chef Task: Blowback",
-    "Chef Task: X",
-
-    #Gnome Forest
-    "Chef Task: Bee Nice",
-    "Chef Task: Bullseye",
-    "Chef Task: Lumberjack",
-
-    #Deep-Dish 9
-    "Chef Task: Blast 'Em Asteroids",
-    "Chef Task: Turbo Tunnel",
-    "Chef Task: Man Meteor",
-
-    #GOLF
-    "Chef Task: Primo Golfer",
-    "Chef Task: Helpful Burger",
-    "Chef Task: Nice Shot",
-
-    #The Pig City
-    "Chef Task: Say Oink!",
-    "Chef Task: Pan Fried",
-    "Chef Task: Strike!",
-
-    #Peppibot Factory
-    "Chef Task: There Can Be Only One",
-    "Chef Task: Whoop This!",
-    "Chef Task: Unflattening",
-
-    #Oh Shit!
-    "Chef Task: Food Clan",
-    "Chef Task: Can't Fool Me",
-    "Chef Task: Penny Pincher",
-
-    #Freezerator
-    "Chef Task: Ice Climber",
-    "Chef Task: Season's Greetings",
-    "Chef Task: Frozen Nuggets",
-
-    #Pizzascare
-    "Chef Task: Haunted Playground",
-    "Chef Task: Skullsplitter",
-    "Chef Task: Cross to Bare",
-
-    #Don't Make a Sound
-    "Chef Task: Let Them Sleep",
-    "Chef Task: Jumpspared",
-    "Chef Task: And This... Is My Gun on a Stick!",
-
-    #WAR
-    "Chef Task: Trip to the Warzone",
-    "Chef Task: Sharpshooter",
-    "Chef Task: Decorated Veteran",
-
-    #Floor Tasks
-    "Chef Task: S Ranked #1",
-    "Chef Task: P Ranked #1",
-    "Chef Task: S Ranked #2",
-    "Chef Task: P Ranked #2",
-    "Chef Task: S Ranked #3",
-    "Chef Task: P Ranked #3",
-    "Chef Task: S Ranked #4",
-    "Chef Task: P Ranked #4",
-    "Chef Task: S Ranked #5",
-    "Chef Task: P Ranked #5",
-
-    #Boss Tasks
-    "Chef Task: The Critic",
-    "Chef Task: The Ugly",
-    "Chef Task: Denoise",
-    "Chef Task: Faker",
-    "Chef Task: Face-Off"
-]
 
 def create_regions(player: int, world: MultiWorld, options: PTOptions):
+    floors_list = [
+        "Floor 1 Tower Lobby",
+        "Floor 2 Western District",
+        "Floor 3 Vacation Resort",
+        "Floor 4 Slum",
+        "Floor 5 Staff Only"
+    ]
+
+    levels_list = [ #ctop handled separately
+        "John Gutter",
+        "Pizzascape",
+        "Ancient Cheese",
+        "Bloodsauce Dungeon",
+        "Oregano Desert",
+        "Wasteyard",
+        "Fun Farm",
+        "Fastfood Saloon",
+        "Crust Cove",
+        "Gnome Forest",
+        "Deep-Dish 9",
+        "GOLF",
+        "The Pig City",
+        "Peppibot Factory",
+        "Oh Shit!",
+        "Freezerator",
+        "Pizzascare",
+        "Don't Make a Sound",
+        "WAR"
+    ]
+
+    levels_checks = [
+        "Mushroom Toppin",
+        "Cheese Toppin",
+        "Tomato Toppin",
+        "Sausage Toppin",
+        "Pineapple Toppin",
+        "Complete"
+    ]
+
+    bosses_list = [ #pizzaface is handled separately because he does not give a rank
+        "Pepperman",
+        "The Vigilante",
+        "The Noise",
+        "Fake Peppino"
+    ]
+
+    bosses_checks = [
+        "Defeated"
+    ]
+
+    tutorial_checks = [
+        "Complete",
+        "Complete in under 2 minutes"
+    ]
+
+    cheftasks_checks = [
+        #John Gutter
+        "Chef Task: John Gutted",
+        "Chef Task: Primate Rage",
+        "Chef Task: Let's Make This Quick",
+
+        #Pizzascape
+        "Chef Task: Shining Armor",
+        "Chef Task: Spoonknight",
+        "Chef Task: Spherical",
+
+        #Ancient Cheese
+        "Chef Task: Thrill Seeker",
+        "Chef Task: Volleybomb",
+        "Chef Task: Delicacy",
+
+        #Bloodsauce Dungeon
+        "Chef Task: Eruption Man",
+        "Chef Task: Very Very Hot Sauce",
+        "Chef Task: Unsliced Pizzaman",
+
+        #Oregano Desert
+        "Chef Task: Peppino's Rain Dance",
+        "Chef Task: Unnecessary Violence",
+        "Chef Task: Alien Cow",
+
+        #Wasteyard
+        "Chef Task: Alive and Well",
+        "Chef Task: Pretend Ghost",
+        "Chef Task: Ghosted",
+
+        #Fun Farm
+        "Chef Task: Good Egg",
+        "Chef Task: No One Is Safe",
+        "Chef Task: Cube Menace",
+
+        #Fastfood Saloon
+        "Chef Task: Royal Flush",
+        "Chef Task: Non-Alcoholic",
+        "Chef Task: Already Pressed",
+
+        #Crust Cove
+        "Chef Task: Demolition Expert",
+        "Chef Task: Blowback",
+        "Chef Task: X",
+
+        #Gnome Forest
+        "Chef Task: Bee Nice",
+        "Chef Task: Bullseye",
+        "Chef Task: Lumberjack",
+
+        #Deep-Dish 9
+        "Chef Task: Blast 'Em Asteroids",
+        "Chef Task: Turbo Tunnel",
+        "Chef Task: Man Meteor",
+
+        #GOLF
+        "Chef Task: Primo Golfer",
+        "Chef Task: Helpful Burger",
+        "Chef Task: Nice Shot",
+
+        #The Pig City
+        "Chef Task: Say Oink!",
+        "Chef Task: Pan Fried",
+        "Chef Task: Strike!",
+
+        #Peppibot Factory
+        "Chef Task: There Can Be Only One",
+        "Chef Task: Whoop This!",
+        "Chef Task: Unflattening",
+
+        #Oh Shit!
+        "Chef Task: Food Clan",
+        "Chef Task: Can't Fool Me",
+        "Chef Task: Penny Pincher",
+
+        #Freezerator
+        "Chef Task: Ice Climber",
+        "Chef Task: Season's Greetings",
+        "Chef Task: Frozen Nuggets",
+
+        #Pizzascare
+        "Chef Task: Haunted Playground",
+        "Chef Task: Skullsplitter",
+        "Chef Task: Cross to Bare",
+
+        #Don't Make a Sound
+        "Chef Task: Let Them Sleep",
+        "Chef Task: Jumpspared",
+        "Chef Task: And This... Is My Gun on a Stick!",
+
+        #WAR
+        "Chef Task: Trip to the Warzone",
+        "Chef Task: Sharpshooter",
+        "Chef Task: Decorated Veteran",
+
+        #Floor Tasks
+        "Chef Task: S Ranked #1",
+        "Chef Task: P Ranked #1",
+        "Chef Task: S Ranked #2",
+        "Chef Task: P Ranked #2",
+        "Chef Task: S Ranked #3",
+        "Chef Task: P Ranked #3",
+        "Chef Task: S Ranked #4",
+        "Chef Task: P Ranked #4",
+        "Chef Task: S Ranked #5",
+        "Chef Task: P Ranked #5",
+
+        #Boss Tasks
+        "Chef Task: The Critic",
+        "Chef Task: The Ugly",
+        "Chef Task: Denoise",
+        "Chef Task: Faker",
+        "Chef Task: Face-Off"
+    ]
+
     tower_regions: list[Region] = []
 
     tower_regions.append(Region("Menu", player, world, None))
@@ -226,7 +224,7 @@ def create_regions(player: int, world: MultiWorld, options: PTOptions):
     for boss in bosses_list:
         check_region = Region(boss, player, world, None)
         for chk in bosses_checks:
-            check_name = lvl + " " + chk
+            check_name = boss + " " + chk
             new_location = PTLocation(player, check_name, pt_locations[check_name], check_region)
             check_region.locations.append(new_location)
         tower_regions.append(check_region)

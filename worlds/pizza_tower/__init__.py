@@ -2,7 +2,7 @@ from worlds.AutoWorld import World, WebWorld
 from .Items import PTItem, pt_items
 from .Locations import PTLocation, pt_locations
 from .Options import PTOptions, pt_option_groups
-from .Regions import create_regions, floors_list, bosses_list
+from .Regions import create_regions
 from .Rules import set_rules
 
 class PizzaTowerWebWorld(WebWorld):
@@ -14,6 +14,7 @@ class PizzaTowerWorld(World):
     game = "Pizza Tower"
     topology_present = False
     options_dataclass = PTOptions
+    options: PTOptions
     webworld = PizzaTowerWebWorld
 
     toppin_number: int
@@ -22,16 +23,19 @@ class PizzaTowerWorld(World):
     boss_map: dict[str, str]
     secret_map: dict[str, str]
 
+    item_name_to_id = {name: data[0] for name, data in pt_items.items()}
+    location_name_to_id = pt_locations
+
     def create_item(self, item: str) -> PTItem:
         return PTItem(item, pt_items[item][1], pt_items[item][0], self.player)
 
     def create_regions(self):
-        create_regions(self.player, self.multiworld)
+        create_regions(self.player, self.multiworld, self.options)
 
     def create_items(self):
         pizza_itempool = []
 
-        locations_to_fill = 120
+        locations_to_fill = 121
         if self.options.secret_checks: locations_to_fill += 57
         if self.options.treasure_checks: locations_to_fill += 19
         if self.options.srank_checks: locations_to_fill += 24

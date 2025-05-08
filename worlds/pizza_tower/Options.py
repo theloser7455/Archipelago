@@ -185,7 +185,7 @@ class BonusLadders(NamedRange):
     range_start = 0
     range_end = 5
     default = 2
-    special_range_names = { "Disabled": 0 }
+    special_range_names = { "disabled": 0 }
 
 class TrapPercentage(Range):
     """
@@ -204,9 +204,9 @@ class EnabledTraps(OptionSet):
     verify_item_name = True
     default = [
         "Clown Trap",
-        "One-Minute Timer",
+        "Timer Trap",
         "Pizzaface",
-        "Slow Trap",
+        "Granny Trap",
         "Oktoberfest!"
     ]
 
@@ -257,27 +257,27 @@ pt_option_groups = [
 
 @dataclass
 class PTOptions(PerGameCommonOptions):
-    toppin_count = ToppinCount
-    floor_1_cost = Floor1Door
-    floor_2_cost = Floor2Door
-    floor_3_cost = Floor3Door
-    floor_4_cost = Floor4Door
-    floor_5_cost = Floor5Door
-    treasure_checks = TreasureChecks
-    secret_checks = SecretChecks
-    srank_checks = SRankChecks
-    prank_checks = PRankChecks
-    cheftask_checks = ChefTaskChecks
-    shuffle_boss_keys = ShuffleBossKeys
-    character = CharacterToPlay
-    lock_moves_list = LockMovesList
-    lock_transfo = LockTransfo
-    lock_transfo_list = LockTransfoList
-    randomize_levels = RandomizeLevels
-    randomize_bosses = RandomizeBosses
-    randomize_secrets = RandomizeSecrets
-    open_world = OpenWorld
-    bonus_ladders = BonusLadders
-    trap_percentage = TrapPercentage
-    enabled_traps = EnabledTraps
-    jumpscare = Jumpscare
+    toppin_count: ToppinCount
+    floor_1_cost: Floor1Door
+    floor_2_cost: Floor2Door
+    floor_3_cost: Floor3Door
+    floor_4_cost: Floor4Door
+    floor_5_cost: Floor5Door
+    treasure_checks: TreasureChecks
+    secret_checks: SecretChecks
+    srank_checks: SRankChecks
+    prank_checks: PRankChecks
+    cheftask_checks: ChefTaskChecks
+    shuffle_boss_keys: ShuffleBossKeys
+    character: CharacterToPlay
+    lock_moves_list: LockMovesList
+    lock_transfo: LockTransfo
+    lock_transfo_list: LockTransfoList
+    randomize_levels: RandomizeLevels
+    randomize_bosses: RandomizeBosses
+    randomize_secrets: RandomizeSecrets
+    open_world: OpenWorld
+    bonus_ladders: BonusLadders
+    trap_percentage: TrapPercentage
+    enabled_traps: EnabledTraps
+    jumpscare: Jumpscare

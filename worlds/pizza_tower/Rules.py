@@ -1,9 +1,46 @@
-from AutoWorld import MultiWorld, World
-from BaseClasses import Region
+from worlds.AutoWorld import World
+from BaseClasses import MultiWorld
 from .Options import PTOptions
-from .Regions import levels_list, bosses_list, floors_list
 from ..generic.Rules import add_rule
 from math import floor
+
+levels_list = [ #ctop handled separately
+    "John Gutter",
+    "Pizzascape",
+    "Ancient Cheese",
+    "Bloodsauce Dungeon",
+    "Oregano Desert",
+    "Wasteyard",
+    "Fun Farm",
+    "Fastfood Saloon",
+    "Crust Cove",
+    "Gnome Forest",
+    "Deep-Dish 9",
+    "GOLF",
+    "The Pig City",
+    "Peppibot Factory",
+    "Oh Shit!",
+    "Freezerator",
+    "Pizzascare",
+    "Don't Make a Sound",
+    "WAR"
+]
+
+bosses_list = [ #pizzaface is handled separately because he does not give a rank
+    "Pepperman",
+    "The Vigilante",
+    "The Noise",
+    "Fake Peppino"
+]
+
+floors_list = [
+    "Floor 1 Tower Lobby",
+    "Floor 2 Western District",
+    "Floor 3 Vacation Resort",
+    "Floor 4 Slum",
+    "Floor 5 Staff Only"
+]
+
 
 def level_gate_rando(world: World, is_noise: bool) -> list[str]:
     #replace john gutter and pizzascape with any of these levels
@@ -75,7 +112,7 @@ def get_secrets_list() -> list[str]:
     secrets_list = []
     for lvl in levels_list:
         for i in range(3):
-            secrets_list.append(lvl + " Secret " + (i+1))
+            secrets_list.append(lvl + " Secret " + str(i+1))
     return secrets_list
 
 def secret_rando(world: World) -> list[str]:
@@ -90,7 +127,7 @@ def set_rules(multiworld: MultiWorld, world: World, options: PTOptions, toppins:
 
     #lots of logic checks fall under these categories
     peppino_requires_upward_mobility = lambda state: state.has_any(["Superjump", "Peppino: Wallclimb"], world.player)
-    peppino_requires_downward_mobility = lambda state: state.has(["Bodyslam"], world.player)
+    peppino_requires_downward_mobility = lambda state: state.has("Bodyslam", world.player)
     gustavo_requires_upward_mobility = lambda state: state.has("Gustavo & Brick: Double Jump", world.player) and state.has_any(["Gustavo & Brick: Rat Kick", "Gustavo & Brick: Wall Jump", "Gustavo: Spin Attack"], world.player)
     noise_requires_big_upward_mobility = lambda state: state.has_any(["Superjump", "Noise: Crusher"], world.player)
     noise_requires_upward_mobility = lambda state: state.has_any(["Superjump", "Noise: Crusher", "Uppercut", "Noise: Wallbounce"], world.player)
@@ -129,26 +166,28 @@ def set_rules(multiworld: MultiWorld, world: World, options: PTOptions, toppins:
     requires_shotgun = lambda state: state.has("Shotgun", world.player) or not must_unlock("Shotgun")
     requires_revolver = lambda state: state.has("Revolver", world.player) or not must_unlock("Revolver")
 
+    requires_none = lambda state: True
+
     peppino_level_access_rules = {
         # indices correspond to gate locations in-game
         # comments indicate which levels are usually there in vanilla
         # may be overridden by bonus ladders
         # only counts from floor entrance to level gate; floor access rules are assumed
-        "John Gutter": None,
-        "Pizzascape": None,
+        "John Gutter": requires_none,
+        "Pizzascape": requires_none,
         "Ancient Cheese": peppino_requires_upward_mobility,
         "Bloodsauce Dungeon": peppino_requires_upward_mobility,
-        "Oregano Desert": None,
-        "Wasteyard": None,
-        "Fun Farm": None,
-        "Fastfood Saloon": None,
-        "Crust Cove": None, #Crust Cove
+        "Oregano Desert": requires_none,
+        "Wasteyard": requires_none,
+        "Fun Farm": requires_none,
+        "Fastfood Saloon": requires_none,
+        "Crust Cove": requires_none, #Crust Cove
         "Gnome Forest": peppino_requires_upward_mobility or requires_uppercut, 
         "Deep-Dish 9": peppino_requires_upward_mobility or requires_antigrav,
         "GOLF": peppino_requires_upward_mobility, 
-        "The Pig City": None, 
-        "Peppibot Factory": None, 
-        "Oh Shit!": None, 
+        "The Pig City": requires_none, 
+        "Peppibot Factory": requires_none, 
+        "Oh Shit!": requires_none, 
         "Freezerator": peppino_requires_upward_mobility,
         "Pizzascare": peppino_requires_upward_mobility,
         "Don't Make a Sound": peppino_requires_upward_mobility, 
@@ -156,8 +195,8 @@ def set_rules(multiworld: MultiWorld, world: World, options: PTOptions, toppins:
     }
 
     peppino_boss_access_rules = {
-        "Pepperman": None,
-        "The Vigilante": None,
+        "Pepperman": requires_none,
+        "The Vigilante": requires_none,
         "The Noise": peppino_requires_upward_mobility or requires_uppercut,
         "The Doise": peppino_requires_upward_mobility or requires_uppercut,
         "Fake Peppino": peppino_requires_upward_mobility
@@ -165,9 +204,9 @@ def set_rules(multiworld: MultiWorld, world: World, options: PTOptions, toppins:
 
     peppino_next_floor_access_rules = [
         peppino_requires_upward_mobility,
-        None,
+        requires_none,
         peppino_requires_upward_mobility or requires_uppercut,
-        None
+        requires_none
     ]
 
     pt_peppino_rules = { #access rules within levels, which do not change
@@ -188,8 +227,8 @@ def set_rules(multiworld: MultiWorld, world: World, options: PTOptions, toppins:
 
     #Pizzascape
         "Pizzascape Complete": requires_any_grab and (peppino_requires_wallclimb or (requires_superjump and requires_grab) or requires_uppercut) and requires_knight,
-        "Pizzascape Mushroom Toppin": None,
-        "Pizzascape Cheese Toppin": None,
+        "Pizzascape Mushroom Toppin": requires_none,
+        "Pizzascape Cheese Toppin": requires_none,
         "Pizzascape Tomato Toppin": requires_any_grab and requires_knight,
         "Pizzascape Sausage Toppin": requires_any_grab and requires_knight,
         "Pizzascape Pineapple Toppin": requires_any_grab and requires_knight,
@@ -203,33 +242,33 @@ def set_rules(multiworld: MultiWorld, world: World, options: PTOptions, toppins:
 
     #Ancient Cheese
         "Ancient Cheese Complete": requires_any_grab and peppino_requires_upward_mobility and peppino_requires_downward_mobility,
-        "Ancient Cheese Mushroom Toppin": None,
+        "Ancient Cheese Mushroom Toppin": requires_none,
         "Ancient Cheese Cheese Toppin": requires_any_grab,
         "Ancient Cheese Tomato Toppin": requires_any_grab and (peppino_requires_upward_mobility or requires_uppercut),
         "Ancient Cheese Sausage Toppin": requires_any_grab and (peppino_requires_upward_mobility or requires_uppercut) and peppino_requires_downward_mobility,
         "Ancient Cheese Pineapple Toppin": requires_any_grab and (peppino_requires_upward_mobility or requires_uppercut) and peppino_requires_downward_mobility,
-        "Ancient Cheese Secret 1": None,
+        "Ancient Cheese Secret 1": requires_none,
         "Ancient Cheese Secret 2": requires_any_grab and peppino_requires_upward_mobility,
         "Ancient Cheese Secret 3": requires_any_grab and peppino_requires_upward_mobility and peppino_requires_downward_mobility,
         "Ancient Cheese Treasure": requires_any_grab and peppino_requires_upward_mobility,
-        "Chef Task: Thrill Seeker": pt_peppino_rules["Ancient Cheese Complete"],
-        "Chef Task: Volleybomb": None,
-        "Chef Task: Delicacy": None,
+        "Chef Task: Thrill Seeker": requires_any_grab and peppino_requires_upward_mobility and peppino_requires_downward_mobility,
+        "Chef Task: Volleybomb": requires_none,
+        "Chef Task: Delicacy": requires_none,
 
     #Bloodsauce Dungeon
         "Bloodsauce Dungeon Complete": peppino_requires_downward_mobility and peppino_requires_upward_mobility,
-        "Bloodsauce Dungeon Mushroom Toppin": None,
-        "Bloodsauce Dungeon Cheese Toppin": None,
+        "Bloodsauce Dungeon Mushroom Toppin": requires_none,
+        "Bloodsauce Dungeon Cheese Toppin": requires_none,
         "Bloodsauce Dungeon Tomato Toppin": peppino_requires_downward_mobility,
         "Bloodsauce Dungeon Sausage Toppin": peppino_requires_downward_mobility,
         "Bloodsauce Dungeon Pineapple Toppin": peppino_requires_downward_mobility,
-        "Bloodsauce Dungeon Secret 1": None,
+        "Bloodsauce Dungeon Secret 1": requires_none,
         "Bloodsauce Dungeon Secret 2": requires_superjump and peppino_requires_downward_mobility,
         "Bloodsauce Dungeon Secret 3": peppino_requires_upward_mobility and peppino_requires_downward_mobility,
         "Bloodsauce Dungeon Treasure": peppino_requires_downward_mobility and peppino_requires_upward_mobility,
         "Chef Task: Eruption Man": peppino_requires_downward_mobility and requires_superjump,
-        "Chef Task: Very Very Hot Sauce": pt_peppino_rules["Bloodsauce Dungeon Complete"],
-        "Chef Task: Unsliced Pizzaman": pt_peppino_rules["Bloodsauce Dungeon Complete"],
+        "Chef Task: Very Very Hot Sauce": peppino_requires_downward_mobility and peppino_requires_upward_mobility,
+        "Chef Task: Unsliced Pizzaman": peppino_requires_downward_mobility and peppino_requires_upward_mobility,
 
     #Oregano Desert
         "Oregano Desert Complete": (peppino_requires_wallclimb or (requires_superjump and requires_grab) or (requires_uppercut and requires_grab)) and requires_firemouth,
@@ -244,11 +283,11 @@ def set_rules(multiworld: MultiWorld, world: World, options: PTOptions, toppins:
         "Oregano Desert Treasure": peppino_requires_wallclimb and requires_firemouth,
         "Chef Task: Peppino's Rain Dance": peppino_requires_upward_mobility or requires_uppercut,
         "Chef Task: Unnecessary Violence": peppino_requires_wallclimb and requires_firemouth,
-        "Chef Task: Alien Cow": pt_peppino_rules["Oregano Desert Complete"],
+        "Chef Task: Alien Cow": (peppino_requires_wallclimb or (requires_superjump and requires_grab) or (requires_uppercut and requires_grab)) and requires_firemouth,
 
     #Wasteyard
         "Wasteyard Complete": peppino_requires_upward_mobility and requires_ghost,
-        "Wasteyard Mushroom Toppin": None,
+        "Wasteyard Mushroom Toppin": requires_none,
         "Wasteyard Cheese Toppin": requires_ghost,
         "Wasteyard Tomato Toppin": (peppino_requires_upward_mobility or requires_uppercut) and requires_ghost,
         "Wasteyard Sausage Toppin": (peppino_requires_upward_mobility or requires_uppercut) and requires_ghost,
@@ -338,7 +377,7 @@ def set_rules(multiworld: MultiWorld, world: World, options: PTOptions, toppins:
 
     #GOLF
         "GOLF Complete": (peppino_requires_upward_mobility or requires_uppercut or peppino_requires_downward_mobility) and requires_ball,
-        "GOLF Mushroom Toppin": None,
+        "GOLF Mushroom Toppin": requires_none,
         "GOLF Cheese Toppin": requires_ball,
         "GOLF Tomato Toppin": requires_ball,
         "GOLF Sausage Toppin": requires_ball,
@@ -353,12 +392,12 @@ def set_rules(multiworld: MultiWorld, world: World, options: PTOptions, toppins:
 
     #The Pig City
         "The Pig City Complete": peppino_requires_downward_mobility and gustavo_requires_doublejump,
-        "The Pig City Mushroom Toppin": None,
+        "The Pig City Mushroom Toppin": requires_none,
         "The Pig City Cheese Toppin": peppino_requires_upward_mobility,
         "The Pig City Tomato Toppin": peppino_requires_downward_mobility,
         "The Pig City Sausage Toppin": peppino_requires_downward_mobility and gustavo_requires_upward_mobility,
         "The Pig City Pineapple Toppin": peppino_requires_downward_mobility and gustavo_requires_doublejump,
-        "The Pig City Secret 1": None,
+        "The Pig City Secret 1": requires_none,
         "The Pig City Secret 2": peppino_requires_downward_mobility and gustavo_requires_upward_mobility,
         "The Pig City Secret 3": peppino_requires_downward_mobility and gustavo_requires_doublejump,
         "The Pig City Treasure": peppino_requires_downward_mobility and gustavo_requires_doublejump,
@@ -398,7 +437,7 @@ def set_rules(multiworld: MultiWorld, world: World, options: PTOptions, toppins:
 
     #Freezerator
         "Freezerator Complete": peppino_requires_upward_mobility and peppino_requires_downward_mobility and requires_satans,
-        "Freezerator Mushroom Toppin": None,
+        "Freezerator Mushroom Toppin": requires_none,
         "Freezerator Cheese Toppin": peppino_requires_upward_mobility or requires_uppercut,
         "Freezerator Tomato Toppin": peppino_requires_upward_mobility and peppino_requires_downward_mobility,
         "Freezerator Sausage Toppin": peppino_requires_upward_mobility and peppino_requires_downward_mobility,
@@ -422,18 +461,18 @@ def set_rules(multiworld: MultiWorld, world: World, options: PTOptions, toppins:
         "Pizzascare Secret 2": peppino_requires_upward_mobility and peppino_requires_downward_mobility and requires_ball,
         "Pizzascare Secret 3": peppino_requires_upward_mobility and peppino_requires_downward_mobility and requires_ball,
         "Pizzascare Treasure": peppino_requires_upward_mobility and peppino_requires_downward_mobility and requires_ball,
-        "Chef Task: Haunted Playground": pt_peppino_rules["Pizzascare Complete"],
-        "Chef Task: Skullsplitter": pt_peppino_rules["Pizzascare Complete"],
-        "Chef Task: Cross to Bare": pt_peppino_rules["Pizzascare Secret 3"],
+        "Chef Task: Haunted Playground": peppino_requires_upward_mobility and peppino_requires_downward_mobility and requires_ball,
+        "Chef Task: Skullsplitter": peppino_requires_upward_mobility and peppino_requires_downward_mobility and requires_ball,
+        "Chef Task: Cross to Bare": peppino_requires_upward_mobility and peppino_requires_downward_mobility and requires_ball,
 
     #Don't Make a Sound
         "Don't Make a Sound Complete": (peppino_requires_wallclimb or (requires_superjump and peppino_requires_dive)) and requires_any_grab and requires_shotgun,
-        "Don't Make a Sound Mushroom Toppin": None,
+        "Don't Make a Sound Mushroom Toppin": requires_none,
         "Don't Make a Sound Cheese Toppin": peppino_requires_upward_mobility,
         "Don't Make a Sound Tomato Toppin": peppino_requires_upward_mobility and peppino_requires_downward_mobility,
         "Don't Make a Sound Sausage Toppin": peppino_requires_upward_mobility,
         "Don't Make a Sound Pineapple Toppin": (peppino_requires_wallclimb or (requires_superjump and peppino_requires_dive)) and requires_any_grab and requires_shotgun,
-        "Don't Make a Sound Secret 1": None,
+        "Don't Make a Sound Secret 1": requires_none,
         "Don't Make a Sound Secret 2": peppino_requires_wallclimb,
         "Don't Make a Sound Secret 3": peppino_requires_wallclimb,
         "Don't Make a Sound Treasure": peppino_requires_wallclimb and requires_any_grab and requires_shotgun,
@@ -452,42 +491,42 @@ def set_rules(multiworld: MultiWorld, world: World, options: PTOptions, toppins:
         "WAR Secret 2": requires_any_grab and requires_shotgun and peppino_requires_upward_mobility,
         "WAR Secret 3": requires_any_grab and requires_shotgun and peppino_requires_upward_mobility,
         "WAR Treasure": requires_any_grab and requires_shotgun and peppino_requires_upward_mobility and peppino_requires_downward_mobility and requires_rocket,
-        "Chef Task: Trip to the Warzone": pt_peppino_rules["WAR Complete"],
-        "Chef Task: Sharpshooter": pt_peppino_rules["WAR Complete"],
-        "Chef Task: Decorated Veteran": pt_peppino_rules["WAR Complete"],
+        "Chef Task: Trip to the Warzone": requires_any_grab and requires_shotgun and peppino_requires_upward_mobility and peppino_requires_downward_mobility and requires_rocket,
+        "Chef Task: Sharpshooter": requires_any_grab and requires_shotgun and peppino_requires_upward_mobility and peppino_requires_downward_mobility and requires_rocket,
+        "Chef Task: Decorated Veteran": requires_any_grab and requires_shotgun and peppino_requires_upward_mobility and peppino_requires_downward_mobility and requires_rocket,
 
     #Crumbling Tower of Pizza
         "The Crumbling Tower of Pizza Complete": peppino_requires_upward_mobility and requires_shotgun and requires_grab and peppino_requires_downward_mobility and requires_weenie and requires_rocket,
-        "The Crumbling Tower of Pizza S Rank": pt_peppino_rules["The Crumbling Tower of Pizza Complete"],
-        "The Crumbling Tower of Pizza P Rank": pt_peppino_rules["The Crumbling Tower of Pizza S Rank"],
+        "The Crumbling Tower of Pizza S Rank": peppino_requires_upward_mobility and requires_shotgun and requires_grab and peppino_requires_downward_mobility and requires_weenie and requires_rocket,
+        "The Crumbling Tower of Pizza P Rank": peppino_requires_upward_mobility and requires_shotgun and requires_grab and peppino_requires_downward_mobility and requires_weenie and requires_rocket,
 
     #Pepperman
-        "Pepperman Defeated": None,
-        "Chef Task: The Critic": None,
-        "Pepperman S Rank": None,
-        "Pepperman P Rank": None,
+        "Pepperman Defeated": requires_none,
+        "Chef Task: The Critic": requires_none,
+        "Pepperman S Rank": requires_none,
+        "Pepperman P Rank": requires_none,
 
     #Vigilante
         "The Vigilante Defeated": requires_grab and requires_revolver,
-        "Chef Task: The Ugly": pt_peppino_rules["The Vigilante Defeated"],
-        "The Vigilante S Rank": pt_peppino_rules["The Vigilante Defeated"],
-        "The Vigilante P Rank": pt_peppino_rules["The Vigilante S Rank"],
+        "Chef Task: The Ugly": requires_grab and requires_revolver,
+        "The Vigilante S Rank": requires_grab and requires_revolver,
+        "The Vigilante P Rank": requires_grab and requires_revolver,
 
     #Noise
-        "The Noise Defeated": None,
-        "Chef Task: Denoise": pt_peppino_rules["The Noise Defeated"],
-        "The Noise S Rank": None,
-        "The Noise P Rank": None,
+        "The Noise Defeated": requires_none,
+        "Chef Task: Denoise": requires_none,
+        "The Noise S Rank": requires_none,
+        "The Noise P Rank": requires_none,
 
     #Fake Pep
-        "Fake Peppino Defeated": None,
-        "Chef Task: Faker": pt_peppino_rules["Fake Peppino Defeated"],
-        "Fake Peppino S Rank": None,
-        "Fake Peppino P Rank": None,
+        "Fake Peppino Defeated": requires_none,
+        "Chef Task: Faker": requires_none,
+        "Fake Peppino S Rank": requires_none,
+        "Fake Peppino P Rank": requires_none,
 
     #Pizzaface
         "Pizzaface Defeated": requires_grab and requires_revolver,
-        "Chef Task: Face-Off": pt_peppino_rules["Pizzaface Defeated"],
+        "Chef Task: Face-Off": requires_grab and requires_revolver,
 
     #Tutorial
         "Tutorial Complete": peppino_requires_downward_mobility and (requires_superjump or requires_uppercut) and requires_grab,
@@ -499,41 +538,41 @@ def set_rules(multiworld: MultiWorld, world: World, options: PTOptions, toppins:
         "Tutorial Pineapple Toppin": peppino_requires_downward_mobility and (requires_superjump or requires_uppercut) and requires_grab,
 
     #misc
-        "Snotty Murdered": None,
+        "Snotty Murdered": requires_none,
 
     #for swap mode
-        "The Doise Defeated": None,
-        "Chef Task: Denoise": None,
-        "The Doise S Rank": None,
-        "The Doise P Rank": None,
+        "The Doise Defeated": requires_none,
+        "Chef Task: Denoise": requires_none,
+        "The Doise S Rank": requires_none,
+        "The Doise P Rank": requires_none,
     }
 
     pt_peppino_extra_rules = { #internal rules for rando purposes; do not correspond to real checks
-	    "John Gutter Secret 1 Passed": None,
+	    "John Gutter Secret 1 Passed": requires_none,
         "John Gutter Secret 2 Passed": peppino_requires_wallclimb,
         "John Gutter Secret 3 Passed": peppino_requires_upward_mobility,
 
-        "Pizzascape Secret 1 Passed": None,
+        "Pizzascape Secret 1 Passed": requires_none,
         "Pizzascape Secret 2 Passed": requires_any_grab and requires_knight,
         "Pizzascape Secret 3 Passed": requires_ball,
 
-        "Ancient Cheese Secret 1 Passed": None,
+        "Ancient Cheese Secret 1 Passed": requires_none,
         "Ancient Cheese Secret 2 Passed": requires_any_grab,
         "Ancient Cheese Secret 3 Passed": peppino_requires_upward_mobility,
 
         "Bloodsauce Dungeon Secret 1 Passed": peppino_requires_upward_mobility,
         "Bloodsauce Dungeon Secret 2 Passed": peppino_requires_wallclimb,
-        "Bloodsauce Dungeon Secret 3 Passed": None,
+        "Bloodsauce Dungeon Secret 3 Passed": requires_none,
 
         "Oregano Desert Secret 1 Passed": peppino_requires_downward_mobility,
         "Oregano Desert Secret 2 Passed": requires_firemouth,
         "Oregano Desert Secret 3 Passed": requires_superjump,
 
-        "Wasteyard Secret 1 Passed": None,
+        "Wasteyard Secret 1 Passed": requires_none,
         "Wasteyard Secret 2 Passed": requires_ghost,
         "Wasteyard Secret 3 Passed": peppino_requires_wallclimb or requires_uppercut,
 
-        "Fun Farm Secret 1 Passed": None,
+        "Fun Farm Secret 1 Passed": requires_none,
         "Fun Farm Secret 2 Passed": requires_mort,
         "Fun Farm Secret 3 Passed": peppino_requires_upward_mobility,
 
@@ -553,55 +592,55 @@ def set_rules(multiworld: MultiWorld, world: World, options: PTOptions, toppins:
         "Deep-Dish 9 Secret 2 Passed": requires_rocket,
         "Deep-Dish 9 Secret 3 Passed": peppino_requires_downward_mobility,
 
-        "GOLF Secret 1 Passed": None,
+        "GOLF Secret 1 Passed": requires_none,
         "GOLF Secret 2 Passed": requires_ball,
-        "GOLF Secret 3 Passed": None,
+        "GOLF Secret 3 Passed": requires_none,
 
         "The Pig City Secret 1 Passed": (requires_uppercut or peppino_requires_upward_mobility),
         "The Pig City Secret 2 Passed": gustavo_requires_doublejump,
-        "The Pig City Secret 3 Passed": None,
+        "The Pig City Secret 3 Passed": requires_none,
 
-        "Peppibot Factory Secret 1 Passed": None,
+        "Peppibot Factory Secret 1 Passed": requires_none,
         "Peppibot Factory Secret 2 Passed": requires_any_grab,
         "Peppibot Factory Secret 3 Passed": requires_pizzabox,
 
-        "Oh Shit! Secret 1 Passed": None,
-        "Oh Shit! Secret 2 Passed": None,
-        "Oh Shit! Secret 3 Passed": None,
+        "Oh Shit! Secret 1 Passed": requires_none,
+        "Oh Shit! Secret 2 Passed": requires_none,
+        "Oh Shit! Secret 3 Passed": requires_none,
 
-        "Freezerator Secret 1 Passed": None,
-        "Freezerator Secret 2 Passed": None,
-        "Freezerator Secret 3 Passed": None,
+        "Freezerator Secret 1 Passed": requires_none,
+        "Freezerator Secret 2 Passed": requires_none,
+        "Freezerator Secret 3 Passed": requires_none,
 
         "Pizzascare Secret 1 Passed": requires_ball and peppino_requires_upward_mobility,
         "Pizzascare Secret 2 Passed": peppino_requires_wallclimb,
         "Pizzascare Secret 3 Passed": peppino_requires_upward_mobility,
 
-        "Don't Make a Sound Secret 1 Passed": None,
+        "Don't Make a Sound Secret 1 Passed": requires_none,
         "Don't Make a Sound Secret 2 Passed": peppino_requires_wallclimb,
         "Don't Make a Sound Secret 3 Passed": peppino_requires_upward_mobility,
 
-        "WAR Secret 1 Passed": None,
+        "WAR Secret 1 Passed": requires_none,
         "WAR Secret 2 Passed": peppino_requires_upward_mobility,
-        "WAR Secret 3 Passed": None,
+        "WAR Secret 3 Passed": requires_none,
     }
 
     noise_level_access_rules = {
-        "John Gutter": None,
-        "Pizzascape": None,
+        "John Gutter": requires_none,
+        "Pizzascape": requires_none,
         "Ancient Cheese": noise_requires_upward_mobility,
         "Bloodsauce Dungeon": noise_requires_upward_mobility,
-        "Oregano Desert": None,
-        "Wasteyard": None,
-        "Fun Farm": None,
-        "Fastfood Saloon": None,
-        "Crust Cove": None, #Crust Cove
+        "Oregano Desert": requires_none,
+        "Wasteyard": requires_none,
+        "Fun Farm": requires_none,
+        "Fastfood Saloon": requires_none,
+        "Crust Cove": requires_none, #Crust Cove
         "Gnome Forest": noise_requires_upward_mobility, 
         "Deep-Dish 9": noise_requires_big_upward_mobility or requires_antigrav,
         "GOLF": noise_requires_upward_mobility, 
-        "The Pig City": None, 
-        "Peppibot Factory": None, 
-        "Oh Shit!": None, 
+        "The Pig City": requires_none, 
+        "Peppibot Factory": requires_none, 
+        "Oh Shit!": requires_none, 
         "Freezerator": noise_requires_upward_mobility,
         "Pizzascare": noise_requires_upward_mobility,
         "Don't Make a Sound": noise_requires_upward_mobility, 
@@ -609,17 +648,17 @@ def set_rules(multiworld: MultiWorld, world: World, options: PTOptions, toppins:
     }
 
     noise_boss_access_rules = {
-        "Pepperman": None,
-        "The Vigilante": None,
+        "Pepperman": requires_none,
+        "The Vigilante": requires_none,
         "The Doise": noise_requires_upward_mobility,
         "Fake Peppino": noise_requires_upward_mobility
     }
 
     noise_next_floor_access_rules = [
         noise_requires_upward_mobility,
-        None,
+        requires_none,
         noise_requires_upward_mobility,
-        None
+        requires_none
     ]
 
     pt_noise_rules = { #access rules within levels, which do not change
@@ -640,8 +679,8 @@ def set_rules(multiworld: MultiWorld, world: World, options: PTOptions, toppins:
 
     #Pizzascape
         "Pizzascape Complete": requires_any_grab and noise_requires_upward_mobility and requires_knight,
-        "Pizzascape Mushroom Toppin": None,
-        "Pizzascape Cheese Toppin": None,
+        "Pizzascape Mushroom Toppin": requires_none,
+        "Pizzascape Cheese Toppin": requires_none,
         "Pizzascape Tomato Toppin": requires_any_grab and requires_knight,
         "Pizzascape Sausage Toppin": requires_any_grab and requires_knight,
         "Pizzascape Pineapple Toppin": requires_any_grab and requires_knight,
@@ -655,33 +694,33 @@ def set_rules(multiworld: MultiWorld, world: World, options: PTOptions, toppins:
 
     #Ancient Cheese
         "Ancient Cheese Complete": requires_any_grab and noise_requires_upward_mobility and noise_requires_downward_mobility,
-        "Ancient Cheese Mushroom Toppin": None,
+        "Ancient Cheese Mushroom Toppin": requires_none,
         "Ancient Cheese Cheese Toppin": requires_any_grab,
         "Ancient Cheese Tomato Toppin": requires_any_grab and noise_requires_upward_mobility and noise_requires_downward_mobility, #noise can't use bombs to reach tomato cuz he's too slow
         "Ancient Cheese Sausage Toppin": requires_any_grab and noise_requires_upward_mobility and noise_requires_downward_mobility,
         "Ancient Cheese Pineapple Toppin": requires_any_grab and noise_requires_upward_mobility and noise_requires_downward_mobility,
-        "Ancient Cheese Secret 1": None,
+        "Ancient Cheese Secret 1": requires_none,
         "Ancient Cheese Secret 2": requires_any_grab and noise_requires_upward_mobility,
         "Ancient Cheese Secret 3": requires_any_grab and noise_requires_upward_mobility and noise_requires_downward_mobility,
         "Ancient Cheese Treasure": requires_any_grab and noise_requires_upward_mobility,
-        "Chef Task: Thrill Seeker": pt_noise_rules["Ancient Cheese Complete"],
-        "Chef Task: Volleybomb": None,
-        "Chef Task: Delicacy": None,
+        "Chef Task: Thrill Seeker": requires_any_grab and noise_requires_upward_mobility and noise_requires_downward_mobility,
+        "Chef Task: Volleybomb": requires_none,
+        "Chef Task: Delicacy": requires_none,
 
     #Bloodsauce Dungeon
         "Bloodsauce Dungeon Complete": noise_requires_downward_mobility and noise_requires_upward_mobility,
-        "Bloodsauce Dungeon Mushroom Toppin": None,
-        "Bloodsauce Dungeon Cheese Toppin": None,
+        "Bloodsauce Dungeon Mushroom Toppin": requires_none,
+        "Bloodsauce Dungeon Cheese Toppin": requires_none,
         "Bloodsauce Dungeon Tomato Toppin": noise_requires_downward_mobility,
         "Bloodsauce Dungeon Sausage Toppin": noise_requires_downward_mobility,
         "Bloodsauce Dungeon Pineapple Toppin": noise_requires_downward_mobility,
-        "Bloodsauce Dungeon Secret 1": None,
+        "Bloodsauce Dungeon Secret 1": requires_none,
         "Bloodsauce Dungeon Secret 2": requires_superjump and noise_requires_downward_mobility,
         "Bloodsauce Dungeon Secret 3": noise_requires_upward_mobility and noise_requires_downward_mobility,
         "Bloodsauce Dungeon Treasure": noise_requires_downward_mobility and noise_requires_upward_mobility,
         "Chef Task: Eruption Man": noise_requires_downward_mobility and requires_superjump,
-        "Chef Task: Very Very Hot Sauce": pt_noise_rules["Bloodsauce Dungeon Complete"],
-        "Chef Task: Unsliced Pizzaman": pt_noise_rules["Bloodsauce Dungeon Complete"],
+        "Chef Task: Very Very Hot Sauce": noise_requires_downward_mobility and noise_requires_upward_mobility,
+        "Chef Task: Unsliced Pizzaman": noise_requires_downward_mobility and noise_requires_upward_mobility,
 
     #Oregano Desert
         "Oregano Desert Complete": noise_requires_upward_mobility and requires_firemouth,
@@ -696,11 +735,11 @@ def set_rules(multiworld: MultiWorld, world: World, options: PTOptions, toppins:
         "Oregano Desert Treasure": noise_requires_upward_mobility and requires_firemouth,
         "Chef Task: Peppino's Rain Dance": noise_requires_upward_mobility,
         "Chef Task: Unnecessary Violence": noise_requires_upward_mobility and requires_firemouth,
-        "Chef Task: Alien Cow": pt_noise_rules["Oregano Desert Complete"],
+        "Chef Task: Alien Cow": noise_requires_upward_mobility and requires_firemouth,
 
     #Wasteyard
         "Wasteyard Complete": noise_requires_upward_mobility and requires_ghost,
-        "Wasteyard Mushroom Toppin": None,
+        "Wasteyard Mushroom Toppin": requires_none,
         "Wasteyard Cheese Toppin": requires_ghost,
         "Wasteyard Tomato Toppin": noise_requires_upward_mobility and requires_ghost,
         "Wasteyard Sausage Toppin": noise_requires_upward_mobility and requires_ghost,
@@ -790,7 +829,7 @@ def set_rules(multiworld: MultiWorld, world: World, options: PTOptions, toppins:
 
     #GOLF
         "GOLF Complete": (noise_requires_upward_mobility or requires_bodyslam) and requires_ball,
-        "GOLF Mushroom Toppin": None,
+        "GOLF Mushroom Toppin": requires_none,
         "GOLF Cheese Toppin": requires_ball,
         "GOLF Tomato Toppin": requires_ball,
         "GOLF Sausage Toppin": requires_ball,
@@ -805,12 +844,12 @@ def set_rules(multiworld: MultiWorld, world: World, options: PTOptions, toppins:
 
     #The Pig City
         "The Pig City Complete": noise_requires_downward_mobility and gustavo_requires_doublejump,
-        "The Pig City Mushroom Toppin": None,
+        "The Pig City Mushroom Toppin": requires_none,
         "The Pig City Cheese Toppin": noise_requires_upward_mobility,
         "The Pig City Tomato Toppin": noise_requires_crusher or requires_bodyslam,
         "The Pig City Sausage Toppin": noise_requires_downward_mobility and noise_requires_upward_mobility,
         "The Pig City Pineapple Toppin": noise_requires_downward_mobility and noise_requires_upward_mobility,
-        "The Pig City Secret 1": None,
+        "The Pig City Secret 1": requires_none,
         "The Pig City Secret 2": noise_requires_downward_mobility and noise_requires_upward_mobility,
         "The Pig City Secret 3": noise_requires_downward_mobility and noise_requires_upward_mobility,
         "The Pig City Treasure": noise_requires_downward_mobility and noise_requires_upward_mobility,
@@ -834,7 +873,7 @@ def set_rules(multiworld: MultiWorld, world: World, options: PTOptions, toppins:
         "Chef Task: Unflattening": (noise_requires_big_upward_mobility or requires_uppercut) and requires_pizzabox and noise_requires_downward_mobility,
 
     #Oh Shit!
-        "Oh Shit! Complete": requires_stickycheese and noise_requires_downward_mobility and noise_requires_wallclimb,
+        "Oh Shit! Complete": requires_stickycheese and noise_requires_downward_mobility and noise_requires_upward_mobility,
         "Oh Shit! Mushroom Toppin": requires_stickycheese and noise_requires_downward_mobility,
         "Oh Shit! Cheese Toppin": requires_stickycheese and noise_requires_downward_mobility and noise_requires_upward_mobility,
         "Oh Shit! Tomato Toppin": requires_stickycheese and noise_requires_downward_mobility and noise_requires_upward_mobility,
@@ -850,7 +889,7 @@ def set_rules(multiworld: MultiWorld, world: World, options: PTOptions, toppins:
 
     #Freezerator
         "Freezerator Complete": requires_satans,
-        "Freezerator Mushroom Toppin": None,
+        "Freezerator Mushroom Toppin": requires_none,
         "Freezerator Cheese Toppin": noise_requires_upward_mobility or requires_satans,
         "Freezerator Tomato Toppin": (noise_requires_upward_mobility and noise_requires_downward_mobility) or requires_satans,
         "Freezerator Sausage Toppin": (noise_requires_big_upward_mobility and noise_requires_downward_mobility) or requires_satans,
@@ -874,18 +913,18 @@ def set_rules(multiworld: MultiWorld, world: World, options: PTOptions, toppins:
         "Pizzascare Secret 2": noise_requires_upward_mobility and noise_requires_downward_mobility and requires_ball,
         "Pizzascare Secret 3": noise_requires_upward_mobility and noise_requires_downward_mobility and requires_ball,
         "Pizzascare Treasure": noise_requires_upward_mobility and noise_requires_downward_mobility and requires_ball,
-        "Chef Task: Haunted Playground": pt_noise_rules["Pizzascare Complete"],
-        "Chef Task: Skullsplitter": pt_noise_rules["Pizzascare Complete"],
-        "Chef Task: Cross to Bare": pt_noise_rules["Pizzascare Secret 3"],
+        "Chef Task: Haunted Playground": noise_requires_upward_mobility and noise_requires_downward_mobility and requires_ball,
+        "Chef Task: Skullsplitter": noise_requires_upward_mobility and noise_requires_downward_mobility and requires_ball,
+        "Chef Task: Cross to Bare": noise_requires_upward_mobility and noise_requires_downward_mobility and requires_ball,
 
     #Don't Make a Sound
         "Don't Make a Sound Complete": noise_requires_big_upward_mobility and requires_any_grab and requires_shotgun,
-        "Don't Make a Sound Mushroom Toppin": None,
+        "Don't Make a Sound Mushroom Toppin": requires_none,
         "Don't Make a Sound Cheese Toppin": noise_requires_upward_mobility,
         "Don't Make a Sound Tomato Toppin": noise_requires_big_upward_mobility and noise_requires_downward_mobility,
         "Don't Make a Sound Sausage Toppin": noise_requires_big_upward_mobility,
         "Don't Make a Sound Pineapple Toppin": noise_requires_big_upward_mobility and requires_any_grab and requires_shotgun,
-        "Don't Make a Sound Secret 1": None,
+        "Don't Make a Sound Secret 1": requires_none,
         "Don't Make a Sound Secret 2": noise_requires_upward_mobility,
         "Don't Make a Sound Secret 3": noise_requires_big_upward_mobility,
         "Don't Make a Sound Treasure": noise_requires_big_upward_mobility and requires_any_grab and requires_shotgun,
@@ -904,77 +943,77 @@ def set_rules(multiworld: MultiWorld, world: World, options: PTOptions, toppins:
         "WAR Secret 2": requires_any_grab and requires_shotgun and (requires_bodyslam or noise_requires_crusher or (noise_requires_tornado and (noise_requires_big_upward_mobility or noise_requires_wallbounce))) and requires_rocket,
         "WAR Secret 3": requires_any_grab and requires_shotgun and (requires_bodyslam or noise_requires_crusher or (noise_requires_tornado and (noise_requires_big_upward_mobility or noise_requires_wallbounce))) and requires_rocket,
         "WAR Treasure": requires_any_grab and requires_shotgun and (requires_bodyslam or noise_requires_crusher or (noise_requires_tornado and noise_requires_big_upward_mobility)) and requires_rocket,
-        "Chef Task: Trip to the Warzone": pt_noise_rules["WAR Complete"],
-        "Chef Task: Sharpshooter": pt_noise_rules["WAR Complete"],
-        "Chef Task: Decorated Veteran": pt_noise_rules["WAR Complete"],
+        "Chef Task: Trip to the Warzone": requires_any_grab and requires_shotgun and noise_requires_upward_mobility and noise_requires_downward_mobility and requires_rocket,
+        "Chef Task: Sharpshooter": requires_any_grab and requires_shotgun and noise_requires_upward_mobility and noise_requires_downward_mobility and requires_rocket,
+        "Chef Task: Decorated Veteran": requires_any_grab and requires_shotgun and noise_requires_upward_mobility and noise_requires_downward_mobility and requires_rocket,
 
     #Crumbling Tower of Pizza
         "The Crumbling Tower of Pizza Complete": noise_requires_big_upward_mobility and requires_shotgun and requires_grab and noise_requires_downward_mobility and requires_weenie and requires_rocket,
-        "The Crumbling Tower of Pizza S Rank": pt_noise_rules["The Crumbling Tower of Pizza Complete"],
-        "The Crumbling Tower of Pizza P Rank": pt_noise_rules["The Crumbling Tower of Pizza S Rank"],
+        "The Crumbling Tower of Pizza S Rank": noise_requires_big_upward_mobility and requires_shotgun and requires_grab and noise_requires_downward_mobility and requires_weenie and requires_rocket,
+        "The Crumbling Tower of Pizza P Rank": noise_requires_big_upward_mobility and requires_shotgun and requires_grab and noise_requires_downward_mobility and requires_weenie and requires_rocket,
 
     #Pepperman
-        "Pepperman Defeated": None,
-        "Chef Task: The Critic": None,
-        "Pepperman S Rank": None,
-        "Pepperman P Rank": None,
+        "Pepperman Defeated": requires_none,
+        "Chef Task: The Critic": requires_none,
+        "Pepperman S Rank": requires_none,
+        "Pepperman P Rank": requires_none,
 
     #Vigilante
         "The Vigilante Defeated": noise_requires_bomb,
-        "Chef Task: The Ugly": pt_noise_rules["The Vigilante Defeated"],
-        "The Vigilante S Rank": pt_noise_rules["The Vigilante Defeated"],
-        "The Vigilante P Rank": pt_noise_rules["The Vigilante S Rank"],
+        "Chef Task: The Ugly": noise_requires_bomb,
+        "The Vigilante S Rank": noise_requires_bomb,
+        "The Vigilante P Rank": noise_requires_bomb,
 
     #Noise
-        "The Doise Defeated": None,
-        "Chef Task: Denoise": None,
-        "The Doise S Rank": None,
-        "The Doise P Rank": None,
+        "The Doise Defeated": requires_none,
+        "Chef Task: Denoise": requires_none,
+        "The Doise S Rank": requires_none,
+        "The Doise P Rank": requires_none,
 
     #Fake Pep
-        "Fake Peppino Defeated": None,
-        "Chef Task: Faker": pt_noise_rules["Fake Peppino Defeated"],
-        "Fake Peppino S Rank": None,
-        "Fake Peppino P Rank": None,
+        "Fake Peppino Defeated": requires_none,
+        "Chef Task: Faker": requires_none,
+        "Fake Peppino S Rank": requires_none,
+        "Fake Peppino P Rank": requires_none,
 
     #Pizzaface
         "Pizzaface Defeated": noise_requires_bomb,
-        "Chef Task: Face-Off": pt_noise_rules["Pizzaface Defeated"],
+        "Chef Task: Face-Off": noise_requires_bomb,
 
     #Tutorial
         "Tutorial Complete": (noise_requires_big_upward_mobility or noise_requires_tornado) and noise_requires_upward_mobility and noise_requires_downward_mobility,
         "Tutorial Complete in under 2 minutes": (noise_requires_big_upward_mobility or noise_requires_tornado) and noise_requires_upward_mobility and noise_requires_downward_mobility,
 
     #misc
-        "Snotty Murdered": None,
+        "Snotty Murdered": requires_none,
     }
 
     pt_noise_extra_rules = { #internal rules for rando purposes; do not correspond to real checks
-	    "John Gutter Secret 1 Passed": None,
+	    "John Gutter Secret 1 Passed": requires_none,
         "John Gutter Secret 2 Passed": noise_requires_upward_mobility,
         "John Gutter Secret 3 Passed": noise_requires_upward_mobility,
 
-        "Pizzascape Secret 1 Passed": None,
+        "Pizzascape Secret 1 Passed": requires_none,
         "Pizzascape Secret 2 Passed": requires_any_grab and requires_knight,
         "Pizzascape Secret 3 Passed": requires_ball,
 
-        "Ancient Cheese Secret 1 Passed": None,
+        "Ancient Cheese Secret 1 Passed": requires_none,
         "Ancient Cheese Secret 2 Passed": requires_any_grab,
         "Ancient Cheese Secret 3 Passed": noise_requires_upward_mobility,
 
         "Bloodsauce Dungeon Secret 1 Passed": noise_requires_upward_mobility,
         "Bloodsauce Dungeon Secret 2 Passed": noise_requires_crusher or noise_requires_wallbounce or requires_uppercut,
-        "Bloodsauce Dungeon Secret 3 Passed": None,
+        "Bloodsauce Dungeon Secret 3 Passed": requires_none,
 
         "Oregano Desert Secret 1 Passed": noise_requires_downward_mobility,
         "Oregano Desert Secret 2 Passed": requires_firemouth,
         "Oregano Desert Secret 3 Passed": noise_requires_crusher or noise_requires_big_upward_mobility,
 
-        "Wasteyard Secret 1 Passed": None,
+        "Wasteyard Secret 1 Passed": requires_none,
         "Wasteyard Secret 2 Passed": requires_ghost,
         "Wasteyard Secret 3 Passed": noise_requires_upward_mobility and requires_ghost,
 
-        "Fun Farm Secret 1 Passed": None,
+        "Fun Farm Secret 1 Passed": requires_none,
         "Fun Farm Secret 2 Passed": requires_mort,
         "Fun Farm Secret 3 Passed": noise_requires_upward_mobility,
 
@@ -994,37 +1033,37 @@ def set_rules(multiworld: MultiWorld, world: World, options: PTOptions, toppins:
         "Deep-Dish 9 Secret 2 Passed": requires_rocket or noise_requires_crusher,
         "Deep-Dish 9 Secret 3 Passed": (requires_bodyslam or noise_requires_crusher) and (requires_antigrav or noise_requires_upward_mobility),
 
-        "GOLF Secret 1 Passed": None,
+        "GOLF Secret 1 Passed": requires_none,
         "GOLF Secret 2 Passed": requires_ball,
-        "GOLF Secret 3 Passed": None,
+        "GOLF Secret 3 Passed": requires_none,
 
         "The Pig City Secret 1 Passed": noise_requires_upward_mobility,
         "The Pig City Secret 2 Passed": noise_requires_upward_mobility,
-        "The Pig City Secret 3 Passed": None,
+        "The Pig City Secret 3 Passed": requires_none,
 
-        "Peppibot Factory Secret 1 Passed": None,
+        "Peppibot Factory Secret 1 Passed": requires_none,
         "Peppibot Factory Secret 2 Passed": requires_any_grab,
         "Peppibot Factory Secret 3 Passed": requires_pizzabox,
 
-        "Oh Shit! Secret 1 Passed": None,
-        "Oh Shit! Secret 2 Passed": None,
-        "Oh Shit! Secret 3 Passed": None,
+        "Oh Shit! Secret 1 Passed": requires_none,
+        "Oh Shit! Secret 2 Passed": requires_none,
+        "Oh Shit! Secret 3 Passed": requires_none,
 
-        "Freezerator Secret 1 Passed": None,
-        "Freezerator Secret 2 Passed": None,
-        "Freezerator Secret 3 Passed": None,
+        "Freezerator Secret 1 Passed": requires_none,
+        "Freezerator Secret 2 Passed": requires_none,
+        "Freezerator Secret 3 Passed": requires_none,
 
         "Pizzascare Secret 1 Passed": requires_ball and noise_requires_upward_mobility,
         "Pizzascare Secret 2 Passed": noise_requires_upward_mobility,
         "Pizzascare Secret 3 Passed": noise_requires_upward_mobility,
 
-        "Don't Make a Sound Secret 1 Passed": None,
+        "Don't Make a Sound Secret 1 Passed": requires_none,
         "Don't Make a Sound Secret 2 Passed": noise_requires_upward_mobility,
         "Don't Make a Sound Secret 3 Passed": noise_requires_upward_mobility,
 
-        "WAR Secret 1 Passed": None,
+        "WAR Secret 1 Passed": requires_none,
         "WAR Secret 2 Passed": noise_requires_upward_mobility,
-        "WAR Secret 3 Passed": None,
+        "WAR Secret 3 Passed": requires_none,
     }
 
     pt_swap_rules = { #for swap-specific rules
@@ -1032,11 +1071,12 @@ def set_rules(multiworld: MultiWorld, world: World, options: PTOptions, toppins:
     }
 
     def get_s_rank_rule(lvl: str, character: int):
-        new_rule: bool
-        if character != 1:
-            new_rule += pt_peppino_rules[lvl + " Mushroom Toppin"] and pt_peppino_rules[lvl + " Cheese Toppin"] and pt_peppino_rules[lvl + " Tomato Toppin"] and pt_peppino_rules[lvl + " Sausage Toppin"] and pt_peppino_rules[lvl + " Pineapple Toppin"] and pt_peppino_rules[lvl + " Complete"] and pt_peppino_rules[lvl + " Treasure"] and pt_peppino_rules[lvl + " Secret 1"] and pt_peppino_rules[lvl + " Secret 2"] and pt_peppino_rules[lvl + " Secret 3"] and pt_peppino_extra_rules[secrets_map[lvl + " Secret 1"] + " Passed"] and pt_peppino_extra_rules[secrets_map[lvl + " Secret 2"] + " Passed"] and pt_peppino_extra_rules[secrets_map[lvl + " Secret 3"] + " Passed"]
-        if character != 0:
-            new_rule += pt_noise_rules[lvl + " Mushroom Toppin"] and pt_noise_rules[lvl + " Cheese Toppin"] and pt_noise_rules[lvl + " Tomato Toppin"] and pt_noise_rules[lvl + " Sausage Toppin"] and pt_noise_rules[lvl + " Pineapple Toppin"] and pt_noise_rules[lvl + " Complete"] and pt_noise_rules[lvl + " Treasure"] and pt_noise_rules[lvl + " Secret 1"] and pt_noise_rules[lvl + " Secret 2"] and pt_noise_rules[lvl + " Secret 3"] and pt_noise_extra_rules[secrets_map[lvl + " Secret 1"] + " Passed"] and pt_noise_extra_rules[secrets_map[lvl + " Secret 2"] + " Passed"] and pt_noise_extra_rules[secrets_map[lvl + " Secret 3"] + " Passed"]
+        if character == 0:
+            new_rule = (pt_peppino_rules[lvl + " Mushroom Toppin"] and pt_peppino_rules[lvl + " Cheese Toppin"] and pt_peppino_rules[lvl + " Tomato Toppin"] and pt_peppino_rules[lvl + " Sausage Toppin"] and pt_peppino_rules[lvl + " Pineapple Toppin"] and pt_peppino_rules[lvl + " Complete"] and pt_peppino_rules[lvl + " Treasure"] and pt_peppino_rules[lvl + " Secret 1"] and pt_peppino_rules[lvl + " Secret 2"] and pt_peppino_rules[lvl + " Secret 3"] and pt_peppino_extra_rules[secrets_map[lvl + " Secret 1"] + " Passed"] and pt_peppino_extra_rules[secrets_map[lvl + " Secret 2"] + " Passed"] and pt_peppino_extra_rules[secrets_map[lvl + " Secret 3"] + " Passed"])
+        elif character == 1:
+            new_rule = pt_noise_rules[lvl + " Mushroom Toppin"] and pt_noise_rules[lvl + " Cheese Toppin"] and pt_noise_rules[lvl + " Tomato Toppin"] and pt_noise_rules[lvl + " Sausage Toppin"] and pt_noise_rules[lvl + " Pineapple Toppin"] and pt_noise_rules[lvl + " Complete"] and pt_noise_rules[lvl + " Treasure"] and pt_noise_rules[lvl + " Secret 1"] and pt_noise_rules[lvl + " Secret 2"] and pt_noise_rules[lvl + " Secret 3"] and pt_noise_extra_rules[secrets_map[lvl + " Secret 1"] + " Passed"] and pt_noise_extra_rules[secrets_map[lvl + " Secret 2"] + " Passed"] and pt_noise_extra_rules[secrets_map[lvl + " Secret 3"] + " Passed"]
+        else:
+            new_rule = (pt_peppino_rules[lvl + " Mushroom Toppin"] and pt_peppino_rules[lvl + " Cheese Toppin"] and pt_peppino_rules[lvl + " Tomato Toppin"] and pt_peppino_rules[lvl + " Sausage Toppin"] and pt_peppino_rules[lvl + " Pineapple Toppin"] and pt_peppino_rules[lvl + " Complete"] and pt_peppino_rules[lvl + " Treasure"] and pt_peppino_rules[lvl + " Secret 1"] and pt_peppino_rules[lvl + " Secret 2"] and pt_peppino_rules[lvl + " Secret 3"] and pt_peppino_extra_rules[secrets_map[lvl + " Secret 1"] + " Passed"] and pt_peppino_extra_rules[secrets_map[lvl + " Secret 2"] + " Passed"] and pt_peppino_extra_rules[secrets_map[lvl + " Secret 3"] + " Passed"]) or (pt_noise_rules[lvl + " Mushroom Toppin"] and pt_noise_rules[lvl + " Cheese Toppin"] and pt_noise_rules[lvl + " Tomato Toppin"] and pt_noise_rules[lvl + " Sausage Toppin"] and pt_noise_rules[lvl + " Pineapple Toppin"] and pt_noise_rules[lvl + " Complete"] and pt_noise_rules[lvl + " Treasure"] and pt_noise_rules[lvl + " Secret 1"] and pt_noise_rules[lvl + " Secret 2"] and pt_noise_rules[lvl + " Secret 3"] and pt_noise_extra_rules[secrets_map[lvl + " Secret 1"] + " Passed"] and pt_noise_extra_rules[secrets_map[lvl + " Secret 2"] + " Passed"] and pt_noise_extra_rules[secrets_map[lvl + " Secret 3"] + " Passed"])
         return new_rule
 
     secrets_list = get_secrets_list() 
@@ -1064,7 +1104,7 @@ def set_rules(multiworld: MultiWorld, world: World, options: PTOptions, toppins:
     for i in range(4):
         multiworld.get_region(floors_list[i], world.player).connect(multiworld.get_region(floors_list[i+1], world.player), floors_list[i] + " to " + floors_list[i+1])
     
-    multiworld.get_region("Floor 5 Staff Only").connect(multiworld.get_region("Pizzaface", world.player), "Floor 5 Staff Only to Pizzaface")
+    multiworld.get_region("Floor 5 Staff Only", world.player).connect(multiworld.get_region("Pizzaface", world.player), "Floor 5 Staff Only to Pizzaface")
     multiworld.get_region("Pizzaface", world.player).connect(multiworld.get_region("The Crumbling Tower of Pizza", world.player), "Pizzaface to The Crumbling Tower of Pizza")
 
     for i in range(4):
@@ -1079,12 +1119,12 @@ def set_rules(multiworld: MultiWorld, world: World, options: PTOptions, toppins:
 
     #set rules
     for location in multiworld.get_locations(world.player):
-        new_rule: bool
-        if "S Rank" or "P Rank" in location and location.parent_region.name not in bosses_list:
+        if (("S Rank" in location.name) or ("P Rank" in location.name)) and (location.parent_region.name not in bosses_list):
             location.access_rule = get_s_rank_rule(location.parent_region.name, options.character)
         else:
-            if options.character != 1: location.access_rule += pt_peppino_rules[location]
-            if options.character != 0: location.access_rule += pt_noise_rules[location]
+            if options.character == 0: location.access_rule = pt_peppino_rules[location.name]
+            elif options.character == 1: location.access_rule = pt_noise_rules[location.name]
+            else: location.access_rule = pt_peppino_rules[location.name] or pt_noise_rules[location.name]
 
     def get_toppin_prop(perc: int):
         return floor(toppins * (perc / 100))

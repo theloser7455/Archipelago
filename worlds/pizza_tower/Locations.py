@@ -278,9 +278,9 @@ pt_locations = {
     "The Pig City Secret 3": 290,
 
     #Peppibot Factory
-    "The Pig City Secret 1": 291,
-    "The Pig City Secret 2": 292,
-    "The Pig City Secret 3": 293,
+    "Peppibot Factory Secret 1": 291,
+    "Peppibot Factory Secret 2": 292,
+    "Peppibot Factory Secret 3": 293,
 
     #Oh Shit!
     "Oh Shit! Secret 1": 294,
