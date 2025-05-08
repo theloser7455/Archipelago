@@ -35,6 +35,8 @@ class PizzaTowerWorld(World):
     def create_items(self):
         pizza_itempool = []
 
+        self.multiworld.local_early_items[self.player]["Superjump"] = 1 #bandaid fix for crappy generation
+
         locations_to_fill = 121
         if self.options.secret_checks: locations_to_fill += 57
         if self.options.treasure_checks: locations_to_fill += 19

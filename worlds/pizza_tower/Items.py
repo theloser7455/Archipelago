@@ -9,7 +9,7 @@ pt_items = {
     "Lap 2 Portals": (132, ItemClassification.useful),
 
     "Mach 4": (103, ItemClassification.useful),
-    "Uppercut": (104, ItemClassification.useful),
+    "Uppercut": (104, ItemClassification.progression),
     "Superjump": (105, ItemClassification.progression),
     "Grab": (106, ItemClassification.progression),
     #ID 107 has been reassigned to "Noise: Bomb"
@@ -26,7 +26,7 @@ pt_items = {
     "Gustavo: Spin Attack": (117, ItemClassification.useful),
 
     "Noise: Wallbounce": (118, ItemClassification.progression),
-    "Noise: Tornado": (119, ItemClassification.useful),
+    "Noise: Tornado": (119, ItemClassification.progression),
     "Noise: Crusher": (120, ItemClassification.progression),
     "Noise: Bomb": (107, ItemClassification.progression),
 
