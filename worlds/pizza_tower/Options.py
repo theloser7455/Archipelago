@@ -4,8 +4,9 @@ from .Items import pt_items
 
 class ToppinCount(Range):
     """
-    Number of toppins shuffled into the item pool
-    May be less than expected if the item pool is too small
+    Number of toppins shuffled into the item pool.
+    
+    May be less than expected if the item pool is too small.
     """
     display_name = "Toppin Count"
     range_start = 0
@@ -14,7 +15,7 @@ class ToppinCount(Range):
 
 class Floor1Door(Range):
     """
-    Percentage of Toppins required to fight the Floor 1 Boss
+    Percentage of Toppins required to fight the Floor 1 Boss.
     """
     display_name = "Floor 1 Boss Toppins"
     range_start = 0
@@ -23,7 +24,7 @@ class Floor1Door(Range):
 
 class Floor2Door(Range):
     """
-    Percentage of Toppins required to fight the Floor 2 Boss
+    Percentage of Toppins required to fight the Floor 2 Boss.
     """
     display_name = "Floor 2 Boss Toppins"
     range_start = 0
@@ -32,7 +33,7 @@ class Floor2Door(Range):
 
 class Floor3Door(Range):
     """
-    Percentage of Toppins required to fight the Floor 3 Boss
+    Percentage of Toppins required to fight the Floor 3 Boss.
     """
     display_name = "Floor 3 Boss Toppins"
     range_start = 0
@@ -41,7 +42,7 @@ class Floor3Door(Range):
 
 class Floor4Door(Range):
     """
-    Percentage of Toppins required to fight the Floor 4 Boss
+    Percentage of Toppins required to fight the Floor 4 Boss.
     """
     display_name = "Floor 4 Boss Toppins"
     range_start = 0
@@ -50,7 +51,7 @@ class Floor4Door(Range):
 
 class Floor5Door(Range):
     """
-    Percentage of Toppins required to fight the Floor 5 Boss
+    Percentage of Toppins required to fight the Floor 5 Boss.
     """
     display_name = "Floor 5 Boss Toppins"
     range_start = 0
@@ -59,39 +60,41 @@ class Floor5Door(Range):
 
 class TreasureChecks(DefaultOnToggle):
     """
-    Adds the game's 19 Treasures to the pool as locations
+    Adds the game's 19 Treasures to the pool as locations.
     """
     display_name = "Treasures Award Checks"
 
 class SecretChecks(DefaultOnToggle):
     """
-    Adds the game's 57 Secrets to the pool as locations
+    Adds the game's 57 Secrets to the pool as locations.
     """
     display_name = "Secrets Award Checks"
 
 class SRankChecks(Toggle):
     """
-    Adds the game's 24 S Ranks to the pool as locations
-    Obtaining a P Rank in a level will also check its corresponding S Rank location
+    Adds the game's 24 S Ranks to the pool as locations.
+
+    Obtaining a P Rank in a level will also check its corresponding S Rank location.
     """
     display_name = "S Ranks Award Checks"
 
 class PRankChecks(Toggle):
     """
-    Adds the game's 24 P Ranks to the pool as locations
+    Adds the game's 24 P Ranks to the pool as locations.
     """
     display_name = "P Ranks Award Checks"
 
 class ChefTaskChecks(Toggle):
     """
-    Adds the game's 72 Chef Tasks (achievements) to the pool as locations
+    Adds the game's 72 Chef Tasks (achievements) to the pool as locations.
     """
     display_name = "Chef Tasks Award Checks"
 
 class ShuffleBossKeys(DefaultOnToggle):
     """
-    On: Shuffle Boss Keys into the item pool
-    Off: Keep Boss Keys in their normal spots
+    On: Shuffle Boss Keys into the item pool.
+
+    Off: Keep Boss Keys in their normal spots.
     """
     display_name = "Shuffle Boss Keys"
 
@@ -118,7 +121,7 @@ class LockMovesList(OptionSet):
 
 class LockTransfo(Toggle):
     """
-    Locks transformations until a certain item is received
+    Locks transformations until a certain item is received.
     """
     display_name = "Randomize Transfos"
 
@@ -146,34 +149,37 @@ class LockTransfoList(OptionSet):
 
 class RandomizeLevels(Toggle):
     """
-    Shuffle level entrances around the Hub
+    Shuffle level entrances around the Hub.
     """
     display_name = "Shuffle Level Gates"
 
 class RandomizeBosses(Toggle):
     """
-    Shuffle bosses (except Pizzaface) between floors
+    Shuffle bosses (except Pizzaface) between floors.
     """
     display_name = "Shuffle Boss Gates"
 
 class RandomizeSecrets(Toggle):
     """
-    Shuffle Secrets between levels
+    Shuffle Secrets between levels.
     """
     display_name = "Shuffle Secrets"
 
 class OpenWorld(Toggle):
     """
-    Unlock all floors immediately, making more levels accessible from the start
-    If active, boss keys will be removed from the item pool
+    Unlock all floors immediately, making more levels accessible from the start.
+
+    If active, boss keys will be removed from the item pool.
     """
     display_name = "Open World"
 
 class BonusLadders(NamedRange):
     """
-    Add bonus ladders to Hub to make accessing levels easier
-    Floors up to and including the selected floor number are affected
-    Set to 0 to disable bonus ladders
+    Add bonus ladders to Hub to make accessing levels easier.
+
+    Floors up to and including the selected floor number are affected.
+
+    Set to 0 to disable bonus ladders.
     """
     display_name = "Bonus Ladders"
     range_start = 0
@@ -183,7 +189,7 @@ class BonusLadders(NamedRange):
 
 class TrapPercentage(Range):
     """
-    Set a percentage of how many filler items are replaced with traps here
+    Set a percentage of how many filler items are replaced with traps here.
     """
     display_name = "Trap Percentage"
     range_start = 0
@@ -192,7 +198,7 @@ class TrapPercentage(Range):
 
 class EnabledTraps(OptionSet):
     """
-    A trap sent to you can be any of these
+    A trap sent to you can be any of these.
     """
     display_name = "Enabled Traps"
     verify_item_name = True
@@ -207,11 +213,46 @@ class EnabledTraps(OptionSet):
 class Jumpscare(Toggle):
     """
     Replace the Oktoberfest trap with a jumpscare. Not for the faint of heart!
+
+    Does not change the functionality of the trap.
     """
     display_name = "Replace Oktoberfest with Jumpscare"
 
 pt_option_groups = [
-    OptionGroup("")
+    OptionGroup("General Options", [
+        CharacterToPlay,
+        OpenWorld,
+        BonusLadders
+    ]),
+    OptionGroup("Boss Options", [
+        ToppinCount,
+        Floor1Door,
+        Floor2Door,
+        Floor3Door,
+        Floor4Door,
+        Floor5Door,
+        ShuffleBossKeys
+    ]),
+    OptionGroup("Extra Checks", [
+        TreasureChecks,
+        SecretChecks,
+        SRankChecks,
+        PRankChecks,
+        ChefTaskChecks
+    ]),
+    OptionGroup("Moves and Traps", [
+        LockMovesList,
+        LockTransfo,
+        LockTransfoList,
+        EnabledTraps,
+        TrapPercentage,
+        Jumpscare
+    ]),
+    OptionGroup("Randomization Options", [
+        RandomizeLevels,
+        RandomizeBosses,
+        RandomizeSecrets
+    ])
 ]
 
 @dataclass
