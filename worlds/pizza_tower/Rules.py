@@ -123,10 +123,6 @@ def set_rules(multiworld: MultiWorld, world: World, options: PTOptions, toppins:
     if options.character != 0:
         bosses_list[2] = "The Doise"
 
-    def must_unlock(transfo):
-        return options.lock_transfo and transfo in options.lock_transfo_list
-
-
     #lots of logic checks fall under these categories
     peppino_requires_upward_mobility = lambda state: state.has_any(["Superjump", "Peppino: Wallclimb"], world.player)
     peppino_requires_downward_mobility = lambda state: state.has("Bodyslam", world.player)
@@ -147,7 +143,6 @@ def set_rules(multiworld: MultiWorld, world: World, options: PTOptions, toppins:
     peppino_requires_wallclimb = lambda state: state.has("Peppino: Wallclimb", world.player)
     peppino_requires_dive = lambda state: state.has("Peppino: Dive", world.player)
     gustavo_requires_doublejump = lambda state: state.has("Gustavo & Brick: Double Jump", world.player)
-    gustavo_requires_attack = lambda state: state.has_any(["Gustavo & Brick: Rat Kick", "Gustavo: Spin Attack"], world.player)
     gustavo_requires_kick = lambda state: state.has("Gustavo & Brick: Rat Kick", world.player)
     noise_requires_crusher = lambda state: state.has("Noise: Crusher", world.player)
     noise_requires_wallbounce = lambda state: state.has("Noise: Wallbounce", world.player)
@@ -509,10 +504,10 @@ def set_rules(multiworld: MultiWorld, world: World, options: PTOptions, toppins:
 
     #Pizzaface
         "Pizzaface Defeated": requires_grab,
-        "Chef Task: Face-Off": requires_grab,
+        "Chef Task: Face Off": requires_grab,
 
     #Tutorial
-        "Tutorial Complete": peppino_requires_downward_mobility and (requires_superjump or requires_uppercut) and requires_grab,
+        "Tutorial Complete": peppino_requires_downward_mobility and (requires_superjump or (peppino_requires_wallclimb and requires_uppercut)) and requires_grab,
         "Tutorial Complete in under 2 minutes": peppino_requires_downward_mobility and (requires_superjump or requires_uppercut) and requires_grab,
         "Tutorial Mushroom Toppin": peppino_requires_downward_mobility,
         "Tutorial Cheese Toppin": peppino_requires_downward_mobility and peppino_requires_upward_mobility,
@@ -961,7 +956,7 @@ def set_rules(multiworld: MultiWorld, world: World, options: PTOptions, toppins:
 
     #Pizzaface
         "Pizzaface Defeated": noise_requires_bomb,
-        "Chef Task: Face-Off": noise_requires_bomb,
+        "Chef Task: Face Off": noise_requires_bomb,
 
     #Tutorial
         "Tutorial Complete": (noise_requires_big_upward_mobility or noise_requires_tornado) and noise_requires_upward_mobility and noise_requires_downward_mobility,
@@ -1053,15 +1048,6 @@ def set_rules(multiworld: MultiWorld, world: World, options: PTOptions, toppins:
 
     }
 
-    def get_s_rank_rule(lvl: str, character: int):
-        if character == 0:
-            new_rule = (pt_peppino_rules[lvl + " Mushroom Toppin"] and pt_peppino_rules[lvl + " Cheese Toppin"] and pt_peppino_rules[lvl + " Tomato Toppin"] and pt_peppino_rules[lvl + " Sausage Toppin"] and pt_peppino_rules[lvl + " Pineapple Toppin"] and pt_peppino_rules[lvl + " Complete"] and pt_peppino_rules[lvl + " Treasure"] and pt_peppino_rules[lvl + " Secret 1"] and pt_peppino_rules[lvl + " Secret 2"] and pt_peppino_rules[lvl + " Secret 3"] and pt_peppino_extra_rules[secrets_map[lvl + " Secret 1"] + " Passed"] and pt_peppino_extra_rules[secrets_map[lvl + " Secret 2"] + " Passed"] and pt_peppino_extra_rules[secrets_map[lvl + " Secret 3"] + " Passed"])
-        elif character == 1:
-            new_rule = pt_noise_rules[lvl + " Mushroom Toppin"] and pt_noise_rules[lvl + " Cheese Toppin"] and pt_noise_rules[lvl + " Tomato Toppin"] and pt_noise_rules[lvl + " Sausage Toppin"] and pt_noise_rules[lvl + " Pineapple Toppin"] and pt_noise_rules[lvl + " Complete"] and pt_noise_rules[lvl + " Treasure"] and pt_noise_rules[lvl + " Secret 1"] and pt_noise_rules[lvl + " Secret 2"] and pt_noise_rules[lvl + " Secret 3"] and pt_noise_extra_rules[secrets_map[lvl + " Secret 1"] + " Passed"] and pt_noise_extra_rules[secrets_map[lvl + " Secret 2"] + " Passed"] and pt_noise_extra_rules[secrets_map[lvl + " Secret 3"] + " Passed"]
-        else:
-            new_rule = (pt_peppino_rules[lvl + " Mushroom Toppin"] and pt_peppino_rules[lvl + " Cheese Toppin"] and pt_peppino_rules[lvl + " Tomato Toppin"] and pt_peppino_rules[lvl + " Sausage Toppin"] and pt_peppino_rules[lvl + " Pineapple Toppin"] and pt_peppino_rules[lvl + " Complete"] and pt_peppino_rules[lvl + " Treasure"] and pt_peppino_rules[lvl + " Secret 1"] and pt_peppino_rules[lvl + " Secret 2"] and pt_peppino_rules[lvl + " Secret 3"] and pt_peppino_extra_rules[secrets_map[lvl + " Secret 1"] + " Passed"] and pt_peppino_extra_rules[secrets_map[lvl + " Secret 2"] + " Passed"] and pt_peppino_extra_rules[secrets_map[lvl + " Secret 3"] + " Passed"]) or (pt_noise_rules[lvl + " Mushroom Toppin"] and pt_noise_rules[lvl + " Cheese Toppin"] and pt_noise_rules[lvl + " Tomato Toppin"] and pt_noise_rules[lvl + " Sausage Toppin"] and pt_noise_rules[lvl + " Pineapple Toppin"] and pt_noise_rules[lvl + " Complete"] and pt_noise_rules[lvl + " Treasure"] and pt_noise_rules[lvl + " Secret 1"] and pt_noise_rules[lvl + " Secret 2"] and pt_noise_rules[lvl + " Secret 3"] and pt_noise_extra_rules[secrets_map[lvl + " Secret 1"] + " Passed"] and pt_noise_extra_rules[secrets_map[lvl + " Secret 2"] + " Passed"] and pt_noise_extra_rules[secrets_map[lvl + " Secret 3"] + " Passed"])
-        return new_rule
-
     secrets_list = get_secrets_list() 
     if options.randomize_levels:
         levels_map = dict(zip(levels_list, level_gate_rando(world, options.character != 0)))
@@ -1081,6 +1067,14 @@ def set_rules(multiworld: MultiWorld, world: World, options: PTOptions, toppins:
     world.level_map = levels_map
     world.boss_map = bosses_map
     world.secret_map = secrets_map
+
+    def get_s_rank_rule(lvl: str, character: int):
+        if character == 0:
+            return pt_peppino_rules[lvl + " Complete"] #imprecise but idc rn
+        elif character == 1:
+            return pt_noise_rules[lvl + " Complete"]
+        else:
+            return (get_s_rank_rule(lvl, 0) and get_s_rank_rule(lvl, 1))
 
     #connect regions
     multiworld.get_region("Menu", world.player).connect(multiworld.get_region("Floor 1 Tower Lobby", world.player), "Menu to Floor 1 Tower Lobby")
@@ -1104,9 +1098,9 @@ def set_rules(multiworld: MultiWorld, world: World, options: PTOptions, toppins:
 
     #set rules
     for location in multiworld.get_locations(world.player):
-        if (("S Rank" in location.name) or ("P Rank" in location.name)) and (location.parent_region.name not in bosses_list) and ("The Crumbling Tower of Pizza" not in location.name) and ("Chef Task" not in location.name):
+        if (("S Rank" in location.name) or ("P Rank" in location.name)) and (location.parent_region.name in levels_list):
             add_rule(location, get_s_rank_rule(location.parent_region.name, options.character))
-        elif "Chef Task: S Ranked" in location.name or "Chef Task: P Ranked" in location.name:
+        elif ("Chef Task: S Ranked" in location.name) or ("Chef Task: P Ranked" in location.name):
             floor_first_lvl_index = (floors_list.index(location.parent_region.name) * 4)
             if location.parent_region.name == "Floor 5 Staff Only":
                 add_rule(location, get_s_rank_rule(levels_map[levels_list[floor_first_lvl_index]], options.character) and get_s_rank_rule(levels_map[levels_list[floor_first_lvl_index + 1]], options.character) and get_s_rank_rule(levels_map[levels_list[floor_first_lvl_index + 2]], options.character))
@@ -1115,7 +1109,7 @@ def set_rules(multiworld: MultiWorld, world: World, options: PTOptions, toppins:
         else:
             if options.character == 0: add_rule(location, pt_peppino_rules[location.name])
             elif options.character == 1: add_rule(location, pt_noise_rules[location.name])
-            else: add_rule(location, pt_peppino_rules[location.name] or pt_noise_rules[location.name])
+            else: add_rule(location, (pt_peppino_rules[location.name] or pt_noise_rules[location.name]))
 
     def get_toppin_prop(perc: int):
         return floor(toppins * (perc / 100))

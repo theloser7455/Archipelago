@@ -249,8 +249,9 @@ def create_regions(player: int, world: MultiWorld, options: PTOptions):
     #must handle chef tasks separately since they aren't common to all levels
     #weird naming here. cheftask_checks is the option bool, cheftasks_checks is the list of task names
     if options.cheftask_checks:
+        level_offset = 7 - (options.character // 2) #no tutorial in swap mode so the offset is different
         for i in range(19):
-            region_curr = tower_regions[i+7]
+            region_curr = tower_regions[i+level_offset]
             for ii in range(3):
                 task_index = (i * 3) + ii
                 task_name = cheftasks_checks[task_index]
@@ -258,9 +259,10 @@ def create_regions(player: int, world: MultiWorld, options: PTOptions):
                 region_curr.locations.append(new_location)
         for i in range(4):
             task_name = cheftasks_checks[i + 67]
-            new_location = PTLocation(player, task_name, pt_locations[task_name], tower_regions[26+i])
-            tower_regions[26+i].locations.append(new_location)
-        loc_pface_task = PTLocation(player, "Chef Task: Face-Off", 405, region_pface)
+            boss_offset = 26 - (options.character // 2)
+            new_location = PTLocation(player, task_name, pt_locations[task_name], tower_regions[boss_offset+i])
+            tower_regions[boss_offset+i].locations.append(new_location)
+        loc_pface_task = PTLocation(player, "Chef Task: Face Off", 404, region_pface)
         region_pface.locations.append(loc_pface_task)
         for i in range(5):
             curr_floor = tower_regions[i+1]

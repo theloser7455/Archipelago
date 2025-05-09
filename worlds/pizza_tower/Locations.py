@@ -451,7 +451,7 @@ pt_locations = {
     "Chef Task: The Ugly": 401,
     "Chef Task: Denoise": 402,
     "Chef Task: Faker": 403,
-    "Chef Task: Face-Off": 404,
+    "Chef Task: Face Off": 404,
 
     #treasures
     "John Gutter Treasure": 405,
