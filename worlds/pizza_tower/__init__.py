@@ -1,13 +1,14 @@
 from worlds.AutoWorld import World, WebWorld
 from .Items import PTItem, pt_items
 from .Locations import PTLocation, pt_locations
-from .Options import PTOptions, pt_option_groups
+from .Options import PTOptions, pt_option_groups, pt_option_presets
 from .Regions import create_regions
 from .Rules import set_rules
 
 class PizzaTowerWebWorld(WebWorld):
     theme = "stone"
     option_groups = pt_option_groups
+    option_presets = pt_option_presets
 
 class PizzaTowerWorld(World):
     """It's Pizza Time!"""
@@ -34,8 +35,6 @@ class PizzaTowerWorld(World):
 
     def create_items(self):
         pizza_itempool = []
-
-        self.multiworld.local_early_items[self.player]["Superjump"] = 1 #bandaid fix for crappy generation
 
         locations_to_fill = 121
         if self.options.secret_checks: locations_to_fill += 57
@@ -100,5 +99,4 @@ class PizzaTowerWorld(World):
 
     def set_rules(self):
         set_rules(self.multiworld, self, self.options, self.toppin_number)
-
         self.multiworld.completion_condition[self.player] = lambda state: state.can_reach("The Crumbling Tower of Pizza Complete", "Location", self.player)

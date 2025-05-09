@@ -1095,12 +1095,12 @@ def set_rules(multiworld: MultiWorld, world: World, options: PTOptions, toppins:
     for i in range(4):
         for ii in range(4):
             level_name = levels_map[levels_list[(4*i)+ii]]
-            multiworld.get_region(floors_list[i], world.player).connect(multiworld.get_region(levels_map[level_name], world.player), floors_list[i] + " to " + levels_map[level_name])
+            multiworld.get_region(floors_list[i], world.player).connect(multiworld.get_region(level_name, world.player), floors_list[i] + " to " + level_name)
         multiworld.get_region(floors_list[i], world.player).connect(multiworld.get_region(bosses_map[bosses_list[i]], world.player), floors_list[i] + " to " + bosses_map[bosses_list[i]])
 
     for i in range(3):
         level_name = levels_map[levels_list[i + 16]]
-        multiworld.get_region("Floor 5 Staff Only", world.player).connect(multiworld.get_region("Floor 5 Staff Only", world.player), "Floor 5 Staff Only to " + levels_map[level_name])
+        multiworld.get_region("Floor 5 Staff Only", world.player).connect(multiworld.get_region(level_name, world.player), "Floor 5 Staff Only to " + level_name)
 
     #set rules
     for location in multiworld.get_locations(world.player):

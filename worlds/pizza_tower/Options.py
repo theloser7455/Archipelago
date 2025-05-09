@@ -112,41 +112,6 @@ class CharacterToPlay(Choice):
     alias_Both = 2
     default = 0
 
-class LockMovesList(OptionSet):
-    """
-    Which moves should be randomized?
-    """
-    display_name = "Moves to Randomize"
-    default = [move for move in pt_items if pt_items[move][0] >= 103 and pt_items[move][0] >= 120]
-
-class LockTransfo(Toggle):
-    """
-    Locks transformations until a certain item is received.
-    """
-    display_name = "Randomize Transfos"
-
-class LockTransfoList(OptionSet):
-    """
-    Which transformations should be randomized?
-    """
-    display_name = "Transfos to Randomize"
-    default = [
-        "Ball",
-        "Knight",
-        "Firemouth",
-        "Ghost",
-        "Mort",
-        "Weenie",
-        "Barrel",
-        "Anti-Grav Bubble",
-        "Rocket",
-        "Pizzabox",
-        "Sticky Cheese",
-        "Satan's Choice",
-        "Shotgun",
-        "Revolver"
-    ]
-
 class RandomizeLevels(Toggle):
     """
     Shuffle level entrances around the Hub.
@@ -240,10 +205,7 @@ pt_option_groups = [
         PRankChecks,
         ChefTaskChecks
     ]),
-    OptionGroup("Moves and Traps", [
-        LockMovesList,
-        LockTransfo,
-        LockTransfoList,
+    OptionGroup("Traps", [
         EnabledTraps,
         TrapPercentage,
         Jumpscare
@@ -270,9 +232,6 @@ class PTOptions(PerGameCommonOptions):
     cheftask_checks: ChefTaskChecks
     shuffle_boss_keys: ShuffleBossKeys
     character: CharacterToPlay
-    lock_moves_list: LockMovesList
-    lock_transfo: LockTransfo
-    lock_transfo_list: LockTransfoList
     randomize_levels: RandomizeLevels
     randomize_bosses: RandomizeBosses
     randomize_secrets: RandomizeSecrets
@@ -281,3 +240,20 @@ class PTOptions(PerGameCommonOptions):
     trap_percentage: TrapPercentage
     enabled_traps: EnabledTraps
     jumpscare: Jumpscare
+
+#presets
+
+toppin_hunt = {
+    "toppin_count": 100,
+    "floor_1_cost": 0,
+    "floor_2_cost": 0,
+    "floor_3_cost": 0,
+    "floor_4_cost": 0,
+    "floor_5_cost": 100,
+    "open_world": True,
+    "bonus_ladders": 5
+}
+
+pt_option_presets = {
+    "Toppin Hunt": toppin_hunt
+}
