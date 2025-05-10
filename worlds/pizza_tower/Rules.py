@@ -1,8 +1,9 @@
 from worlds.AutoWorld import World
 from BaseClasses import MultiWorld
 from .Options import PTOptions
-from ..generic.Rules import add_rule
+from ..generic.Rules import add_rule, set_rule
 from math import floor
+from typing import Callable
 
 levels_list = [ #ctop handled separately
     "John Gutter",
@@ -34,6 +35,25 @@ floors_list = [
     "Floor 5 Staff Only"
 ]
 
+rule_moves = {
+    "GRAB": "Grab",
+    "UPPER": "Uppercut",
+    "MACH4": "Mach 4",
+    "SJUMP": "Superjump",
+    "CLIMB": "Peppino: Wallclimb",
+    "DIVE": "Peppino: Dive",
+    "TAUNT": "Taunt",
+    "STAUNT": "Supertaunt",
+    "SLAM": "Bodyslam",
+    "DJUMP": "Gustavo & Brick: Double Jump",
+    "WJUMP": "Gustavo & Brick: Wall Jump",
+    "KICK": "Gustavo & Brick: Rat Kick",
+    "SPIN": "Gustavo: Spin Attack",
+    "CRUSH": "Noise: Crusher",
+    "BOUNCE": "Noise: Wallbounce",
+    "TORN": "Noise: Tornado",
+    "BOMB": "Noise: Bomb"
+}
 
 def level_gate_rando(world: World, is_noise: bool) -> list[str]:
     #replace john gutter and pizzascape with any of these levels
@@ -123,925 +143,898 @@ def set_rules(multiworld: MultiWorld, world: World, options: PTOptions, toppins:
     if options.character != 0:
         bosses_list[2] = "The Doise"
 
-    #lots of logic checks fall under these categories
-    peppino_requires_upward_mobility = lambda state: state.has_any(["Superjump", "Peppino: Wallclimb"], world.player)
-    peppino_requires_downward_mobility = lambda state: state.has("Bodyslam", world.player)
-    gustavo_requires_upward_mobility = lambda state: state.has("Gustavo & Brick: Double Jump", world.player) and state.has_any(["Gustavo & Brick: Rat Kick", "Gustavo & Brick: Wall Jump", "Gustavo: Spin Attack"], world.player)
-    noise_requires_big_upward_mobility = lambda state: state.has_any(["Superjump", "Noise: Crusher"], world.player)
-    noise_requires_upward_mobility = lambda state: state.has_any(["Superjump", "Noise: Crusher", "Uppercut", "Noise: Wallbounce"], world.player)
-    noise_requires_downward_mobility = lambda state: state.has_any(["Bodyslam", "Noise: Tornado", "Noise: Crusher"], world.player)
-    noise_requires_bomb = lambda state: state.has("Noise: Bomb", world.player)
-    requires_any_grab = lambda state: state.has_any(["Grab", "Uppercut"], world.player)
-
-    #lambda function aliases for easier reading
-    requires_uppercut = lambda state: state.has("Uppercut", world.player)
-    requires_grab = lambda state: state.has("Grab", world.player)
-    requires_superjump = lambda state: state.has("Superjump", world.player)
-    requires_taunt = lambda state: state.has("Taunt", world.player)
-    requires_supertaunt = lambda state: state.has("Supertaunt", world.player)
-    requires_bodyslam = lambda state: state.has("Bodyslam", world.player)
-    peppino_requires_wallclimb = lambda state: state.has("Peppino: Wallclimb", world.player)
-    peppino_requires_dive = lambda state: state.has("Peppino: Dive", world.player)
-    gustavo_requires_doublejump = lambda state: state.has("Gustavo & Brick: Double Jump", world.player)
-    gustavo_requires_kick = lambda state: state.has("Gustavo & Brick: Rat Kick", world.player)
-    noise_requires_crusher = lambda state: state.has("Noise: Crusher", world.player)
-    noise_requires_wallbounce = lambda state: state.has("Noise: Wallbounce", world.player)
-    noise_requires_tornado = lambda state: state.has("Noise: Tornado", world.player)
-
-    requires_none = lambda state: True
-
     peppino_level_access_rules = {
-        "John Gutter": requires_none,
-        "Pizzascape": requires_none,
-        "Ancient Cheese": peppino_requires_upward_mobility,
-        "Bloodsauce Dungeon": peppino_requires_upward_mobility,
-        "Oregano Desert": requires_none,
-        "Wasteyard": requires_none,
-        "Fun Farm": requires_none,
-        "Fastfood Saloon": requires_none,
-        "Crust Cove": requires_none, #Crust Cove
-        "Gnome Forest": peppino_requires_upward_mobility or requires_uppercut, 
-        "Deep-Dish 9": requires_none,
-        "GOLF": peppino_requires_upward_mobility, 
-        "The Pig City": requires_none, 
-        "Peppibot Factory": requires_none, 
-        "Oh Shit!": requires_none, 
-        "Freezerator": peppino_requires_upward_mobility,
-        "Pizzascare": peppino_requires_upward_mobility,
-        "Don't Make a Sound": peppino_requires_upward_mobility, 
-        "WAR": requires_superjump,
+        "John Gutter": "NONE",
+        "Pizzascape": "NONE",
+        "Ancient Cheese": "SJUMP | CLIMB",
+        "Bloodsauce Dungeon": "SJUMP | CLIMB",
+        "Oregano Desert": "NONE",
+        "Wasteyard": "NONE",
+        "Fun Farm": "NONE",
+        "Fastfood Saloon": "NONE",
+        "Crust Cove": "NONE",
+        "Gnome Forest": "SJUMP | CLIMB | UPPER", 
+        "Deep-Dish 9": "SJUMP | CLIMB",
+        "GOLF": "SJUMP | CLIMB", 
+        "The Pig City": "NONE", 
+        "Peppibot Factory": "NONE", 
+        "Oh Shit!": "NONE", 
+        "Freezerator": "SJUMP | CLIMB",
+        "Pizzascare": "SJUMP | CLIMB",
+        "Don't Make a Sound": "SJUMP | CLIMB", 
+        "WAR": "SJUMP",
     }
 
     peppino_boss_access_rules = {
-        "Pepperman": requires_none,
-        "The Vigilante": requires_none,
-        "The Noise": peppino_requires_upward_mobility or requires_uppercut,
-        "The Doise": peppino_requires_upward_mobility or requires_uppercut,
-        "Fake Peppino": peppino_requires_upward_mobility
+        "Pepperman": "NONE",
+        "The Vigilante": "NONE",
+        "The Noise": "SJUMP | CLIMB | UPPER",
+        "The Doise": "SJUMP | CLIMB | UPPER",
+        "Fake Peppino": "SJUMP | CLIMB"
     }
 
     peppino_next_floor_access_rules = [
-        peppino_requires_upward_mobility,
-        requires_none,
-        peppino_requires_upward_mobility or requires_uppercut,
-        requires_none
+        "SJUMP | CLIMB",
+        "NONE",
+        "SJUMP | CLIMB | UPPER",
+        "NONE"
     ]
 
     pt_peppino_rules = { #access rules within levels, which do not change
     #John Gutter
-        "John Gutter Complete": peppino_requires_upward_mobility,
-        "John Gutter Mushroom Toppin": peppino_requires_upward_mobility or requires_uppercut or requires_grab or peppino_requires_downward_mobility,
-        "John Gutter Cheese Toppin": peppino_requires_upward_mobility or requires_uppercut or requires_grab or peppino_requires_downward_mobility,
-        "John Gutter Tomato Toppin": peppino_requires_upward_mobility or requires_uppercut or requires_grab or peppino_requires_downward_mobility,
-        "John Gutter Sausage Toppin": peppino_requires_upward_mobility,
-        "John Gutter Pineapple Toppin": peppino_requires_upward_mobility,
-        "John Gutter Secret 1": peppino_requires_upward_mobility or requires_uppercut or requires_grab or peppino_requires_downward_mobility,
-        "John Gutter Secret 2": peppino_requires_upward_mobility,
-        "John Gutter Secret 3": peppino_requires_upward_mobility,
-        "John Gutter Treasure": peppino_requires_upward_mobility,
-        "Chef Task: John Gutted": peppino_requires_upward_mobility,
-        "Chef Task: Primate Rage": peppino_requires_upward_mobility,
-        "Chef Task: Let's Make This Quick": peppino_requires_upward_mobility,
+        "John Gutter Complete": "SJUMP | CLIMB",
+        "John Gutter Mushroom Toppin": "SJUMP | CLIMB | UPPER | GRAB | SLAM",
+        "John Gutter Cheese Toppin": "SJUMP | CLIMB | UPPER | GRAB",
+        "John Gutter Tomato Toppin": "SJUMP | CLIMB | UPPER | GRAB",
+        "John Gutter Sausage Toppin": "SJUMP | CLIMB",
+        "John Gutter Pineapple Toppin": "SJUMP | CLIMB",
+        "John Gutter Secret 1": "SJUMP | CLIMB | UPPER | GRAB | SLAM",
+        "John Gutter Secret 2": "SJUMP | CLIMB",
+        "John Gutter Secret 3": "SJUMP | CLIMB",
+        "John Gutter Treasure": "SJUMP | CLIMB",
+        "Chef Task: John Gutted": "SJUMP | CLIMB",
+        "Chef Task: Primate Rage": "SJUMP | CLIMB",
+        "Chef Task: Let's Make This Quick": "SJUMP | CLIMB",
 
     #Pizzascape
-        "Pizzascape Complete": requires_any_grab and (peppino_requires_wallclimb or (requires_superjump and requires_grab) or requires_uppercut),
-        "Pizzascape Mushroom Toppin": requires_none,
-        "Pizzascape Cheese Toppin": requires_none,
-        "Pizzascape Tomato Toppin": requires_any_grab,
-        "Pizzascape Sausage Toppin": requires_any_grab,
-        "Pizzascape Pineapple Toppin": requires_any_grab,
-        "Pizzascape Secret 1": requires_any_grab,
-        "Pizzascape Secret 2": requires_any_grab,
-        "Pizzascape Secret 3": requires_any_grab and peppino_requires_upward_mobility,
-        "Pizzascape Treasure": requires_any_grab and peppino_requires_upward_mobility,
-        "Chef Task: Shining Armor": requires_any_grab,
-        "Chef Task: Spoonknight": requires_taunt,
-        "Chef Task: Spherical": requires_any_grab,
+        "Pizzascape Complete": "SJUMP+GRAB | UPPER | GRAB+CLIMB",
+        "Pizzascape Mushroom Toppin": "NONE",
+        "Pizzascape Cheese Toppin": "NONE",
+        "Pizzascape Tomato Toppin": "UPPER | GRAB",
+        "Pizzascape Sausage Toppin": "UPPER | GRAB",
+        "Pizzascape Pineapple Toppin": "UPPER | GRAB",
+        "Pizzascape Secret 1": "UPPER | GRAB",
+        "Pizzascape Secret 2": "UPPER | GRAB",
+        "Pizzascape Secret 3": "UPPER+SJUMP | UPPER+CLIMB | GRAB+SJUMP | GRAB+CLIMB",
+        "Pizzascape Treasure": "UPPER+SJUMP | UPPER+CLIMB | GRAB+SJUMP | GRAB+CLIMB",
+        "Chef Task: Shining Armor": "UPPER | GRAB",
+        "Chef Task: Spoonknight": "TAUNT",
+        "Chef Task: Spherical": "UPPER | GRAB",
 
     #Ancient Cheese
-        "Ancient Cheese Complete": requires_any_grab and peppino_requires_upward_mobility and peppino_requires_downward_mobility,
-        "Ancient Cheese Mushroom Toppin": requires_none,
-        "Ancient Cheese Cheese Toppin": requires_any_grab,
-        "Ancient Cheese Tomato Toppin": requires_any_grab and (peppino_requires_upward_mobility or requires_uppercut),
-        "Ancient Cheese Sausage Toppin": requires_any_grab and (peppino_requires_upward_mobility or requires_uppercut) and peppino_requires_downward_mobility,
-        "Ancient Cheese Pineapple Toppin": requires_any_grab and (peppino_requires_upward_mobility or requires_uppercut) and peppino_requires_downward_mobility,
-        "Ancient Cheese Secret 1": requires_none,
-        "Ancient Cheese Secret 2": requires_any_grab and peppino_requires_upward_mobility,
-        "Ancient Cheese Secret 3": requires_any_grab and peppino_requires_upward_mobility and peppino_requires_downward_mobility,
-        "Ancient Cheese Treasure": requires_any_grab and peppino_requires_upward_mobility,
-        "Chef Task: Thrill Seeker": requires_any_grab and peppino_requires_upward_mobility and peppino_requires_downward_mobility,
-        "Chef Task: Volleybomb": requires_none,
-        "Chef Task: Delicacy": requires_none,
+        "Ancient Cheese Complete": "UPPER+CLIMB+SLAM | UPPER+SJUMP+SLAM | GRAB+CLIMB+SLAM | GRAB+SJUMP+SLAM",
+        "Ancient Cheese Mushroom Toppin": "NONE",
+        "Ancient Cheese Cheese Toppin": "UPPER | GRAB",
+        "Ancient Cheese Tomato Toppin": "UPPER | GRAB+CLIMB | GRAB+SJUMP",
+        "Ancient Cheese Sausage Toppin": "UPPER+SLAM | GRAB+CLIMB+SLAM | GRAB+SJUMP+SLAM",
+        "Ancient Cheese Pineapple Toppin": "UPPER+SLAM | GRAB+CLIMB+SLAM | GRAB+SJUMP+SLAM",
+        "Ancient Cheese Secret 1": "NONE",
+        "Ancient Cheese Secret 2": "UPPER | GRAB+CLIMB | GRAB+SJUMP",
+        "Ancient Cheese Secret 3": "UPPER+SLAM | GRAB+CLIMB+SLAM | GRAB+SJUMP+SLAM",
+        "Ancient Cheese Treasure": "UPPER | GRAB+CLIMB | GRAB+SJUMP",
+        "Chef Task: Thrill Seeker": "UPPER+CLIMB+SLAM | UPPER+SJUMP+SLAM | GRAB+CLIMB+SLAM | GRAB+SJUMP+SLAM",
+        "Chef Task: Volleybomb": "NONE",
+        "Chef Task: Delicacy": "NONE",
 
     #Bloodsauce Dungeon
-        "Bloodsauce Dungeon Complete": peppino_requires_downward_mobility and peppino_requires_upward_mobility,
-        "Bloodsauce Dungeon Mushroom Toppin": requires_none,
-        "Bloodsauce Dungeon Cheese Toppin": requires_none,
-        "Bloodsauce Dungeon Tomato Toppin": peppino_requires_downward_mobility,
-        "Bloodsauce Dungeon Sausage Toppin": peppino_requires_downward_mobility,
-        "Bloodsauce Dungeon Pineapple Toppin": peppino_requires_downward_mobility,
-        "Bloodsauce Dungeon Secret 1": requires_none,
-        "Bloodsauce Dungeon Secret 2": requires_superjump and peppino_requires_downward_mobility,
-        "Bloodsauce Dungeon Secret 3": peppino_requires_upward_mobility and peppino_requires_downward_mobility,
-        "Bloodsauce Dungeon Treasure": peppino_requires_downward_mobility and peppino_requires_upward_mobility,
-        "Chef Task: Eruption Man": peppino_requires_downward_mobility and requires_superjump,
-        "Chef Task: Very Very Hot Sauce": peppino_requires_downward_mobility and peppino_requires_upward_mobility,
-        "Chef Task: Unsliced Pizzaman": peppino_requires_downward_mobility and peppino_requires_upward_mobility,
+        "Bloodsauce Dungeon Complete": "SJUMP+SLAM | CLIMB+SLAM",
+        "Bloodsauce Dungeon Mushroom Toppin": "NONE",
+        "Bloodsauce Dungeon Cheese Toppin": "NONE",
+        "Bloodsauce Dungeon Tomato Toppin": "SLAM",
+        "Bloodsauce Dungeon Sausage Toppin": "SLAM",
+        "Bloodsauce Dungeon Pineapple Toppin": "SLAM",
+        "Bloodsauce Dungeon Secret 1": "NONE",
+        "Bloodsauce Dungeon Secret 2": "SJUMP+SLAM",
+        "Bloodsauce Dungeon Secret 3": "SJUMP+SLAM | CLIMB+SLAM",
+        "Bloodsauce Dungeon Treasure": "SJUMP+SLAM | CLIMB+SLAM",
+        "Chef Task: Eruption Man": "SJUMP+SLAM",
+        "Chef Task: Very Very Hot Sauce": "SJUMP+SLAM | CLIMB+SLAM",
+        "Chef Task: Unsliced Pizzaman": "SJUMP+SLAM | CLIMB+SLAM",
 
     #Oregano Desert
-        "Oregano Desert Complete": (peppino_requires_wallclimb or (requires_superjump and requires_grab) or (requires_uppercut and requires_grab)),
-        "Oregano Desert Mushroom Toppin": peppino_requires_upward_mobility or requires_uppercut,
-        "Oregano Desert Cheese Toppin": (peppino_requires_upward_mobility or (requires_uppercut and requires_grab)),
-        "Oregano Desert Tomato Toppin": (peppino_requires_wallclimb or (requires_superjump and requires_grab) or (requires_uppercut and requires_grab)),
-        "Oregano Desert Sausage Toppin": (peppino_requires_wallclimb or (requires_superjump and requires_grab) or (requires_uppercut and requires_grab)),
-        "Oregano Desert Pineapple Toppin": (peppino_requires_wallclimb or (requires_superjump and requires_grab) or (requires_uppercut and requires_grab)),
-        "Oregano Desert Secret 1": peppino_requires_upward_mobility,
-        "Oregano Desert Secret 2": peppino_requires_wallclimb,
-        "Oregano Desert Secret 3": peppino_requires_wallclimb,
-        "Oregano Desert Treasure": peppino_requires_wallclimb,
-        "Chef Task: Peppino's Rain Dance": peppino_requires_upward_mobility or requires_uppercut,
-        "Chef Task: Unnecessary Violence": peppino_requires_wallclimb,
-        "Chef Task: Alien Cow": (peppino_requires_wallclimb or (requires_superjump and requires_grab) or (requires_uppercut and requires_grab)),
+        "Oregano Desert Complete": "SJUMP+GRAB | UPPER+GRAB | CLIMB",
+        "Oregano Desert Mushroom Toppin": "UPPER | SJUMP | CLIMB",
+        "Oregano Desert Cheese Toppin": "UPPER+GRAB | SJUMP | CLIMB",
+        "Oregano Desert Tomato Toppin": "UPPER+GRAB | SJUMP+GRAB | CLIMB",
+        "Oregano Desert Sausage Toppin": "UPPER+GRAB | SJUMP+GRAB | CLIMB",
+        "Oregano Desert Pineapple Toppin": "UPPER+GRAB | SJUMP+GRAB | CLIMB",
+        "Oregano Desert Secret 1": "SJUMP | CLIMB",
+        "Oregano Desert Secret 2": "CLIMB",
+        "Oregano Desert Secret 3": "CLIMB",
+        "Oregano Desert Treasure": "CLIMB",
+        "Chef Task: Peppino's Rain Dance": "UPPER | SJUMP | CLIMB",
+        "Chef Task: Unnecessary Violence": "CLIMB",
+        "Chef Task: Alien Cow": "SJUMP+GRAB | UPPER+GRAB | CLIMB",
 
     #Wasteyard
-        "Wasteyard Complete": peppino_requires_upward_mobility,
-        "Wasteyard Mushroom Toppin": requires_none,
-        "Wasteyard Cheese Toppin": requires_none,
-        "Wasteyard Tomato Toppin": (peppino_requires_upward_mobility or requires_uppercut),
-        "Wasteyard Sausage Toppin": (peppino_requires_upward_mobility or requires_uppercut),
-        "Wasteyard Pineapple Toppin": (peppino_requires_upward_mobility or requires_uppercut),
-        "Wasteyard Secret 1": peppino_requires_upward_mobility,
-        "Wasteyard Secret 2": peppino_requires_upward_mobility,
-        "Wasteyard Secret 3": peppino_requires_upward_mobility,
-        "Wasteyard Treasure": peppino_requires_upward_mobility,
-        "Chef Task: Alive and Well": peppino_requires_upward_mobility,
-        "Chef Task: Pretend Ghost": peppino_requires_upward_mobility,
-        "Chef Task: Ghosted": peppino_requires_upward_mobility,
+        "Wasteyard Complete": "SJUMP | CLIMB",
+        "Wasteyard Mushroom Toppin": "NONE",
+        "Wasteyard Cheese Toppin": "NONE",
+        "Wasteyard Tomato Toppin": "SJUMP | CLIMB | UPPER",
+        "Wasteyard Sausage Toppin": "SJUMP | CLIMB | UPPER",
+        "Wasteyard Pineapple Toppin": "SJUMP | CLIMB | UPPER",
+        "Wasteyard Secret 1": "SJUMP | CLIMB",
+        "Wasteyard Secret 2": "SJUMP | CLIMB | UPPER",
+        "Wasteyard Secret 3": "SJUMP | CLIMB",
+        "Wasteyard Treasure": "SJUMP | CLIMB",
+        "Chef Task: Alive and Well": "SJUMP | CLIMB",
+        "Chef Task: Pretend Ghost": "SJUMP | CLIMB",
+        "Chef Task: Ghosted": "SJUMP | CLIMB",
 
     #Fun Farm
-        "Fun Farm Complete": peppino_requires_downward_mobility and (peppino_requires_upward_mobility or (requires_uppercut and requires_grab)),
-        "Fun Farm Mushroom Toppin": peppino_requires_downward_mobility and (peppino_requires_upward_mobility or requires_uppercut),
-        "Fun Farm Cheese Toppin": peppino_requires_downward_mobility and (peppino_requires_upward_mobility or requires_uppercut),
-        "Fun Farm Tomato Toppin": peppino_requires_downward_mobility and (peppino_requires_upward_mobility or (requires_uppercut and requires_grab)),
-        "Fun Farm Sausage Toppin": peppino_requires_downward_mobility and (peppino_requires_upward_mobility or (requires_uppercut and requires_grab)),
-        "Fun Farm Pineapple Toppin": peppino_requires_downward_mobility and (peppino_requires_upward_mobility or (requires_uppercut and requires_grab)),
-        "Fun Farm Secret 1": peppino_requires_downward_mobility and peppino_requires_upward_mobility,
-        "Fun Farm Secret 2": peppino_requires_downward_mobility and peppino_requires_upward_mobility,
-        "Fun Farm Secret 3": peppino_requires_downward_mobility and peppino_requires_upward_mobility,
-        "Fun Farm Treasure": peppino_requires_downward_mobility and peppino_requires_upward_mobility,
-        "Chef Task: Good Egg": peppino_requires_upward_mobility and peppino_requires_downward_mobility,
-        "Chef Task: No One Is Safe": peppino_requires_upward_mobility and peppino_requires_downward_mobility and requires_supertaunt,
-        "Chef Task: Cube Menace": peppino_requires_downward_mobility and (peppino_requires_upward_mobility or requires_uppercut),
+        "Fun Farm Complete": "SLAM+UPPER+GRAB | SLAM+SJUMP | SLAM+CLIMB",
+        "Fun Farm Mushroom Toppin": "SLAM+UPPER | SLAM+SJUMP | SLAM+CLIMB",
+        "Fun Farm Cheese Toppin": "SLAM+UPPER | SLAM+SJUMP | SLAM+CLIMB",
+        "Fun Farm Tomato Toppin": "SLAM+UPPER+GRAB | SLAM+SJUMP | SLAM+CLIMB",
+        "Fun Farm Sausage Toppin": "SLAM+UPPER+GRAB | SLAM+SJUMP | SLAM+CLIMB",
+        "Fun Farm Pineapple Toppin": "SLAM+UPPER+GRAB | SLAM+SJUMP | SLAM+CLIMB",
+        "Fun Farm Secret 1": "SLAM+UPPER | SLAM+SJUMP | SLAM+CLIMB",
+        "Fun Farm Secret 2": "SLAM+UPPER+GRAB | SLAM+SJUMP | SLAM+CLIMB",
+        "Fun Farm Secret 3": "SLAM+UPPER+GRAB | SLAM+SJUMP | SLAM+CLIMB",
+        "Fun Farm Treasure": "SLAM+UPPER+GRAB | SLAM+SJUMP | SLAM+CLIMB",
+        "Chef Task: Good Egg": "SLAM+UPPER+GRAB | SLAM+SJUMP | SLAM+CLIMB",
+        "Chef Task: No One Is Safe": "SLAM+STAUNT+SJUMP | SLAM+STAUNT+CLIMB",
+        "Chef Task: Cube Menace": "SLAM+UPPER | SLAM+SJUMP | SLAM+CLIMB",
 
     #Fastfood Saloon
-        "Fastfood Saloon Complete": ((requires_superjump and peppino_requires_dive) or peppino_requires_wallclimb) and requires_grab,
-        "Fastfood Saloon Mushroom Toppin": peppino_requires_upward_mobility,
-        "Fastfood Saloon Cheese Toppin": peppino_requires_upward_mobility and requires_grab,
-        "Fastfood Saloon Tomato Toppin": ((requires_superjump and peppino_requires_dive) or peppino_requires_wallclimb) and requires_grab,
-        "Fastfood Saloon Sausage Toppin": ((requires_superjump and peppino_requires_dive) or peppino_requires_wallclimb) and requires_grab,
-        "Fastfood Saloon Pineapple Toppin": ((requires_superjump and peppino_requires_dive) or peppino_requires_wallclimb) and requires_grab,
-        "Fastfood Saloon Secret 1": requires_superjump and peppino_requires_wallclimb and requires_grab,
-        "Fastfood Saloon Secret 2": requires_superjump and peppino_requires_wallclimb and requires_grab,
-        "Fastfood Saloon Secret 3": requires_superjump and peppino_requires_wallclimb and requires_grab,
-	    "Fastfood Saloon Treasure": ((requires_superjump and peppino_requires_dive) or peppino_requires_wallclimb) and requires_grab,
-        "Chef Task: Royal Flush": requires_superjump and requires_grab and peppino_requires_wallclimb,
-        "Chef Task: Non-Alcoholic": requires_superjump and requires_grab and peppino_requires_wallclimb,
-        "Chef Task: Already Pressed": requires_superjump and requires_grab and peppino_requires_wallclimb,
+        "Fastfood Saloon Complete": "GRAB+SJUMP+DIVE | GRAB+CLIMB",
+        "Fastfood Saloon Mushroom Toppin": "SJUMP | CLIMB",
+        "Fastfood Saloon Cheese Toppin": "GRAB+SJUMP | GRAB+CLIMB",
+        "Fastfood Saloon Tomato Toppin": "GRAB+SJUMP+DIVE | GRAB+CLIMB",
+        "Fastfood Saloon Sausage Toppin": "GRAB+SJUMP+DIVE | GRAB+CLIMB",
+        "Fastfood Saloon Pineapple Toppin": "GRAB+SJUMP+DIVE | GRAB+CLIMB",
+        "Fastfood Saloon Secret 1": "GRAB+SJUMP+DIVE | GRAB+CLIMB",
+        "Fastfood Saloon Secret 2": "GRAB+SJUMP+DIVE | GRAB+CLIMB",
+        "Fastfood Saloon Secret 3": "GRAB+CLIMB",
+	    "Fastfood Saloon Treasure": "GRAB+SJUMP+DIVE | GRAB+CLIMB",
+        "Chef Task: Royal Flush": "GRAB+SJUMP+DIVE | GRAB+CLIMB",
+        "Chef Task: Non-Alcoholic": "GRAB+SJUMP+DIVE | GRAB+CLIMB",
+        "Chef Task: Already Pressed": "GRAB+SJUMP+DIVE | GRAB+CLIMB",
 
     #Crust Cove
-        "Crust Cove Complete": peppino_requires_downward_mobility and (peppino_requires_wallclimb or (requires_superjump and requires_uppercut)),
-        "Crust Cove Mushroom Toppin": peppino_requires_upward_mobility,
-        "Crust Cove Cheese Toppin": peppino_requires_upward_mobility,
-        "Crust Cove Tomato Toppin": peppino_requires_downward_mobility and (peppino_requires_wallclimb or (requires_superjump and requires_uppercut)),
-        "Crust Cove Sausage Toppin": peppino_requires_downward_mobility and (peppino_requires_wallclimb or (requires_superjump and requires_uppercut)),
-        "Crust Cove Pineapple Toppin": peppino_requires_downward_mobility and (peppino_requires_wallclimb or (requires_superjump and requires_uppercut)),
-        "Crust Cove Secret 1": peppino_requires_upward_mobility,
-        "Crust Cove Secret 2": peppino_requires_downward_mobility and (peppino_requires_wallclimb or (requires_superjump and requires_uppercut)),
-        "Crust Cove Secret 3": requires_taunt and peppino_requires_downward_mobility and (peppino_requires_wallclimb or (requires_superjump and requires_uppercut)),
-        "Crust Cove Treasure": peppino_requires_upward_mobility,
-        "Chef Task: Demolition Expert": peppino_requires_downward_mobility and (peppino_requires_wallclimb or (requires_superjump and requires_uppercut)),
-        "Chef Task: Blowback": peppino_requires_upward_mobility and peppino_requires_downward_mobility and requires_taunt,
-        "Chef Task: X": peppino_requires_upward_mobility and peppino_requires_downward_mobility,
+        "Crust Cove Complete": "SLAM+CLIMB | SLAM+SJUMP+UPPER",
+        "Crust Cove Mushroom Toppin": "SJUMP | CLIMB",
+        "Crust Cove Cheese Toppin": "SJUMP | CLIMB",
+        "Crust Cove Tomato Toppin": "SLAM+CLIMB | SLAM+SJUMP+UPPER",
+        "Crust Cove Sausage Toppin": "SLAM+CLIMB | SLAM+SJUMP+UPPER",
+        "Crust Cove Pineapple Toppin": "SLAM+CLIMB | SLAM+SJUMP+UPPER",
+        "Crust Cove Secret 1": "SJUMP | CLIMB",
+        "Crust Cove Secret 2": "SLAM+CLIMB | SLAM+SJUMP+UPPER",
+        "Crust Cove Secret 3": "SLAM+CLIMB+TAUNT | SLAM+SJUMP+UPPER+TAUNT",
+        "Crust Cove Treasure": "SJUMP | CLIMB",
+        "Chef Task: Demolition Expert": "SLAM+CLIMB | SLAM+SJUMP+UPPER",
+        "Chef Task: Blowback": "SLAM+SJUMP+TAUNT | SLAM+CLIMB+TAUNT",
+        "Chef Task: X": "SLAM+SJUMP | SLAM+CLIMB",
 
     #Gnome Forest
-        "Gnome Forest Complete": peppino_requires_upward_mobility and peppino_requires_downward_mobility and gustavo_requires_upward_mobility,
-        "Gnome Forest Mushroom Toppin": peppino_requires_downward_mobility and gustavo_requires_upward_mobility,
-        "Gnome Forest Cheese Toppin": peppino_requires_downward_mobility and gustavo_requires_upward_mobility,
-        "Gnome Forest Tomato Toppin": peppino_requires_downward_mobility and gustavo_requires_upward_mobility,
-        "Gnome Forest Sausage Toppin": peppino_requires_downward_mobility and gustavo_requires_upward_mobility,
-        "Gnome Forest Pineapple Toppin": peppino_requires_downward_mobility and gustavo_requires_upward_mobility,
-        "Gnome Forest Secret 1": peppino_requires_downward_mobility and gustavo_requires_upward_mobility,
-        "Gnome Forest Secret 2": peppino_requires_downward_mobility and gustavo_requires_upward_mobility,
-        "Gnome Forest Secret 3": peppino_requires_upward_mobility and peppino_requires_downward_mobility and gustavo_requires_upward_mobility,
-        "Gnome Forest Treasure": peppino_requires_upward_mobility and peppino_requires_downward_mobility and gustavo_requires_upward_mobility,
-        "Chef Task: Bee Nice": requires_taunt,
-        "Chef Task: Bullseye": requires_taunt,
-        "Chef Task: Lumberjack": peppino_requires_upward_mobility and peppino_requires_downward_mobility and gustavo_requires_upward_mobility,
+        "Gnome Forest Complete": "SJUMP+SLAM+DJUMP+WJUMP | CLIMB+SLAM+DJUMP+WJUMP",
+        "Gnome Forest Mushroom Toppin": "SLAM+DJUMP+WJUMP",
+        "Gnome Forest Cheese Toppin": "SLAM+DJUMP+WJUMP",
+        "Gnome Forest Tomato Toppin": "SLAM+DJUMP+WJUMP",
+        "Gnome Forest Sausage Toppin": "SLAM+DJUMP+WJUMP",
+        "Gnome Forest Pineapple Toppin": "SLAM+DJUMP+WJUMP",
+        "Gnome Forest Secret 1": "SLAM+DJUMP+WJUMP",
+        "Gnome Forest Secret 2": "SLAM+DJUMP+WJUMP",
+        "Gnome Forest Secret 3": "SJUMP+SLAM+DJUMP+WJUMP | CLIMB+SLAM+DJUMP+WJUMP",
+        "Gnome Forest Treasure": "SJUMP+SLAM+DJUMP+WJUMP | CLIMB+SLAM+DJUMP+WJUMP",
+        "Chef Task: Bee Nice": "TAUNT",
+        "Chef Task: Bullseye": "TAUNT",
+        "Chef Task: Lumberjack": "SJUMP+SLAM+DJUMP+WJUMP | CLIMB+SLAM+DJUMP+WJUMP",
 
     #Deep-Dish 9
-        "Deep-Dish 9 Complete": peppino_requires_downward_mobility and peppino_requires_upward_mobility,
-        "Deep-Dish 9 Mushroom Toppin": peppino_requires_downward_mobility and peppino_requires_upward_mobility,
-        "Deep-Dish 9 Cheese Toppin": peppino_requires_downward_mobility and peppino_requires_upward_mobility,
-        "Deep-Dish 9 Tomato Toppin": peppino_requires_downward_mobility and (peppino_requires_upward_mobility or requires_uppercut),
-        "Deep-Dish 9 Sausage Toppin": peppino_requires_downward_mobility and peppino_requires_upward_mobility,
-        "Deep-Dish 9 Pineapple Toppin": peppino_requires_downward_mobility and peppino_requires_upward_mobility,
-        "Deep-Dish 9 Secret 1": peppino_requires_downward_mobility,
-        "Deep-Dish 9 Secret 2": peppino_requires_upward_mobility and peppino_requires_downward_mobility,
-        "Deep-Dish 9 Secret 3": peppino_requires_downward_mobility and peppino_requires_upward_mobility,
-        "Deep-Dish 9 Treasure": peppino_requires_downward_mobility and peppino_requires_upward_mobility,
-        "Chef Task: Blast 'Em Asteroids": peppino_requires_downward_mobility and peppino_requires_upward_mobility,
-        "Chef Task: Turbo Tunnel": peppino_requires_downward_mobility and peppino_requires_upward_mobility,
-        "Chef Task: Man Meteor": peppino_requires_downward_mobility and peppino_requires_upward_mobility,
+        "Deep-Dish 9 Complete": "SLAM+SJUMP | SLAM+CLIMB",
+        "Deep-Dish 9 Mushroom Toppin": "SLAM+SJUMP | SLAM+CLIMB",
+        "Deep-Dish 9 Cheese Toppin": "SLAM+SJUMP | SLAM+CLIMB",
+        "Deep-Dish 9 Tomato Toppin": "SLAM+SJUMP | SLAM+CLIMB",
+        "Deep-Dish 9 Sausage Toppin": "SLAM+SJUMP | SLAM+CLIMB",
+        "Deep-Dish 9 Pineapple Toppin": "SLAM+SJUMP | SLAM+CLIMB",
+        "Deep-Dish 9 Secret 1": "SLAM",
+        "Deep-Dish 9 Secret 2": "SLAM+SJUMP | SLAM+CLIMB",
+        "Deep-Dish 9 Secret 3": "SLAM+SJUMP | SLAM+CLIMB",
+        "Deep-Dish 9 Treasure": "SLAM+SJUMP | SLAM+CLIMB",
+        "Chef Task: Blast 'Em Asteroids": "SLAM+SJUMP | SLAM+CLIMB",
+        "Chef Task: Turbo Tunnel": "SLAM+SJUMP | SLAM+CLIMB",
+        "Chef Task: Man Meteor": "SLAM+SJUMP | SLAM+CLIMB",
 
     #GOLF
-        "GOLF Complete": (peppino_requires_upward_mobility or requires_uppercut or peppino_requires_downward_mobility),
-        "GOLF Mushroom Toppin": requires_none,
-        "GOLF Cheese Toppin": requires_none,
-        "GOLF Tomato Toppin": requires_none,
-        "GOLF Sausage Toppin": requires_none,
-        "GOLF Pineapple Toppin": requires_none,
-        "GOLF Secret 1": requires_none,
-        "GOLF Secret 2": (peppino_requires_upward_mobility or requires_uppercut),
-        "GOLF Secret 3": (peppino_requires_upward_mobility or requires_uppercut),
-        "GOLF Treasure": (peppino_requires_upward_mobility or requires_uppercut),
-        "Chef Task: Primo Golfer": (peppino_requires_upward_mobility or requires_uppercut),
-        "Chef Task: Helpful Burger": (peppino_requires_upward_mobility or requires_uppercut),
-        "Chef Task: Nice Shot": (peppino_requires_upward_mobility or requires_uppercut),
+        "GOLF Complete": "SJUMP | SLAM | CLIMB | UPPER",
+        "GOLF Mushroom Toppin": "NONE",
+        "GOLF Cheese Toppin": "NONE",
+        "GOLF Tomato Toppin": "NONE",
+        "GOLF Sausage Toppin": "NONE",
+        "GOLF Pineapple Toppin": "NONE",
+        "GOLF Secret 1": "NONE",
+        "GOLF Secret 2": "NONE",
+        "GOLF Secret 3": "NONE",
+        "GOLF Treasure": "NONE",
+        "Chef Task: Primo Golfer": "NONE",
+        "Chef Task: Helpful Burger": "NONE",
+        "Chef Task: Nice Shot": "NONE",
 
     #The Pig City
-        "The Pig City Complete": peppino_requires_downward_mobility and gustavo_requires_doublejump,
-        "The Pig City Mushroom Toppin": requires_none,
-        "The Pig City Cheese Toppin": peppino_requires_upward_mobility,
-        "The Pig City Tomato Toppin": peppino_requires_downward_mobility,
-        "The Pig City Sausage Toppin": peppino_requires_downward_mobility and gustavo_requires_upward_mobility,
-        "The Pig City Pineapple Toppin": peppino_requires_downward_mobility and gustavo_requires_doublejump,
-        "The Pig City Secret 1": requires_none,
-        "The Pig City Secret 2": peppino_requires_downward_mobility and gustavo_requires_upward_mobility,
-        "The Pig City Secret 3": peppino_requires_downward_mobility and gustavo_requires_doublejump,
-        "The Pig City Treasure": peppino_requires_downward_mobility and gustavo_requires_doublejump,
-        "Chef Task: Say Oink!": peppino_requires_downward_mobility and gustavo_requires_doublejump and requires_taunt,
-        "Chef Task: Pan Fried": peppino_requires_downward_mobility and peppino_requires_upward_mobility,
-        "Chef Task: Strike!": peppino_requires_downward_mobility and gustavo_requires_doublejump and gustavo_requires_kick,
+        "The Pig City Complete": "SLAM+DJUMP",
+        "The Pig City Mushroom Toppin": "NONE",
+        "The Pig City Cheese Toppin": "SJUMP | CLIMB",
+        "The Pig City Tomato Toppin": "SLAM",
+        "The Pig City Sausage Toppin": "SLAM+DJUMP+WJUMP",
+        "The Pig City Pineapple Toppin": "SLAM+DJUMP",
+        "The Pig City Secret 1": "NONE",
+        "The Pig City Secret 2": "SLAM+DJUMP+WJUMP",
+        "The Pig City Secret 3": "SLAM+DJUMP",
+        "The Pig City Treasure": "SLAM+DJUMP",
+        "Chef Task: Say Oink!": "SLAM+DJUMP+WJUMP+TAUNT",
+        "Chef Task: Pan Fried": "SLAM+SJUMP | SLAM+CLIMB",
+        "Chef Task: Strike!": "SLAM+DJUMP+KICK",
 
     #Peppibot Factory
-        "Peppibot Factory Complete": (requires_superjump and requires_uppercut) or (peppino_requires_wallclimb and (requires_grab or requires_uppercut)) and peppino_requires_downward_mobility,
-        "Peppibot Factory Mushroom Toppin": requires_superjump or (peppino_requires_wallclimb and (requires_grab or requires_uppercut)),
-        "Peppibot Factory Cheese Toppin": (requires_superjump and requires_uppercut) or (peppino_requires_wallclimb and (requires_grab or requires_uppercut)),
-        "Peppibot Factory Tomato Toppin": (requires_superjump and requires_uppercut) or (peppino_requires_wallclimb and (requires_grab or requires_uppercut)),
-        "Peppibot Factory Sausage Toppin": (requires_superjump and requires_uppercut) or (peppino_requires_wallclimb and (requires_grab or requires_uppercut)),
-        "Peppibot Factory Pineapple Toppin": (requires_superjump and requires_uppercut) or (peppino_requires_wallclimb and (requires_grab or requires_uppercut)),
-        "Peppibot Factory Secret 1": peppino_requires_upward_mobility,
-        "Peppibot Factory Secret 2": peppino_requires_wallclimb,
-        "Peppibot Factory Secret 3": peppino_requires_wallclimb and peppino_requires_downward_mobility,
-        "Peppibot Factory Treasure": peppino_requires_upward_mobility and peppino_requires_downward_mobility,
-        "Chef Task: There Can Be Only One": peppino_requires_wallclimb and peppino_requires_downward_mobility,
-        "Chef Task: Whoop This!": peppino_requires_upward_mobility,
-        "Chef Task: Unflattening": peppino_requires_wallclimb and peppino_requires_downward_mobility,
+        "Peppibot Factory Complete": "SJUMP+UPPER+SLAM | CLIMB+GRAB+SLAM | CLIMB+UPPER+SLAM",
+        "Peppibot Factory Mushroom Toppin": "SJUMP | CLIMB+GRAB | CLIMB+UPPER",
+        "Peppibot Factory Cheese Toppin": "SJUMP+UPPER | CLIMB+GRAB | CLIMB+UPPER",
+        "Peppibot Factory Tomato Toppin": "SJUMP+UPPER | CLIMB+GRAB | CLIMB+UPPER",
+        "Peppibot Factory Sausage Toppin": "SJUMP+UPPER | CLIMB+GRAB | CLIMB+UPPER",
+        "Peppibot Factory Pineapple Toppin": "SJUMP+UPPER | CLIMB+GRAB | CLIMB+UPPER",
+        "Peppibot Factory Secret 1": "SJUMP | CLIMB",
+        "Peppibot Factory Secret 2": "SJUMP+UPPER | CLIMB+GRAB | CLIMB+UPPER",
+        "Peppibot Factory Secret 3": "SJUMP+UPPER+SLAM | CLIMB+GRAB+SLAM | CLIMB+UPPER+SLAM",
+        "Peppibot Factory Treasure": "SLAM+SJUMP | SLAM+CLIMB",
+        "Chef Task: There Can Be Only One": "SJUMP+UPPER+SLAM | CLIMB+GRAB+SLAM | CLIMB+UPPER+SLAM",
+        "Chef Task: Whoop This!": "SJUMP | CLIMB+GRAB | CLIMB+UPPER",
+        "Chef Task: Unflattening": "SJUMP+UPPER+SLAM | CLIMB+GRAB+SLAM | CLIMB+UPPER+SLAM",
 
     #Oh Shit!
-        "Oh Shit! Complete": peppino_requires_downward_mobility and peppino_requires_wallclimb,
-        "Oh Shit! Mushroom Toppin": peppino_requires_downward_mobility,
-        "Oh Shit! Cheese Toppin": peppino_requires_downward_mobility and (peppino_requires_upward_mobility or requires_uppercut),
-        "Oh Shit! Tomato Toppin": peppino_requires_downward_mobility and peppino_requires_wallclimb,
-        "Oh Shit! Sausage Toppin": peppino_requires_downward_mobility and peppino_requires_wallclimb,
-        "Oh Shit! Pineapple Toppin": peppino_requires_downward_mobility and peppino_requires_wallclimb,
-        "Oh Shit! Secret 1": peppino_requires_downward_mobility,
-        "Oh Shit! Secret 2": peppino_requires_downward_mobility and peppino_requires_wallclimb,
-        "Oh Shit! Secret 3": peppino_requires_downward_mobility and peppino_requires_wallclimb,
-        "Oh Shit! Treasure": peppino_requires_downward_mobility and peppino_requires_wallclimb,
-        "Chef Task: Food Clan": peppino_requires_downward_mobility and (peppino_requires_upward_mobility or requires_uppercut),
-        "Chef Task: Can't Fool Me": peppino_requires_downward_mobility and peppino_requires_wallclimb,
-        "Chef Task: Penny Pincher": peppino_requires_downward_mobility and peppino_requires_wallclimb,
+        "Oh Shit! Complete": "SLAM+CLIMB",
+        "Oh Shit! Mushroom Toppin": "SLAM",
+        "Oh Shit! Cheese Toppin": "SLAM+SJUMP | SLAM+CLIMB | SLAM+UPPER",
+        "Oh Shit! Tomato Toppin": "SLAM+CLIMB",
+        "Oh Shit! Sausage Toppin": "SLAM+CLIMB",
+        "Oh Shit! Pineapple Toppin": "SLAM+CLIMB",
+        "Oh Shit! Secret 1": "SLAM",
+        "Oh Shit! Secret 2": "SLAM+CLIMB",
+        "Oh Shit! Secret 3": "SLAM+CLIMB",
+        "Oh Shit! Treasure": "SLAM+CLIMB",
+        "Chef Task: Food Clan": "SLAM+SJUMP+TAUNT | SLAM+CLIMB+TAUNT | SLAM+UPPER+TAUNT",
+        "Chef Task: Can't Fool Me": "SLAM+CLIMB",
+        "Chef Task: Penny Pincher": "SLAM+CLIMB",
 
     #Freezerator
-        "Freezerator Complete": peppino_requires_upward_mobility and peppino_requires_downward_mobility,
-        "Freezerator Mushroom Toppin": requires_none,
-        "Freezerator Cheese Toppin": peppino_requires_upward_mobility or requires_uppercut,
-        "Freezerator Tomato Toppin": peppino_requires_upward_mobility and peppino_requires_downward_mobility,
-        "Freezerator Sausage Toppin": peppino_requires_upward_mobility and peppino_requires_downward_mobility,
-        "Freezerator Pineapple Toppin": peppino_requires_upward_mobility and peppino_requires_downward_mobility,
-        "Freezerator Secret 1": requires_superjump and peppino_requires_downward_mobility,
-        "Freezerator Secret 2": requires_superjump and peppino_requires_downward_mobility,
-        "Freezerator Secret 3": requires_superjump and peppino_requires_downward_mobility,
-        "Freezerator Treasure": requires_superjump and peppino_requires_downward_mobility,
-        "Chef Task: Ice Climber": requires_superjump and peppino_requires_downward_mobility,
-        "Chef Task: Season's Greetings": requires_superjump and peppino_requires_downward_mobility and requires_supertaunt,
-        "Chef Task: Frozen Nuggets": requires_superjump and peppino_requires_downward_mobility,
+        "Freezerator Complete": "SJUMP+SLAM | CLIMB+SLAM",
+        "Freezerator Mushroom Toppin": "NONE",
+        "Freezerator Cheese Toppin": "SJUMP | CLIMB | UPPER",
+        "Freezerator Tomato Toppin": "SJUMP+SLAM | CLIMB+SLAM",
+        "Freezerator Sausage Toppin": "SJUMP+SLAM | CLIMB+SLAM",
+        "Freezerator Pineapple Toppin": "SJUMP+SLAM | CLIMB+SLAM",
+        "Freezerator Secret 1": "SJUMP+SLAM | CLIMB+SLAM",
+        "Freezerator Secret 2": "SJUMP+SLAM | CLIMB+SLAM",
+        "Freezerator Secret 3": "SJUMP+SLAM | CLIMB+SLAM",
+        "Freezerator Treasure": "SJUMP+SLAM | CLIMB+SLAM",
+        "Chef Task: Ice Climber": "SJUMP+SLAM | CLIMB+SLAM",
+        "Chef Task: Season's Greetings": "SJUMP+SLAM+STAUNT | CLIMB+SLAM+STAUNT",
+        "Chef Task: Frozen Nuggets": "SJUMP+SLAM | CLIMB+SLAM",
 
     #Pizzascare
-        "Pizzascare Complete": peppino_requires_upward_mobility and peppino_requires_downward_mobility,
-        "Pizzascare Mushroom Toppin": peppino_requires_upward_mobility and peppino_requires_downward_mobility,
-        "Pizzascare Cheese Toppin": peppino_requires_upward_mobility and peppino_requires_downward_mobility,
-        "Pizzascare Tomato Toppin": peppino_requires_upward_mobility and peppino_requires_downward_mobility,
-        "Pizzascare Sausage Toppin": peppino_requires_upward_mobility and peppino_requires_downward_mobility,
-        "Pizzascare Pineapple Toppin": peppino_requires_upward_mobility and peppino_requires_downward_mobility,
-        "Pizzascare Secret 1": peppino_requires_upward_mobility and peppino_requires_downward_mobility,
-        "Pizzascare Secret 2": peppino_requires_upward_mobility and peppino_requires_downward_mobility,
-        "Pizzascare Secret 3": peppino_requires_upward_mobility and peppino_requires_downward_mobility,
-        "Pizzascare Treasure": peppino_requires_upward_mobility and peppino_requires_downward_mobility,
-        "Chef Task: Haunted Playground": peppino_requires_upward_mobility and peppino_requires_downward_mobility,
-        "Chef Task: Skullsplitter": peppino_requires_upward_mobility and peppino_requires_downward_mobility,
-        "Chef Task: Cross to Bare": peppino_requires_upward_mobility and peppino_requires_downward_mobility,
+        "Pizzascare Complete": "SJUMP+SLAM | CLIMB+SLAM",
+        "Pizzascare Mushroom Toppin": "SJUMP+SLAM | CLIMB+SLAM",
+        "Pizzascare Cheese Toppin": "SJUMP+SLAM | CLIMB+SLAM",
+        "Pizzascare Tomato Toppin": "SJUMP+SLAM | CLIMB+SLAM",
+        "Pizzascare Sausage Toppin": "SJUMP+SLAM | CLIMB+SLAM",
+        "Pizzascare Pineapple Toppin": "SJUMP+SLAM | CLIMB+SLAM",
+        "Pizzascare Secret 1": "SJUMP+SLAM | CLIMB+SLAM",
+        "Pizzascare Secret 2": "SJUMP+SLAM | CLIMB+SLAM",
+        "Pizzascare Secret 3": "SJUMP+SLAM | CLIMB+SLAM",
+        "Pizzascare Treasure": "SJUMP+SLAM | CLIMB+SLAM",
+        "Chef Task: Haunted Playground": "SJUMP+SLAM | CLIMB+SLAM",
+        "Chef Task: Skullsplitter": "SJUMP+SLAM | CLIMB+SLAM",
+        "Chef Task: Cross to Bare": "SJUMP+SLAM | CLIMB+SLAM",
 
     #Don't Make a Sound
-        "Don't Make a Sound Complete": (peppino_requires_wallclimb or (requires_superjump and peppino_requires_dive)) and requires_any_grab,
-        "Don't Make a Sound Mushroom Toppin": requires_none,
-        "Don't Make a Sound Cheese Toppin": peppino_requires_upward_mobility,
-        "Don't Make a Sound Tomato Toppin": peppino_requires_upward_mobility and peppino_requires_downward_mobility,
-        "Don't Make a Sound Sausage Toppin": peppino_requires_upward_mobility,
-        "Don't Make a Sound Pineapple Toppin": (peppino_requires_wallclimb or (requires_superjump and peppino_requires_dive)) and requires_any_grab,
-        "Don't Make a Sound Secret 1": requires_none,
-        "Don't Make a Sound Secret 2": peppino_requires_wallclimb,
-        "Don't Make a Sound Secret 3": peppino_requires_wallclimb,
-        "Don't Make a Sound Treasure": peppino_requires_wallclimb and requires_any_grab,
-        "Chef Task: Let Them Sleep": peppino_requires_wallclimb and requires_any_grab,
-        "Chef Task: Jumpspared": peppino_requires_wallclimb and requires_any_grab,
-        "Chef Task: And This... Is My Gun on a Stick!": peppino_requires_wallclimb and requires_any_grab,
+        "Don't Make a Sound Complete": "CLIMB+GRAB | CLIMB+UPPER",
+        "Don't Make a Sound Mushroom Toppin": "NONE",
+        "Don't Make a Sound Cheese Toppin": "SJUMP | CLIMB",
+        "Don't Make a Sound Tomato Toppin": "SJUMP+SLAM | CLIMB+SLAM",
+        "Don't Make a Sound Sausage Toppin": "SJUMP | CLIMB",
+        "Don't Make a Sound Pineapple Toppin": "CLIMB+GRAB | CLIMB+UPPER",
+        "Don't Make a Sound Secret 1": "NONE",
+        "Don't Make a Sound Secret 2": "SJUMP+UPPER | CLIMB",
+        "Don't Make a Sound Secret 3": "SJUMP+UPPER | CLIMB",
+        "Don't Make a Sound Treasure": "CLIMB+GRAB | CLIMB+UPPER",
+        "Chef Task: Let Them Sleep": "CLIMB+GRAB | CLIMB+UPPER",
+        "Chef Task: Jumpspared": "CLIMB+GRAB | CLIMB+UPPER",
+        "Chef Task: And This... Is My Gun on a Stick!": "CLIMB+GRAB | CLIMB+UPPER",
 
     #WAR
-        "WAR Complete": requires_any_grab and peppino_requires_upward_mobility and peppino_requires_downward_mobility,
-        "WAR Mushroom Toppin": requires_any_grab and (peppino_requires_downward_mobility or peppino_requires_upward_mobility),
-        "WAR Cheese Toppin": requires_any_grab and (peppino_requires_downward_mobility or peppino_requires_upward_mobility),
-        "WAR Tomato Toppin": requires_any_grab and peppino_requires_downward_mobility,
-        "WAR Sausage Toppin": requires_any_grab and peppino_requires_downward_mobility,
-        "WAR Pineapple Toppin": requires_any_grab and peppino_requires_downward_mobility,
-        "WAR Secret 1": requires_any_grab and peppino_requires_upward_mobility,
-        "WAR Secret 2": requires_any_grab and peppino_requires_upward_mobility,
-        "WAR Secret 3": requires_any_grab and peppino_requires_upward_mobility,
-        "WAR Treasure": requires_any_grab and peppino_requires_upward_mobility and peppino_requires_downward_mobility,
-        "Chef Task: Trip to the Warzone": requires_any_grab and peppino_requires_upward_mobility and peppino_requires_downward_mobility,
-        "Chef Task: Sharpshooter": requires_any_grab and peppino_requires_upward_mobility and peppino_requires_downward_mobility,
-        "Chef Task: Decorated Veteran": requires_any_grab and peppino_requires_upward_mobility and peppino_requires_downward_mobility,
+        "WAR Complete": "GRAB+SLAM+SJUMP | UPPER+SLAM+SJUMP | GRAB+SLAM+CLIMB | UPPER+SLAM+CLIMB",
+        "WAR Mushroom Toppin": "GRAB+SJUMP | GRAB+CLIMB | GRAB+SLAM | UPPER+SJUMP | UPPER+CLIMB | UPPER+SLAM",
+        "WAR Cheese Toppin": "GRAB+SJUMP | GRAB+CLIMB | GRAB+SLAM | UPPER+SJUMP | UPPER+CLIMB | UPPER+SLAM",
+        "WAR Tomato Toppin": "GRAB+SLAM | UPPER+SLAM",
+        "WAR Sausage Toppin": "GRAB+SLAM | UPPER+SLAM",
+        "WAR Pineapple Toppin": "GRAB+SLAM | UPPER+SLAM",
+        "WAR Secret 1": "GRAB+SLAM | UPPER+SLAM",
+        "WAR Secret 2": "GRAB+SLAM | UPPER+SLAM",
+        "WAR Secret 3": "GRAB+SLAM | UPPER+SLAM",
+        "WAR Treasure": "GRAB+SLAM | UPPER+SLAM",
+        "Chef Task: Trip to the Warzone": "GRAB+SLAM+SJUMP | UPPER+SLAM+SJUMP | GRAB+SLAM+CLIMB | UPPER+SLAM+CLIMB",
+        "Chef Task: Sharpshooter": "GRAB+SLAM+SJUMP | UPPER+SLAM+SJUMP | GRAB+SLAM+CLIMB | UPPER+SLAM+CLIMB",
+        "Chef Task: Decorated Veteran": "GRAB+SLAM+SJUMP | UPPER+SLAM+SJUMP | GRAB+SLAM+CLIMB | UPPER+SLAM+CLIMB",
 
     #Crumbling Tower of Pizza
-        "The Crumbling Tower of Pizza Complete": peppino_requires_upward_mobility and requires_grab and peppino_requires_downward_mobility,
-        "The Crumbling Tower of Pizza S Rank": peppino_requires_upward_mobility and requires_grab and peppino_requires_downward_mobility,
-        "The Crumbling Tower of Pizza P Rank": peppino_requires_upward_mobility and requires_grab and peppino_requires_downward_mobility,
+        "The Crumbling Tower of Pizza Complete": "GRAB+SLAM+SJUMP | GRAB+SLAM+CLIMB",
+        "The Crumbling Tower of Pizza S Rank": "GRAB+SLAM+SJUMP | GRAB+SLAM+CLIMB",
+        "The Crumbling Tower of Pizza P Rank": "GRAB+SLAM+SJUMP | GRAB+SLAM+CLIMB",
 
     #Pepperman
-        "Pepperman Defeated": requires_none,
-        "Chef Task: The Critic": requires_none,
-        "Pepperman S Rank": requires_none,
-        "Pepperman P Rank": requires_none,
+        "Pepperman Defeated": "NONE",
+        "Chef Task: The Critic": "NONE",
+        "Pepperman S Rank": "NONE",
+        "Pepperman P Rank": "NONE",
 
     #Vigilante
-        "The Vigilante Defeated": requires_grab,
-        "Chef Task: The Ugly": requires_grab,
-        "The Vigilante S Rank": requires_grab,
-        "The Vigilante P Rank": requires_grab,
+        "The Vigilante Defeated": "GRAB",
+        "Chef Task: The Ugly": "GRAB",
+        "The Vigilante S Rank": "GRAB",
+        "The Vigilante P Rank": "GRAB",
 
     #Noise
-        "The Noise Defeated": requires_none,
-        "Chef Task: Denoise": requires_none,
-        "The Noise S Rank": requires_none,
-        "The Noise P Rank": requires_none,
+        "The Noise Defeated": "NONE",
+        "Chef Task: Denoise": "NONE",
+        "The Noise S Rank": "NONE",
+        "The Noise P Rank": "NONE",
 
     #Fake Pep
-        "Fake Peppino Defeated": requires_none,
-        "Chef Task: Faker": requires_none,
-        "Fake Peppino S Rank": requires_none,
-        "Fake Peppino P Rank": requires_none,
+        "Fake Peppino Defeated": "NONE",
+        "Chef Task: Faker": "NONE",
+        "Fake Peppino S Rank": "NONE",
+        "Fake Peppino P Rank": "NONE",
 
     #Pizzaface
-        "Pizzaface Defeated": requires_grab,
-        "Chef Task: Face Off": requires_grab,
+        "Pizzaface Defeated": "GRAB",
+        "Chef Task: Face Off": "GRAB",
 
     #Tutorial
-        "Tutorial Complete": peppino_requires_downward_mobility and (requires_superjump or (peppino_requires_wallclimb and requires_uppercut)) and requires_grab,
-        "Tutorial Complete in under 2 minutes": peppino_requires_downward_mobility and (requires_superjump or requires_uppercut) and requires_grab,
-        "Tutorial Mushroom Toppin": peppino_requires_downward_mobility,
-        "Tutorial Cheese Toppin": peppino_requires_downward_mobility and peppino_requires_upward_mobility,
-        "Tutorial Tomato Toppin": peppino_requires_downward_mobility and peppino_requires_upward_mobility,
-        "Tutorial Sausage Toppin": peppino_requires_downward_mobility and (requires_superjump or requires_uppercut),
-        "Tutorial Pineapple Toppin": peppino_requires_downward_mobility and (requires_superjump or requires_uppercut) and requires_grab,
+        "Tutorial Complete": "SLAM+SJUMP+GRAB",
+        "Tutorial Complete in under 2 minutes": "SLAM+SJUMP+GRAB",
+        "Tutorial Mushroom Toppin": "SLAM",
+        "Tutorial Cheese Toppin": "SLAM+SJUMP | SLAM+CLIMB",
+        "Tutorial Tomato Toppin": "SLAM+SJUMP | SLAM+CLIMB",
+        "Tutorial Sausage Toppin": "SLAM+SJUMP",
+        "Tutorial Pineapple Toppin": "SLAM+SJUMP+GRAB",
 
     #misc
-        "Snotty Murdered": requires_none,
+        "Snotty Murdered": "NONE",
 
     #for swap mode
-        "The Doise Defeated": requires_none,
-        "Chef Task: Denoise": requires_none,
-        "The Doise S Rank": requires_none,
-        "The Doise P Rank": requires_none,
+        "The Doise Defeated": "NONE",
+        "Chef Task: Denoise": "NONE",
+        "The Doise S Rank": "NONE",
+        "The Doise P Rank": "NONE",
     }
 
     pt_peppino_extra_rules = { #internal rules for rando purposes; do not correspond to real checks
-	    "John Gutter Secret 1 Passed": requires_none,
-        "John Gutter Secret 2 Passed": peppino_requires_wallclimb,
-        "John Gutter Secret 3 Passed": peppino_requires_upward_mobility,
+	    "John Gutter Secret 1 Passed": "NONE",
+        "John Gutter Secret 2 Passed": "CLIMB",
+        "John Gutter Secret 3 Passed": "SJUMP | CLIMB",
 
-        "Pizzascape Secret 1 Passed": requires_none,
-        "Pizzascape Secret 2 Passed": requires_any_grab,
-        "Pizzascape Secret 3 Passed": requires_none,
+        "Pizzascape Secret 1 Passed": "NONE",
+        "Pizzascape Secret 2 Passed": "UPPER | GRAB",
+        "Pizzascape Secret 3 Passed": "NONE",
 
-        "Ancient Cheese Secret 1 Passed": requires_none,
-        "Ancient Cheese Secret 2 Passed": requires_any_grab,
-        "Ancient Cheese Secret 3 Passed": peppino_requires_upward_mobility,
+        "Ancient Cheese Secret 1 Passed": "NONE",
+        "Ancient Cheese Secret 2 Passed": "UPPER | GRAB",
+        "Ancient Cheese Secret 3 Passed": "SJUMP | CLIMB",
 
-        "Bloodsauce Dungeon Secret 1 Passed": peppino_requires_upward_mobility,
-        "Bloodsauce Dungeon Secret 2 Passed": peppino_requires_wallclimb,
-        "Bloodsauce Dungeon Secret 3 Passed": requires_none,
+        "Bloodsauce Dungeon Secret 1 Passed": "SJUMP | CLIMB",
+        "Bloodsauce Dungeon Secret 2 Passed": "CLIMB",
+        "Bloodsauce Dungeon Secret 3 Passed": "NONE",
 
-        "Oregano Desert Secret 1 Passed": peppino_requires_downward_mobility,
-        "Oregano Desert Secret 2 Passed": requires_none,
-        "Oregano Desert Secret 3 Passed": requires_superjump,
+        "Oregano Desert Secret 1 Passed": "SLAM",
+        "Oregano Desert Secret 2 Passed": "NONE",
+        "Oregano Desert Secret 3 Passed": "SJUMP",
 
-        "Wasteyard Secret 1 Passed": requires_none,
-        "Wasteyard Secret 2 Passed": requires_none,
-        "Wasteyard Secret 3 Passed": peppino_requires_wallclimb or requires_uppercut,
+        "Wasteyard Secret 1 Passed": "NONE",
+        "Wasteyard Secret 2 Passed": "NONE",
+        "Wasteyard Secret 3 Passed": "CLIMB | UPPER",
 
-        "Fun Farm Secret 1 Passed": requires_none,
-        "Fun Farm Secret 2 Passed": requires_none,
-        "Fun Farm Secret 3 Passed": peppino_requires_upward_mobility,
+        "Fun Farm Secret 1 Passed": "NONE",
+        "Fun Farm Secret 2 Passed": "NONE",
+        "Fun Farm Secret 3 Passed": "SJUMP | CLIMB",
 
-        "Fastfood Saloon Secret 1 Passed": peppino_requires_upward_mobility,
-        "Fastfood Saloon Secret 2 Passed": peppino_requires_wallclimb,
-        "Fastfood Saloon Secret 3 Passed": peppino_requires_upward_mobility,
+        "Fastfood Saloon Secret 1 Passed": "SJUMP | CLIMB",
+        "Fastfood Saloon Secret 2 Passed": "CLIMB",
+        "Fastfood Saloon Secret 3 Passed": "SJUMP | CLIMB",
 
-        "Crust Cove Secret 1 Passed": requires_none,
-        "Crust Cove Secret 2 Passed": peppino_requires_upward_mobility,
-        "Crust Cove Secret 3 Passed": requires_taunt,
+        "Crust Cove Secret 1 Passed": "NONE",
+        "Crust Cove Secret 2 Passed": "SJUMP | CLIMB",
+        "Crust Cove Secret 3 Passed": "TAUNT",
 
-        "Gnome Forest Secret 1 Passed": gustavo_requires_doublejump,
-        "Gnome Forest Secret 2 Passed": gustavo_requires_doublejump,
-        "Gnome Forest Secret 3 Passed": peppino_requires_upward_mobility,
+        "Gnome Forest Secret 1 Passed": "DJUMP",
+        "Gnome Forest Secret 2 Passed": "DJUMP",
+        "Gnome Forest Secret 3 Passed": "SJUMP | CLIMB",
 
-        "Deep-Dish 9 Secret 1 Passed": requires_none,
-        "Deep-Dish 9 Secret 2 Passed": requires_none,
-        "Deep-Dish 9 Secret 3 Passed": peppino_requires_downward_mobility,
+        "Deep-Dish 9 Secret 1 Passed": "NONE",
+        "Deep-Dish 9 Secret 2 Passed": "NONE",
+        "Deep-Dish 9 Secret 3 Passed": "SLAM",
 
-        "GOLF Secret 1 Passed": requires_none,
-        "GOLF Secret 2 Passed": requires_none,
-        "GOLF Secret 3 Passed": requires_none,
+        "GOLF Secret 1 Passed": "NONE",
+        "GOLF Secret 2 Passed": "NONE",
+        "GOLF Secret 3 Passed": "NONE",
 
-        "The Pig City Secret 1 Passed": (requires_uppercut or peppino_requires_upward_mobility),
-        "The Pig City Secret 2 Passed": gustavo_requires_doublejump,
-        "The Pig City Secret 3 Passed": requires_none,
+        "The Pig City Secret 1 Passed": "SJUMP | CLIMB | UPPER",
+        "The Pig City Secret 2 Passed": "DJUMP",
+        "The Pig City Secret 3 Passed": "NONE",
 
-        "Peppibot Factory Secret 1 Passed": requires_none,
-        "Peppibot Factory Secret 2 Passed": requires_any_grab,
-        "Peppibot Factory Secret 3 Passed": requires_none,
+        "Peppibot Factory Secret 1 Passed": "NONE",
+        "Peppibot Factory Secret 2 Passed": "GRAB | UPPER",
+        "Peppibot Factory Secret 3 Passed": "NONE",
 
-        "Oh Shit! Secret 1 Passed": requires_none,
-        "Oh Shit! Secret 2 Passed": requires_none,
-        "Oh Shit! Secret 3 Passed": requires_none,
+        "Oh Shit! Secret 1 Passed": "NONE",
+        "Oh Shit! Secret 2 Passed": "NONE",
+        "Oh Shit! Secret 3 Passed": "NONE",
 
-        "Freezerator Secret 1 Passed": requires_none,
-        "Freezerator Secret 2 Passed": requires_none,
-        "Freezerator Secret 3 Passed": requires_none,
+        "Freezerator Secret 1 Passed": "NONE",
+        "Freezerator Secret 2 Passed": "NONE",
+        "Freezerator Secret 3 Passed": "NONE",
 
-        "Pizzascare Secret 1 Passed": peppino_requires_upward_mobility,
-        "Pizzascare Secret 2 Passed": peppino_requires_wallclimb,
-        "Pizzascare Secret 3 Passed": peppino_requires_upward_mobility,
+        "Pizzascare Secret 1 Passed": "SJUMP | CLIMB",
+        "Pizzascare Secret 2 Passed": "CLIMB",
+        "Pizzascare Secret 3 Passed": "SJUMP | CLIMB",
 
-        "Don't Make a Sound Secret 1 Passed": requires_none,
-        "Don't Make a Sound Secret 2 Passed": peppino_requires_wallclimb,
-        "Don't Make a Sound Secret 3 Passed": peppino_requires_upward_mobility,
+        "Don't Make a Sound Secret 1 Passed": "NONE",
+        "Don't Make a Sound Secret 2 Passed": "CLIMB",
+        "Don't Make a Sound Secret 3 Passed": "SJUMP | CLIMB",
 
-        "WAR Secret 1 Passed": requires_none,
-        "WAR Secret 2 Passed": peppino_requires_upward_mobility,
-        "WAR Secret 3 Passed": requires_none,
+        "WAR Secret 1 Passed": "NONE",
+        "WAR Secret 2 Passed": "SJUMP | CLIMB",
+        "WAR Secret 3 Passed": "NONE",
     }
 
     noise_level_access_rules = {
-        "John Gutter": requires_none,
-        "Pizzascape": requires_none,
-        "Ancient Cheese": noise_requires_upward_mobility,
-        "Bloodsauce Dungeon": noise_requires_upward_mobility,
-        "Oregano Desert": requires_none,
-        "Wasteyard": requires_none,
-        "Fun Farm": requires_none,
-        "Fastfood Saloon": requires_none,
-        "Crust Cove": requires_none, #Crust Cove
-        "Gnome Forest": noise_requires_upward_mobility, 
-        "Deep-Dish 9": requires_none,
-        "GOLF": noise_requires_upward_mobility, 
-        "The Pig City": requires_none, 
-        "Peppibot Factory": requires_none, 
-        "Oh Shit!": requires_none, 
-        "Freezerator": noise_requires_upward_mobility,
-        "Pizzascare": noise_requires_upward_mobility,
-        "Don't Make a Sound": noise_requires_upward_mobility, 
-        "WAR": noise_requires_big_upward_mobility,
+        "John Gutter": "NONE",
+        "Pizzascape": "NONE",
+        "Ancient Cheese": "SJUMP | UPPER | CRUSH | BOUNCE",
+        "Bloodsauce Dungeon": "SJUMP | UPPER | CRUSH | BOUNCE",
+        "Oregano Desert": "NONE",
+        "Wasteyard": "NONE",
+        "Fun Farm": "NONE",
+        "Fastfood Saloon": "NONE",
+        "Crust Cove": "NONE",
+        "Gnome Forest": "SJUMP | UPPER | CRUSH | BOUNCE", 
+        "Deep-Dish 9": "NONE",
+        "GOLF": "SJUMP | UPPER | CRUSH | BOUNCE", 
+        "The Pig City": "NONE", 
+        "Peppibot Factory": "NONE", 
+        "Oh Shit!": "NONE", 
+        "Freezerator": "SJUMP | UPPER | CRUSH | BOUNCE",
+        "Pizzascare": "SJUMP | UPPER | CRUSH | BOUNCE",
+        "Don't Make a Sound": "SJUMP | UPPER | CRUSH | BOUNCE", 
+        "WAR": "SJUMP | CRUSH",
     }
 
     noise_boss_access_rules = {
-        "Pepperman": requires_none,
-        "The Vigilante": requires_none,
-        "The Doise": noise_requires_upward_mobility,
-        "Fake Peppino": noise_requires_upward_mobility
+        "Pepperman": "NONE",
+        "The Vigilante": "NONE",
+        "The Doise": "SJUMP | UPPER | CRUSH | BOUNCE",
+        "Fake Peppino": "SJUMP | UPPER | CRUSH | BOUNCE"
     }
 
     noise_next_floor_access_rules = [
-        noise_requires_upward_mobility,
-        requires_none,
-        noise_requires_upward_mobility,
-        requires_none
+        "SJUMP | UPPER | CRUSH | BOUNCE",
+        "NONE",
+        "SJUMP | UPPER | CRUSH | BOUNCE",
+        "NONE"
     ]
 
     pt_noise_rules = { #access rules within levels, which do not change
     #John Gutter
-        "John Gutter Complete": noise_requires_upward_mobility,
-        "John Gutter Mushroom Toppin": noise_requires_upward_mobility or requires_grab or requires_bodyslam,
-        "John Gutter Cheese Toppin": noise_requires_upward_mobility or requires_grab or requires_bodyslam,
-        "John Gutter Tomato Toppin": noise_requires_upward_mobility or requires_grab or requires_bodyslam,
-        "John Gutter Sausage Toppin": noise_requires_upward_mobility,
-        "John Gutter Pineapple Toppin": noise_requires_upward_mobility,
-        "John Gutter Secret 1": noise_requires_upward_mobility or requires_grab or requires_bodyslam,
-        "John Gutter Secret 2": noise_requires_upward_mobility,
-        "John Gutter Secret 3": noise_requires_upward_mobility,
-        "John Gutter Treasure": noise_requires_upward_mobility,
-        "Chef Task: John Gutted": noise_requires_upward_mobility,
-        "Chef Task: Primate Rage": noise_requires_upward_mobility,
-        "Chef Task: Let's Make This Quick": noise_requires_upward_mobility,
+        "John Gutter Complete": "SJUMP | UPPER | CRUSH | BOUNCE",
+        "John Gutter Mushroom Toppin": "SJUMP | UPPER | CRUSH | BOUNCE | GRAB | SLAM",
+        "John Gutter Cheese Toppin": "SJUMP | UPPER | CRUSH | BOUNCE | GRAB | SLAM",
+        "John Gutter Tomato Toppin": "SJUMP | UPPER | CRUSH | BOUNCE | GRAB | SLAM",
+        "John Gutter Sausage Toppin": "SJUMP | UPPER | CRUSH | BOUNCE",
+        "John Gutter Pineapple Toppin": "SJUMP | UPPER | CRUSH | BOUNCE",
+        "John Gutter Secret 1": "SJUMP | UPPER | CRUSH | BOUNCE | GRAB | SLAM",
+        "John Gutter Secret 2": "SJUMP | UPPER | CRUSH | BOUNCE",
+        "John Gutter Secret 3": "SJUMP | UPPER | CRUSH | BOUNCE",
+        "John Gutter Treasure": "SJUMP | UPPER | CRUSH | BOUNCE",
+        "Chef Task: John Gutted": "SJUMP | UPPER | CRUSH | BOUNCE",
+        "Chef Task: Primate Rage": "SJUMP | UPPER | CRUSH | BOUNCE",
+        "Chef Task: Let's Make This Quick": "SJUMP | UPPER | CRUSH | BOUNCE",
 
     #Pizzascape
-        "Pizzascape Complete": requires_any_grab and noise_requires_upward_mobility,
-        "Pizzascape Mushroom Toppin": requires_none,
-        "Pizzascape Cheese Toppin": requires_none,
-        "Pizzascape Tomato Toppin": requires_any_grab,
-        "Pizzascape Sausage Toppin": requires_any_grab,
-        "Pizzascape Pineapple Toppin": requires_any_grab,
-        "Pizzascape Secret 1": requires_any_grab,
-        "Pizzascape Secret 2": requires_any_grab,
-        "Pizzascape Secret 3": requires_any_grab and noise_requires_upward_mobility,
-        "Pizzascape Treasure": requires_any_grab and noise_requires_upward_mobility,
-        "Chef Task: Shining Armor": requires_any_grab,
-        "Chef Task: Spoonknight": requires_taunt,
-        "Chef Task: Spherical": requires_any_grab,
+        "Pizzascape Complete": "GRAB+SJUMP | UPPER | GRAB+BOUNCE | GRAB+CRUSH",
+        "Pizzascape Mushroom Toppin": "NONE",
+        "Pizzascape Cheese Toppin": "NONE",
+        "Pizzascape Tomato Toppin": "GRAB | UPPER",
+        "Pizzascape Sausage Toppin": "GRAB | UPPER",
+        "Pizzascape Pineapple Toppin": "GRAB | UPPER",
+        "Pizzascape Secret 1": "GRAB | UPPER",
+        "Pizzascape Secret 2": "GRAB | UPPER",
+        "Pizzascape Secret 3": "GRAB+SJUMP | UPPER | GRAB+BOUNCE | GRAB+CRUSH",
+        "Pizzascape Treasure": "GRAB+SJUMP | UPPER | GRAB+BOUNCE | GRAB+CRUSH",
+        "Chef Task: Shining Armor": "GRAB | UPPER",
+        "Chef Task: Spoonknight": "TAUNT",
+        "Chef Task: Spherical": "GRAB | UPPER",
 
     #Ancient Cheese
-        "Ancient Cheese Complete": requires_any_grab and noise_requires_upward_mobility and noise_requires_downward_mobility,
-        "Ancient Cheese Mushroom Toppin": requires_none,
-        "Ancient Cheese Cheese Toppin": requires_any_grab,
-        "Ancient Cheese Tomato Toppin": requires_any_grab and noise_requires_upward_mobility and noise_requires_downward_mobility, #noise can't use bombs to reach tomato cuz he's too slow
-        "Ancient Cheese Sausage Toppin": requires_any_grab and noise_requires_upward_mobility and noise_requires_downward_mobility,
-        "Ancient Cheese Pineapple Toppin": requires_any_grab and noise_requires_upward_mobility and noise_requires_downward_mobility,
-        "Ancient Cheese Secret 1": requires_none,
-        "Ancient Cheese Secret 2": requires_any_grab and noise_requires_upward_mobility,
-        "Ancient Cheese Secret 3": requires_any_grab and noise_requires_upward_mobility and noise_requires_downward_mobility,
-        "Ancient Cheese Treasure": requires_any_grab and noise_requires_upward_mobility,
-        "Chef Task: Thrill Seeker": requires_any_grab and noise_requires_upward_mobility and noise_requires_downward_mobility,
-        "Chef Task: Volleybomb": requires_none,
-        "Chef Task: Delicacy": requires_none,
+        "Ancient Cheese Complete": "GRAB+SJUMP+SLAM | GRAB+SJUMP+TORN | GRAB+SJUMP+BOUNCE | UPPER+SJUMP+SLAM | UPPER+SJUMP+TORN | UPPER+SJUMP+BOUNCE",
+        "Ancient Cheese Mushroom Toppin": "NONE",
+        "Ancient Cheese Cheese Toppin": "GRAB | UPPER",
+        "Ancient Cheese Tomato Toppin": "GRAB+SJUMP+SLAM | GRAB+SJUMP+TORN | GRAB+SJUMP+BOUNCE | UPPER+SJUMP+SLAM | UPPER+SJUMP+TORN | UPPER+SJUMP+BOUNCE",
+        "Ancient Cheese Sausage Toppin": "GRAB+SJUMP+SLAM | GRAB+SJUMP+TORN | GRAB+SJUMP+BOUNCE | UPPER+SJUMP+SLAM | UPPER+SJUMP+TORN | UPPER+SJUMP+BOUNCE",
+        "Ancient Cheese Pineapple Toppin": "GRAB+SJUMP+SLAM | GRAB+SJUMP+TORN | GRAB+SJUMP+BOUNCE | UPPER+SJUMP+SLAM | UPPER+SJUMP+TORN | UPPER+SJUMP+BOUNCE",
+        "Ancient Cheese Secret 1": "NONE",
+        "Ancient Cheese Secret 2": "GRAB+SJUMP | UPPER | GRAB+BOUNCE | GRAB+CRUSH",
+        "Ancient Cheese Secret 3": "GRAB+SJUMP+SLAM | GRAB+SJUMP+TORN | GRAB+SJUMP+BOUNCE | UPPER+SJUMP+SLAM | UPPER+SJUMP+TORN | UPPER+SJUMP+BOUNCE",
+        "Ancient Cheese Treasure": "GRAB+SJUMP | UPPER | GRAB+BOUNCE | GRAB+CRUSH",
+        "Chef Task: Thrill Seeker": "GRAB+SJUMP+SLAM | GRAB+SJUMP+TORN | GRAB+SJUMP+BOUNCE | UPPER+SJUMP+SLAM | UPPER+SJUMP+TORN | UPPER+SJUMP+BOUNCE",
+        "Chef Task: Volleybomb": "NONE",
+        "Chef Task: Delicacy": "NONE",
 
     #Bloodsauce Dungeon
-        "Bloodsauce Dungeon Complete": noise_requires_downward_mobility and noise_requires_upward_mobility,
-        "Bloodsauce Dungeon Mushroom Toppin": requires_none,
-        "Bloodsauce Dungeon Cheese Toppin": requires_none,
-        "Bloodsauce Dungeon Tomato Toppin": noise_requires_downward_mobility,
-        "Bloodsauce Dungeon Sausage Toppin": noise_requires_downward_mobility,
-        "Bloodsauce Dungeon Pineapple Toppin": noise_requires_downward_mobility,
-        "Bloodsauce Dungeon Secret 1": requires_none,
-        "Bloodsauce Dungeon Secret 2": requires_superjump and noise_requires_downward_mobility,
-        "Bloodsauce Dungeon Secret 3": noise_requires_upward_mobility and noise_requires_downward_mobility,
-        "Bloodsauce Dungeon Treasure": noise_requires_downward_mobility and noise_requires_upward_mobility,
-        "Chef Task: Eruption Man": noise_requires_downward_mobility and requires_superjump,
-        "Chef Task: Very Very Hot Sauce": noise_requires_downward_mobility and noise_requires_upward_mobility,
-        "Chef Task: Unsliced Pizzaman": noise_requires_downward_mobility and noise_requires_upward_mobility,
+        "Bloodsauce Dungeon Complete": "SJUMP+SLAM | SJUMP+TORN | SJUMP+CRUSH | SJUMP+BOUNCE",
+        "Bloodsauce Dungeon Mushroom Toppin": "NONE",
+        "Bloodsauce Dungeon Cheese Toppin": "NONE",
+        "Bloodsauce Dungeon Tomato Toppin": "SLAM | CRUSH | BOUNCE | TORN",
+        "Bloodsauce Dungeon Sausage Toppin": "SLAM | CRUSH | BOUNCE | TORN",
+        "Bloodsauce Dungeon Pineapple Toppin": "SLAM | CRUSH | BOUNCE | TORN",
+        "Bloodsauce Dungeon Secret 1": "NONE",
+        "Bloodsauce Dungeon Secret 2": "SJUMP+SLAM | SJUMP+BOUNCE | SJUMP+CRUSH | SJUMP+TORN",
+        "Bloodsauce Dungeon Secret 3": "SJUMP+SLAM | SJUMP+TORN | SJUMP+CRUSH | SJUMP+BOUNCE",
+        "Bloodsauce Dungeon Treasure": "SJUMP+SLAM | SJUMP+TORN | SJUMP+CRUSH | SJUMP+BOUNCE",
+        "Chef Task: Eruption Man": "SJUMP+SLAM | SJUMP+TORN | SJUMP+CRUSH | SJUMP+BOUNCE",
+        "Chef Task: Very Very Hot Sauce": "SJUMP+SLAM | SJUMP+TORN | SJUMP+CRUSH | SJUMP+BOUNCE",
+        "Chef Task: Unsliced Pizzaman": "SJUMP+SLAM | SJUMP+TORN | SJUMP+CRUSH | SJUMP+BOUNCE",
 
     #Oregano Desert
-        "Oregano Desert Complete": noise_requires_upward_mobility,
-        "Oregano Desert Mushroom Toppin": noise_requires_upward_mobility,
-        "Oregano Desert Cheese Toppin": noise_requires_upward_mobility,
-        "Oregano Desert Tomato Toppin": noise_requires_upward_mobility,
-        "Oregano Desert Sausage Toppin": noise_requires_upward_mobility,
-        "Oregano Desert Pineapple Toppin": noise_requires_upward_mobility,
-        "Oregano Desert Secret 1": noise_requires_crusher or noise_requires_wallbounce or requires_superjump,
-        "Oregano Desert Secret 2": noise_requires_upward_mobility,
-        "Oregano Desert Secret 3": noise_requires_upward_mobility,
-        "Oregano Desert Treasure": noise_requires_upward_mobility,
-        "Chef Task: Peppino's Rain Dance": noise_requires_upward_mobility,
-        "Chef Task: Unnecessary Violence": noise_requires_upward_mobility,
-        "Chef Task: Alien Cow": noise_requires_upward_mobility,
+        "Oregano Desert Complete": "SJUMP | UPPER | CRUSH | BOUNCE",
+        "Oregano Desert Mushroom Toppin": "SJUMP | UPPER | CRUSH | BOUNCE",
+        "Oregano Desert Cheese Toppin": "SJUMP | UPPER | CRUSH | BOUNCE",
+        "Oregano Desert Tomato Toppin": "SJUMP | UPPER | CRUSH | BOUNCE",
+        "Oregano Desert Sausage Toppin": "SJUMP | UPPER | CRUSH | BOUNCE",
+        "Oregano Desert Pineapple Toppin": "SJUMP | UPPER | CRUSH | BOUNCE",
+        "Oregano Desert Secret 1": "CRUSH | SJUMP | BOUNCE",
+        "Oregano Desert Secret 2": "SJUMP | UPPER | CRUSH | BOUNCE",
+        "Oregano Desert Secret 3": "SJUMP | UPPER | CRUSH | BOUNCE",
+        "Oregano Desert Treasure": "SJUMP | UPPER | CRUSH | BOUNCE",
+        "Chef Task: Peppino's Rain Dance": "SJUMP | UPPER | CRUSH | BOUNCE",
+        "Chef Task: Unnecessary Violence": "SJUMP | UPPER | CRUSH | BOUNCE",
+        "Chef Task: Alien Cow": "SJUMP | UPPER | CRUSH | BOUNCE",
 
     #Wasteyard
-        "Wasteyard Complete": noise_requires_upward_mobility,
-        "Wasteyard Mushroom Toppin": requires_none,
-        "Wasteyard Cheese Toppin": requires_none,
-        "Wasteyard Tomato Toppin": noise_requires_upward_mobility,
-        "Wasteyard Sausage Toppin": noise_requires_upward_mobility,
-        "Wasteyard Pineapple Toppin": noise_requires_upward_mobility,
-        "Wasteyard Secret 1": noise_requires_upward_mobility,
-        "Wasteyard Secret 2": noise_requires_upward_mobility,
-        "Wasteyard Secret 3": noise_requires_upward_mobility,
-        "Wasteyard Treasure": noise_requires_upward_mobility,
-        "Chef Task: Alive and Well": noise_requires_upward_mobility,
-        "Chef Task: Pretend Ghost": noise_requires_upward_mobility,
-        "Chef Task: Ghosted": noise_requires_upward_mobility,
+        "Wasteyard Complete": "SJUMP | UPPER | CRUSH | BOUNCE",
+        "Wasteyard Mushroom Toppin": "NONE",
+        "Wasteyard Cheese Toppin": "NONE",
+        "Wasteyard Tomato Toppin": "SJUMP | UPPER | CRUSH | BOUNCE",
+        "Wasteyard Sausage Toppin": "SJUMP | UPPER | CRUSH | BOUNCE",
+        "Wasteyard Pineapple Toppin": "SJUMP | UPPER | CRUSH | BOUNCE",
+        "Wasteyard Secret 1": "SJUMP | UPPER | CRUSH | BOUNCE",
+        "Wasteyard Secret 2": "SJUMP | UPPER | CRUSH | BOUNCE",
+        "Wasteyard Secret 3": "SJUMP | UPPER | CRUSH | BOUNCE",
+        "Wasteyard Treasure": "SJUMP | UPPER | CRUSH | BOUNCE",
+        "Chef Task: Alive and Well": "SJUMP | UPPER | CRUSH | BOUNCE",
+        "Chef Task: Pretend Ghost": "SJUMP | UPPER | CRUSH | BOUNCE",
+        "Chef Task: Ghosted": "SJUMP | UPPER | CRUSH | BOUNCE",
 
     #Fun Farm
-        "Fun Farm Complete": noise_requires_downward_mobility and noise_requires_upward_mobility,
-        "Fun Farm Mushroom Toppin": noise_requires_downward_mobility and noise_requires_upward_mobility,
-        "Fun Farm Cheese Toppin": noise_requires_downward_mobility and noise_requires_upward_mobility,
-        "Fun Farm Tomato Toppin": noise_requires_downward_mobility and noise_requires_upward_mobility,
-        "Fun Farm Sausage Toppin": noise_requires_downward_mobility and noise_requires_upward_mobility,
-        "Fun Farm Pineapple Toppin": (noise_requires_crusher or requires_bodyslam) and noise_requires_upward_mobility,
-        "Fun Farm Secret 1": noise_requires_downward_mobility and noise_requires_upward_mobility,
-        "Fun Farm Secret 2": noise_requires_downward_mobility and noise_requires_upward_mobility,
-        "Fun Farm Secret 3": noise_requires_downward_mobility and noise_requires_upward_mobility,
-        "Fun Farm Treasure": noise_requires_downward_mobility and noise_requires_upward_mobility,
-        "Chef Task: Good Egg": noise_requires_upward_mobility and noise_requires_downward_mobility,
-        "Chef Task: No One Is Safe": noise_requires_upward_mobility and noise_requires_downward_mobility and requires_supertaunt,
-        "Chef Task: Cube Menace": noise_requires_downward_mobility and noise_requires_upward_mobility,
+        "Fun Farm Complete": "CRUSH | SLAM+UPPER | SLAM+BOUNCE | SLAM+SJUMP",
+        "Fun Farm Mushroom Toppin": "SJUMP+SLAM | SJUMP+TORN | BOUNCE | CRUSH | UPPER+SLAM | UPPER+TORN",
+        "Fun Farm Cheese Toppin": "SJUMP+SLAM | SJUMP+TORN | BOUNCE | CRUSH | UPPER+SLAM | UPPER+TORN",
+        "Fun Farm Tomato Toppin": "SJUMP+SLAM | SJUMP+TORN | BOUNCE | CRUSH | UPPER+SLAM | UPPER+TORN",
+        "Fun Farm Sausage Toppin": "SJUMP+SLAM | SJUMP+TORN | BOUNCE | CRUSH | UPPER+SLAM | UPPER+TORN",
+        "Fun Farm Pineapple Toppin": "CRUSH | SLAM+UPPER | SLAM+BOUNCE | SLAM+SJUMP",
+        "Fun Farm Secret 1": "SJUMP+SLAM | SJUMP+TORN | BOUNCE | CRUSH | UPPER+SLAM | UPPER+TORN",
+        "Fun Farm Secret 2": "SJUMP+SLAM | SJUMP+TORN | BOUNCE | CRUSH | UPPER+SLAM | UPPER+TORN",
+        "Fun Farm Secret 3": "CRUSH | SLAM+UPPER | SLAM+BOUNCE | SLAM+SJUMP",
+        "Fun Farm Treasure": "CRUSH | SLAM+UPPER | SLAM+BOUNCE | SLAM+SJUMP",
+        "Chef Task: Good Egg": "CRUSH | SLAM+UPPER | SLAM+BOUNCE | SLAM+SJUMP",
+        "Chef Task: No One Is Safe": "CRUSH+STAUNT | SLAM+UPPER+STAUNT | SLAM+BOUNCE+STAUNT | SLAM+SJUMP+STAUNT",
+        "Chef Task: Cube Menace": "SJUMP+SLAM | SJUMP+TORN | BOUNCE | CRUSH | UPPER+SLAM | UPPER+TORN",
 
     #Fastfood Saloon
-        "Fastfood Saloon Complete": noise_requires_upward_mobility and requires_grab,
-        "Fastfood Saloon Mushroom Toppin": noise_requires_upward_mobility,
-        "Fastfood Saloon Cheese Toppin": noise_requires_upward_mobility and requires_grab,
-        "Fastfood Saloon Tomato Toppin": noise_requires_upward_mobility and requires_grab,
-        "Fastfood Saloon Sausage Toppin": noise_requires_upward_mobility and requires_grab,
-        "Fastfood Saloon Pineapple Toppin": noise_requires_upward_mobility and requires_grab,
-        "Fastfood Saloon Secret 1": noise_requires_upward_mobility and requires_grab,
-        "Fastfood Saloon Secret 2": noise_requires_upward_mobility and requires_grab,
-        "Fastfood Saloon Secret 3": noise_requires_upward_mobility and requires_grab,
-	    "Fastfood Saloon Treasure": noise_requires_upward_mobility and requires_grab,
-        "Chef Task: Royal Flush": noise_requires_upward_mobility and requires_grab,
-        "Chef Task: Non-Alcoholic": noise_requires_upward_mobility and requires_grab,
-        "Chef Task: Already Pressed": noise_requires_upward_mobility and requires_grab,
+        "Fastfood Saloon Complete": "SJUMP+GRAB | UPPER+GRAB | CRUSH+GRAB | BOUNCE+GRAB",
+        "Fastfood Saloon Mushroom Toppin": "SJUMP | UPPER | CRUSH | BOUNCE",
+        "Fastfood Saloon Cheese Toppin": "SJUMP+GRAB | UPPER+GRAB | CRUSH+GRAB | BOUNCE+GRAB",
+        "Fastfood Saloon Tomato Toppin": "SJUMP+GRAB | UPPER+GRAB | CRUSH+GRAB | BOUNCE+GRAB",
+        "Fastfood Saloon Sausage Toppin": "SJUMP+GRAB | UPPER+GRAB | CRUSH+GRAB | BOUNCE+GRAB",
+        "Fastfood Saloon Pineapple Toppin": "SJUMP+GRAB | UPPER+GRAB | CRUSH+GRAB | BOUNCE+GRAB",
+        "Fastfood Saloon Secret 1": "SJUMP+GRAB | UPPER+GRAB | CRUSH+GRAB | BOUNCE+GRAB",
+        "Fastfood Saloon Secret 2": "SJUMP+GRAB | UPPER+GRAB | CRUSH+GRAB | BOUNCE+GRAB",
+        "Fastfood Saloon Secret 3": "SJUMP+GRAB | UPPER+GRAB | CRUSH+GRAB | BOUNCE+GRAB",
+	    "Fastfood Saloon Treasure": "SJUMP+GRAB | UPPER+GRAB | CRUSH+GRAB | BOUNCE+GRAB",
+        "Chef Task: Royal Flush": "SJUMP+GRAB | UPPER+GRAB | CRUSH+GRAB | BOUNCE+GRAB",
+        "Chef Task: Non-Alcoholic": "SJUMP+GRAB | UPPER+GRAB | CRUSH+GRAB | BOUNCE+GRAB",
+        "Chef Task: Already Pressed": "SJUMP+GRAB | UPPER+GRAB | CRUSH+GRAB | BOUNCE+GRAB",
 
     #Crust Cove
-        "Crust Cove Complete": noise_requires_big_upward_mobility and noise_requires_downward_mobility,
-        "Crust Cove Mushroom Toppin": noise_requires_big_upward_mobility,
-        "Crust Cove Cheese Toppin": noise_requires_big_upward_mobility,
-        "Crust Cove Tomato Toppin": noise_requires_big_upward_mobility and noise_requires_downward_mobility,
-        "Crust Cove Sausage Toppin": noise_requires_big_upward_mobility and noise_requires_downward_mobility,
-        "Crust Cove Pineapple Toppin": noise_requires_big_upward_mobility and noise_requires_downward_mobility,
-        "Crust Cove Secret 1": noise_requires_upward_mobility,
-        "Crust Cove Secret 2": noise_requires_big_upward_mobility and noise_requires_downward_mobility,
-        "Crust Cove Secret 3": requires_taunt and noise_requires_big_upward_mobility and noise_requires_downward_mobility,
-        "Crust Cove Treasure": noise_requires_upward_mobility,
-        "Chef Task: Demolition Expert": noise_requires_big_upward_mobility and noise_requires_downward_mobility,
-        "Chef Task: Blowback": noise_requires_upward_mobility and noise_requires_downward_mobility and requires_taunt,
-        "Chef Task: X": noise_requires_upward_mobility and noise_requires_downward_mobility,
+        "Crust Cove Complete": "SJUMP+CRUSH | SJUMP+TORN | SJUMP+SLAM | SJUMP+BOUNCE",
+        "Crust Cove Mushroom Toppin": "SJUMP",
+        "Crust Cove Cheese Toppin": "SJUMP",
+        "Crust Cove Tomato Toppin": "SJUMP+CRUSH | SJUMP+TORN | SJUMP+SLAM | SJUMP+BOUNCE",
+        "Crust Cove Sausage Toppin": "SJUMP+CRUSH | SJUMP+TORN | SJUMP+SLAM | SJUMP+BOUNCE",
+        "Crust Cove Pineapple Toppin": "SJUMP+CRUSH | SJUMP+TORN | SJUMP+SLAM | SJUMP+BOUNCE",
+        "Crust Cove Secret 1": "SJUMP",
+        "Crust Cove Secret 2": "SJUMP+CRUSH | SJUMP+TORN | SJUMP+SLAM | SJUMP+BOUNCE",
+        "Crust Cove Secret 3": "SJUMP+CRUSH+TAUNT | SJUMP+TORN+TAUNT | SJUMP+SLAM+TAUNT | SJUMP+BOUNCE+TAUNT",
+        "Crust Cove Treasure": "SJUMP",
+        "Chef Task: Demolition Expert": "SJUMP+CRUSH | SJUMP+TORN | SJUMP+SLAM | SJUMP+BOUNCE",
+        "Chef Task: Blowback": "SJUMP+CRUSH+TAUNT | SJUMP+TORN+TAUNT | SJUMP+SLAM+TAUNT | SJUMP+BOUNCE+TAUNT",
+        "Chef Task: X": "SJUMP+CRUSH | SJUMP+TORN | SJUMP+SLAM | SJUMP+BOUNCE",
 
     #Gnome Forest
-        "Gnome Forest Complete": (requires_bodyslam or noise_requires_crusher) and noise_requires_upward_mobility,
-        "Gnome Forest Mushroom Toppin": (requires_bodyslam or noise_requires_crusher) and noise_requires_upward_mobility,
-        "Gnome Forest Cheese Toppin": (requires_bodyslam or noise_requires_crusher) and noise_requires_upward_mobility,
-        "Gnome Forest Tomato Toppin": (requires_bodyslam or noise_requires_crusher) and noise_requires_upward_mobility,
-        "Gnome Forest Sausage Toppin": (requires_bodyslam or noise_requires_crusher) and noise_requires_upward_mobility,
-        "Gnome Forest Pineapple Toppin": (requires_bodyslam or noise_requires_crusher) and noise_requires_upward_mobility,
-        "Gnome Forest Secret 1": (requires_bodyslam or noise_requires_crusher) and noise_requires_upward_mobility,
-        "Gnome Forest Secret 2": (requires_bodyslam or noise_requires_crusher) and noise_requires_upward_mobility,
-        "Gnome Forest Secret 3": (requires_bodyslam or noise_requires_crusher) and noise_requires_upward_mobility,
-        "Gnome Forest Treasure": (requires_bodyslam or noise_requires_crusher) and noise_requires_upward_mobility,
-        "Chef Task: Bee Nice": requires_taunt,
-        "Chef Task: Bullseye": requires_taunt,
-        "Chef Task: Lumberjack": (requires_bodyslam or noise_requires_crusher) and noise_requires_upward_mobility,
+        "Gnome Forest Complete": "CRUSH",
+        "Gnome Forest Mushroom Toppin": "CRUSH",
+        "Gnome Forest Cheese Toppin": "CRUSH",
+        "Gnome Forest Tomato Toppin": "CRUSH",
+        "Gnome Forest Sausage Toppin": "CRUSH",
+        "Gnome Forest Pineapple Toppin": "CRUSH",
+        "Gnome Forest Secret 1": "CRUSH",
+        "Gnome Forest Secret 2": "CRUSH",
+        "Gnome Forest Secret 3": "CRUSH",
+        "Gnome Forest Treasure": "CRUSH",
+        "Chef Task: Bee Nice": "TAUNT",
+        "Chef Task: Bullseye": "TAUNT",
+        "Chef Task: Lumberjack": "CRUSH",
 
     #Deep-Dish 9
-        "Deep-Dish 9 Complete": noise_requires_downward_mobility and noise_requires_upward_mobility,
-        "Deep-Dish 9 Mushroom Toppin": noise_requires_downward_mobility,
-        "Deep-Dish 9 Cheese Toppin": noise_requires_downward_mobility,
-        "Deep-Dish 9 Tomato Toppin": noise_requires_downward_mobility,
-        "Deep-Dish 9 Sausage Toppin": (noise_requires_big_upward_mobility or requires_uppercut) and noise_requires_downward_mobility,
-        "Deep-Dish 9 Pineapple Toppin": (noise_requires_big_upward_mobility or requires_uppercut) and noise_requires_downward_mobility,
-        "Deep-Dish 9 Secret 1": noise_requires_downward_mobility,
-        "Deep-Dish 9 Secret 2": (noise_requires_big_upward_mobility or requires_uppercut) and noise_requires_downward_mobility,
-        "Deep-Dish 9 Secret 3": noise_requires_downward_mobility and noise_requires_upward_mobility,
-        "Deep-Dish 9 Treasure": noise_requires_downward_mobility and noise_requires_upward_mobility,
-        "Chef Task: Blast 'Em Asteroids": noise_requires_downward_mobility and noise_requires_upward_mobility,
-        "Chef Task: Turbo Tunnel": (noise_requires_big_upward_mobility or requires_uppercut) and noise_requires_downward_mobility,
-        "Chef Task: Man Meteor": requires_bodyslam and noise_requires_upward_mobility,
+        "Deep-Dish 9 Complete": "SJUMP+SLAM | SJUMP+TORN | BOUNCE | CRUSH | UPPER+SLAM | UPPER+TORN",
+        "Deep-Dish 9 Mushroom Toppin": "SLAM | CRUSH | BOUNCE | TORN",
+        "Deep-Dish 9 Cheese Toppin": "SLAM | CRUSH | BOUNCE | TORN",
+        "Deep-Dish 9 Tomato Toppin": "SLAM | CRUSH | BOUNCE | TORN",
+        "Deep-Dish 9 Sausage Toppin": "SJUMP+BOUNCE | SJUMP+TORN | UPPER+BOUNCE | UPPER+TORN | CRUSH",
+        "Deep-Dish 9 Pineapple Toppin": "SJUMP+BOUNCE | SJUMP+TORN | UPPER+BOUNCE | UPPER+TORN | CRUSH",
+        "Deep-Dish 9 Secret 1": "SLAM | CRUSH | BOUNCE | TORN",
+        "Deep-Dish 9 Secret 2": "SJUMP+BOUNCE | SJUMP+TORN | UPPER+BOUNCE | UPPER+TORN | CRUSH",
+        "Deep-Dish 9 Secret 3": "SJUMP+SLAM | SJUMP+TORN | BOUNCE | CRUSH | UPPER+SLAM | UPPER+TORN",
+        "Deep-Dish 9 Treasure": "SJUMP+SLAM | SJUMP+TORN | BOUNCE | CRUSH | UPPER+SLAM | UPPER+TORN",
+        "Chef Task: Blast 'Em Asteroids": "SJUMP+SLAM | SJUMP+TORN | BOUNCE | CRUSH | UPPER+SLAM | UPPER+TORN",
+        "Chef Task: Turbo Tunnel": "SJUMP+BOUNCE | SJUMP+TORN | UPPER+BOUNCE | UPPER+TORN | CRUSH",
+        "Chef Task: Man Meteor": "SJUMP+SLAM | UPPER+SLAM | CRUSH+SLAM | BOUNCE+SLAM",
 
     #GOLF
-        "GOLF Complete": (noise_requires_upward_mobility or requires_bodyslam),
-        "GOLF Mushroom Toppin": requires_none,
-        "GOLF Cheese Toppin": requires_none,
-        "GOLF Tomato Toppin": requires_none,
-        "GOLF Sausage Toppin": requires_none,
-        "GOLF Pineapple Toppin": requires_none,
-        "GOLF Secret 1": requires_none,
-        "GOLF Secret 2": requires_none,
-        "GOLF Secret 3": requires_none,
-        "GOLF Treasure": requires_none,
-        "Chef Task: Primo Golfer": requires_none,
-        "Chef Task: Helpful Burger": requires_none,
-        "Chef Task: Nice Shot": requires_none,
+        "GOLF Complete": "SJUMP | BOUNCE | UPPER | CRUSH | SLAM",
+        "GOLF Mushroom Toppin": "NONE",
+        "GOLF Cheese Toppin": "NONE",
+        "GOLF Tomato Toppin": "NONE",
+        "GOLF Sausage Toppin": "NONE",
+        "GOLF Pineapple Toppin": "NONE",
+        "GOLF Secret 1": "NONE",
+        "GOLF Secret 2": "NONE",
+        "GOLF Secret 3": "NONE",
+        "GOLF Treasure": "NONE",
+        "Chef Task: Primo Golfer": "NONE",
+        "Chef Task: Helpful Burger": "NONE",
+        "Chef Task: Nice Shot": "NONE",
 
     #The Pig City
-        "The Pig City Complete": noise_requires_downward_mobility and gustavo_requires_doublejump,
-        "The Pig City Mushroom Toppin": requires_none,
-        "The Pig City Cheese Toppin": noise_requires_upward_mobility,
-        "The Pig City Tomato Toppin": noise_requires_crusher or requires_bodyslam,
-        "The Pig City Sausage Toppin": noise_requires_downward_mobility and noise_requires_upward_mobility,
-        "The Pig City Pineapple Toppin": noise_requires_downward_mobility and noise_requires_upward_mobility,
-        "The Pig City Secret 1": requires_none,
-        "The Pig City Secret 2": noise_requires_downward_mobility and noise_requires_upward_mobility,
-        "The Pig City Secret 3": noise_requires_downward_mobility and noise_requires_upward_mobility,
-        "The Pig City Treasure": noise_requires_downward_mobility and noise_requires_upward_mobility,
-        "Chef Task: Say Oink!": noise_requires_downward_mobility and noise_requires_upward_mobility and requires_taunt,
-        "Chef Task: Pan Fried": noise_requires_downward_mobility and (noise_requires_big_upward_mobility or requires_uppercut),
-        "Chef Task: Strike!": noise_requires_downward_mobility and noise_requires_upward_mobility,
+        "The Pig City Complete": "SJUMP+SLAM | SJUMP+TORN | BOUNCE | CRUSH | UPPER+SLAM | UPPER+TORN",
+        "The Pig City Mushroom Toppin": "NONE",
+        "The Pig City Cheese Toppin": "SJUMP | CRUSH | UPPER | BOUNCE",
+        "The Pig City Tomato Toppin": "CRUSH | SLAM",
+        "The Pig City Sausage Toppin": "SJUMP+SLAM | SJUMP+TORN | BOUNCE | CRUSH | UPPER+SLAM | UPPER+TORN",
+        "The Pig City Pineapple Toppin": "SJUMP+SLAM | SJUMP+TORN | BOUNCE | CRUSH | UPPER+SLAM | UPPER+TORN",
+        "The Pig City Secret 1": "NONE",
+        "The Pig City Secret 2": "SJUMP+SLAM | SJUMP+TORN | BOUNCE | CRUSH | UPPER+SLAM | UPPER+TORN",
+        "The Pig City Secret 3": "SJUMP+SLAM | SJUMP+TORN | BOUNCE | CRUSH | UPPER+SLAM | UPPER+TORN",
+        "The Pig City Treasure": "SJUMP+SLAM | SJUMP+TORN | BOUNCE | CRUSH | UPPER+SLAM | UPPER+TORN",
+        "Chef Task: Say Oink!": "CRUSH+TAUNT | SLAM+SJUMP+TAUNT | SLAM+BOUNCE+TAUNT | SLAM+UPPER+TAUNT",
+        "Chef Task: Pan Fried": "CRUSH | SLAM+SJUMP | SLAM+UPPER | SLAM+BOUNCE",
+        "Chef Task: Strike!": "SJUMP+SLAM | SJUMP+TORN | BOUNCE | CRUSH | UPPER+SLAM | UPPER+TORN",
 
     #Peppibot Factory
-        "Peppibot Factory Complete": (noise_requires_big_upward_mobility or requires_uppercut),
-        "Peppibot Factory Mushroom Toppin": noise_requires_big_upward_mobility or requires_uppercut,
-        "Peppibot Factory Cheese Toppin": noise_requires_big_upward_mobility or requires_uppercut,
-        "Peppibot Factory Tomato Toppin": noise_requires_big_upward_mobility or requires_uppercut,
-        "Peppibot Factory Sausage Toppin": (noise_requires_big_upward_mobility or requires_uppercut),
-        "Peppibot Factory Pineapple Toppin": (noise_requires_big_upward_mobility or requires_uppercut),
-        "Peppibot Factory Secret 1": noise_requires_big_upward_mobility or requires_uppercut,
-        "Peppibot Factory Secret 2": noise_requires_big_upward_mobility or requires_uppercut,
-        "Peppibot Factory Secret 3": (noise_requires_big_upward_mobility or requires_uppercut) and noise_requires_downward_mobility,
-        "Peppibot Factory Treasure": (noise_requires_big_upward_mobility or requires_uppercut) and noise_requires_downward_mobility,
-        "Chef Task: There Can Be Only One": (noise_requires_big_upward_mobility or requires_uppercut) and noise_requires_downward_mobility,
-        "Chef Task: Whoop This!": noise_requires_upward_mobility,
-        "Chef Task: Unflattening": (noise_requires_big_upward_mobility or requires_uppercut) and noise_requires_downward_mobility,
+        "Peppibot Factory Complete": "SJUMP | CRUSH | UPPER",
+        "Peppibot Factory Mushroom Toppin": "SJUMP | CRUSH | UPPER",
+        "Peppibot Factory Cheese Toppin": "SJUMP | CRUSH | UPPER",
+        "Peppibot Factory Tomato Toppin": "SJUMP | CRUSH | UPPER",
+        "Peppibot Factory Sausage Toppin": "SJUMP | CRUSH | UPPER",
+        "Peppibot Factory Pineapple Toppin": "SJUMP | CRUSH | UPPER",
+        "Peppibot Factory Secret 1": "SJUMP | CRUSH | UPPER",
+        "Peppibot Factory Secret 2": "SJUMP | CRUSH | UPPER",
+        "Peppibot Factory Secret 3": "SJUMP+BOUNCE | SJUMP+TORN | UPPER+BOUNCE | UPPER+TORN | CRUSH",
+        "Peppibot Factory Treasure": "SJUMP+BOUNCE | SJUMP+TORN | UPPER+BOUNCE | UPPER+TORN | CRUSH",
+        "Chef Task: There Can Be Only One": "SJUMP+BOUNCE | SJUMP+TORN | UPPER+BOUNCE | UPPER+TORN | CRUSH",
+        "Chef Task: Whoop This!": "SJUMP | CRUSH | UPPER",
+        "Chef Task: Unflattening": "SJUMP+BOUNCE | SJUMP+TORN | UPPER+BOUNCE | UPPER+TORN | CRUSH",
 
     #Oh Shit!
-        "Oh Shit! Complete": noise_requires_downward_mobility and noise_requires_upward_mobility,
-        "Oh Shit! Mushroom Toppin": noise_requires_downward_mobility,
-        "Oh Shit! Cheese Toppin": noise_requires_downward_mobility and noise_requires_upward_mobility,
-        "Oh Shit! Tomato Toppin": noise_requires_downward_mobility and noise_requires_upward_mobility,
-        "Oh Shit! Sausage Toppin": noise_requires_downward_mobility and noise_requires_upward_mobility,
-        "Oh Shit! Pineapple Toppin": noise_requires_downward_mobility and noise_requires_upward_mobility,
-        "Oh Shit! Secret 1": noise_requires_downward_mobility,
-        "Oh Shit! Secret 2": noise_requires_downward_mobility and noise_requires_upward_mobility,
-        "Oh Shit! Secret 3": noise_requires_downward_mobility and noise_requires_upward_mobility,
-        "Oh Shit! Treasure": noise_requires_downward_mobility and noise_requires_upward_mobility,
-        "Chef Task: Food Clan": noise_requires_downward_mobility and (noise_requires_upward_mobility or requires_uppercut),
-        "Chef Task: Can't Fool Me": noise_requires_downward_mobility and noise_requires_upward_mobility,
-        "Chef Task: Penny Pincher": noise_requires_downward_mobility and noise_requires_upward_mobility,
+        "Oh Shit! Complete": "SJUMP+SLAM | SJUMP+TORN | BOUNCE | CRUSH | UPPER+SLAM | UPPER+TORN",
+        "Oh Shit! Mushroom Toppin": "SLAM | CRUSH | BOUNCE | TORN",
+        "Oh Shit! Cheese Toppin": "SJUMP+SLAM | SJUMP+TORN | BOUNCE | CRUSH | UPPER+SLAM | UPPER+TORN",
+        "Oh Shit! Tomato Toppin": "SJUMP+SLAM | SJUMP+TORN | BOUNCE | CRUSH | UPPER+SLAM | UPPER+TORN",
+        "Oh Shit! Sausage Toppin": "SJUMP+SLAM | SJUMP+TORN | BOUNCE | CRUSH | UPPER+SLAM | UPPER+TORN",
+        "Oh Shit! Pineapple Toppin": "SJUMP+SLAM | SJUMP+TORN | BOUNCE | CRUSH | UPPER+SLAM | UPPER+TORN",
+        "Oh Shit! Secret 1": "SLAM | CRUSH | BOUNCE | TORN",
+        "Oh Shit! Secret 2": "SJUMP+SLAM | SJUMP+TORN | BOUNCE | CRUSH | UPPER+SLAM | UPPER+TORN",
+        "Oh Shit! Secret 3": "SJUMP+SLAM | SJUMP+TORN | BOUNCE | CRUSH | UPPER+SLAM | UPPER+TORN",
+        "Oh Shit! Treasure": "SJUMP+SLAM | SJUMP+TORN | BOUNCE | CRUSH | UPPER+SLAM | UPPER+TORN",
+        "Chef Task: Food Clan": "SJUMP+SLAM+TAUNT | SJUMP+TORN+TAUNT | BOUNCE+TAUNT | CRUSH+TAUNT | UPPER+SLAM+TAUNT | UPPER+TORN+TAUNT",
+        "Chef Task: Can't Fool Me": "SJUMP+SLAM | SJUMP+TORN | BOUNCE | CRUSH | UPPER+SLAM | UPPER+TORN",
+        "Chef Task: Penny Pincher": "SJUMP+SLAM | SJUMP+TORN | BOUNCE | CRUSH | UPPER+SLAM | UPPER+TORN",
 
     #Freezerator
-        "Freezerator Complete": requires_none,
-        "Freezerator Mushroom Toppin": requires_none,
-        "Freezerator Cheese Toppin": requires_none,
-        "Freezerator Tomato Toppin": requires_none,
-        "Freezerator Sausage Toppin": requires_none,
-        "Freezerator Pineapple Toppin": requires_none,
-        "Freezerator Secret 1": requires_none,
-        "Freezerator Secret 2": requires_none,
-        "Freezerator Secret 3": requires_none,
-        "Freezerator Treasure": requires_none,
-        "Chef Task: Ice Climber": requires_none,
-        "Chef Task: Season's Greetings": requires_supertaunt,
-        "Chef Task: Frozen Nuggets": requires_none,
+        "Freezerator Complete": "NONE",
+        "Freezerator Mushroom Toppin": "NONE",
+        "Freezerator Cheese Toppin": "NONE",
+        "Freezerator Tomato Toppin": "NONE",
+        "Freezerator Sausage Toppin": "NONE",
+        "Freezerator Pineapple Toppin": "NONE",
+        "Freezerator Secret 1": "NONE",
+        "Freezerator Secret 2": "NONE",
+        "Freezerator Secret 3": "NONE",
+        "Freezerator Treasure": "NONE",
+        "Chef Task: Ice Climber": "NONE",
+        "Chef Task: Season's Greetings": "STAUNT",
+        "Chef Task: Frozen Nuggets": "NONE",
 
     #Pizzascare
-        "Pizzascare Complete": noise_requires_upward_mobility and noise_requires_downward_mobility,
-        "Pizzascare Mushroom Toppin": noise_requires_upward_mobility and noise_requires_downward_mobility,
-        "Pizzascare Cheese Toppin": noise_requires_upward_mobility and noise_requires_downward_mobility,
-        "Pizzascare Tomato Toppin": noise_requires_upward_mobility and noise_requires_downward_mobility,
-        "Pizzascare Sausage Toppin": noise_requires_upward_mobility and noise_requires_downward_mobility,
-        "Pizzascare Pineapple Toppin": noise_requires_upward_mobility and noise_requires_downward_mobility,
-        "Pizzascare Secret 1": noise_requires_upward_mobility and noise_requires_downward_mobility,
-        "Pizzascare Secret 2": noise_requires_upward_mobility and noise_requires_downward_mobility,
-        "Pizzascare Secret 3": noise_requires_upward_mobility and noise_requires_downward_mobility,
-        "Pizzascare Treasure": noise_requires_upward_mobility and noise_requires_downward_mobility,
-        "Chef Task: Haunted Playground": noise_requires_upward_mobility and noise_requires_downward_mobility,
-        "Chef Task: Skullsplitter": noise_requires_upward_mobility and noise_requires_downward_mobility,
-        "Chef Task: Cross to Bare": noise_requires_upward_mobility and noise_requires_downward_mobility,
+        "Pizzascare Complete": "CRUSH | SJUMP+SLAM | SJUMP+TORN | UPPER+SLAM | UPPER+TORN | BOUNCE",
+        "Pizzascare Mushroom Toppin": "CRUSH | SJUMP+SLAM | SJUMP+TORN | UPPER+SLAM | UPPER+TORN | BOUNCE",
+        "Pizzascare Cheese Toppin": "CRUSH | SJUMP+SLAM | SJUMP+TORN | UPPER+SLAM | UPPER+TORN | BOUNCE",
+        "Pizzascare Tomato Toppin": "CRUSH | SJUMP+SLAM | SJUMP+TORN | UPPER+SLAM | UPPER+TORN | BOUNCE",
+        "Pizzascare Sausage Toppin": "CRUSH | SJUMP+SLAM | SJUMP+TORN | UPPER+SLAM | UPPER+TORN | BOUNCE",
+        "Pizzascare Pineapple Toppin": "CRUSH | SJUMP+SLAM | SJUMP+TORN | UPPER+SLAM | UPPER+TORN | BOUNCE",
+        "Pizzascare Secret 1": "CRUSH | SJUMP+SLAM | SJUMP+TORN | UPPER+SLAM | UPPER+TORN | BOUNCE",
+        "Pizzascare Secret 2": "CRUSH | SJUMP+SLAM | SJUMP+TORN | UPPER+SLAM | UPPER+TORN | BOUNCE",
+        "Pizzascare Secret 3": "CRUSH | SJUMP+SLAM | SJUMP+TORN | UPPER+SLAM | UPPER+TORN | BOUNCE",
+        "Pizzascare Treasure": "CRUSH | SJUMP+SLAM | SJUMP+TORN | UPPER+SLAM | UPPER+TORN | BOUNCE",
+        "Chef Task: Haunted Playground": "CRUSH | SJUMP+SLAM | SJUMP+TORN | UPPER+SLAM | UPPER+TORN | BOUNCE",
+        "Chef Task: Skullsplitter": "CRUSH | SJUMP+SLAM | SJUMP+TORN | UPPER+SLAM | UPPER+TORN | BOUNCE",
+        "Chef Task: Cross to Bare": "CRUSH | SJUMP+SLAM | SJUMP+TORN | UPPER+SLAM | UPPER+TORN | BOUNCE",
 
     #Don't Make a Sound
-        "Don't Make a Sound Complete": noise_requires_big_upward_mobility and requires_any_grab,
-        "Don't Make a Sound Mushroom Toppin": requires_none,
-        "Don't Make a Sound Cheese Toppin": noise_requires_upward_mobility,
-        "Don't Make a Sound Tomato Toppin": noise_requires_big_upward_mobility and noise_requires_downward_mobility,
-        "Don't Make a Sound Sausage Toppin": noise_requires_big_upward_mobility,
-        "Don't Make a Sound Pineapple Toppin": noise_requires_big_upward_mobility and requires_any_grab,
-        "Don't Make a Sound Secret 1": requires_none,
-        "Don't Make a Sound Secret 2": noise_requires_upward_mobility,
-        "Don't Make a Sound Secret 3": noise_requires_big_upward_mobility,
-        "Don't Make a Sound Treasure": noise_requires_big_upward_mobility and requires_any_grab,
-        "Chef Task: Let Them Sleep": noise_requires_big_upward_mobility and requires_any_grab,
-        "Chef Task: Jumpspared": noise_requires_big_upward_mobility and requires_any_grab,
-        "Chef Task: And This... Is My Gun on a Stick!": noise_requires_big_upward_mobility and requires_any_grab,
+        "Don't Make a Sound Complete": "SJUMP+GRAB | SJUMP+UPPER",
+        "Don't Make a Sound Mushroom Toppin": "NONE",
+        "Don't Make a Sound Cheese Toppin": "SJUMP | UPPER | CRUSH | BOUNCE",
+        "Don't Make a Sound Tomato Toppin": "SJUMP+CRUSH | SJUMP+TORN | SJUMP+SLAM | SJUMP+BOUNCE",
+        "Don't Make a Sound Sausage Toppin": "SJUMP",
+        "Don't Make a Sound Pineapple Toppin": "SJUMP+GRAB | SJUMP+UPPER",
+        "Don't Make a Sound Secret 1": "NONE",
+        "Don't Make a Sound Secret 2": "SJUMP | UPPER | CRUSH | BOUNCE",
+        "Don't Make a Sound Secret 3": "SJUMP",
+        "Don't Make a Sound Treasure": "SJUMP+GRAB | SJUMP+UPPER",
+        "Chef Task: Let Them Sleep": "SJUMP+GRAB | SJUMP+UPPER",
+        "Chef Task: Jumpspared": "SJUMP+GRAB | SJUMP+UPPER",
+        "Chef Task: And This... Is My Gun on a Stick!": "SJUMP+GRAB | SJUMP+UPPER",
 
     #WAR
-        "WAR Complete": requires_any_grab and noise_requires_upward_mobility and noise_requires_downward_mobility,
-        "WAR Mushroom Toppin": requires_any_grab and (noise_requires_downward_mobility or (noise_requires_big_upward_mobility or noise_requires_wallbounce)),
-        "WAR Cheese Toppin": requires_any_grab and (requires_bodyslam or noise_requires_crusher or (noise_requires_tornado and (noise_requires_big_upward_mobility or noise_requires_wallbounce))),
-        "WAR Tomato Toppin": requires_any_grab and (requires_bodyslam or noise_requires_crusher or (noise_requires_tornado and (noise_requires_big_upward_mobility or noise_requires_wallbounce))),
-        "WAR Sausage Toppin": requires_any_grab and (requires_bodyslam or noise_requires_crusher or (noise_requires_tornado and (noise_requires_big_upward_mobility or noise_requires_wallbounce))),
-        "WAR Pineapple Toppin": requires_any_grab and (requires_bodyslam or noise_requires_crusher or (noise_requires_tornado and (noise_requires_big_upward_mobility or noise_requires_wallbounce))),
-        "WAR Secret 1": requires_any_grab and (requires_bodyslam or noise_requires_crusher or (noise_requires_tornado and (noise_requires_big_upward_mobility or noise_requires_wallbounce))),
-        "WAR Secret 2": requires_any_grab and (requires_bodyslam or noise_requires_crusher or (noise_requires_tornado and (noise_requires_big_upward_mobility or noise_requires_wallbounce))),
-        "WAR Secret 3": requires_any_grab and (requires_bodyslam or noise_requires_crusher or (noise_requires_tornado and (noise_requires_big_upward_mobility or noise_requires_wallbounce))),
-        "WAR Treasure": requires_any_grab and (requires_bodyslam or noise_requires_crusher or (noise_requires_tornado and noise_requires_big_upward_mobility)),
-        "Chef Task: Trip to the Warzone": requires_any_grab and noise_requires_upward_mobility and noise_requires_downward_mobility,
-        "Chef Task: Sharpshooter": requires_any_grab and noise_requires_upward_mobility and noise_requires_downward_mobility,
-        "Chef Task: Decorated Veteran": requires_any_grab and noise_requires_upward_mobility and noise_requires_downward_mobility,
+        "WAR Complete": "GRAB+SJUMP+SLAM | GRAB+SJUMP+TORN | GRAB+SJUMP+BOUNCE | UPPER+SJUMP+SLAM | UPPER+SJUMP+TORN | UPPER+SJUMP+BOUNCE",
+        "WAR Mushroom Toppin": "GRAB+CRUSH | GRAB+SJUMP | GRAB+BOUNCE | GRAB+SLAM | UPPER+CRUSH | UPPER+SJUMP | UPPER+BOUNCE | UPPER+SLAM",
+        "WAR Cheese Toppin": "GRAB+CRUSH | GRAB+SJUMP | GRAB+BOUNCE | GRAB+SLAM | UPPER+CRUSH | UPPER+SJUMP | UPPER+BOUNCE | UPPER+SLAM",
+        "WAR Tomato Toppin": "GRAB+CRUSH | GRAB+SJUMP | GRAB+BOUNCE | GRAB+SLAM | UPPER+CRUSH | UPPER+SJUMP | UPPER+BOUNCE | UPPER+SLAM",
+        "WAR Sausage Toppin": "GRAB+CRUSH | GRAB+SJUMP | GRAB+BOUNCE | GRAB+SLAM | UPPER+CRUSH | UPPER+SJUMP | UPPER+BOUNCE | UPPER+SLAM",
+        "WAR Pineapple Toppin": "GRAB+SJUMP | UPPER+SJUMP | GRAB+SLAM | UPPER+SLAM",
+        "WAR Secret 1": "GRAB+CRUSH | GRAB+SJUMP | GRAB+BOUNCE | GRAB+SLAM | UPPER+CRUSH | UPPER+SJUMP | UPPER+BOUNCE | UPPER+SLAM",
+        "WAR Secret 2": "GRAB+CRUSH | GRAB+SJUMP | GRAB+BOUNCE | GRAB+SLAM | UPPER+CRUSH | UPPER+SJUMP | UPPER+BOUNCE | UPPER+SLAM",
+        "WAR Secret 3": "GRAB+CRUSH | GRAB+SJUMP | GRAB+BOUNCE | GRAB+SLAM | UPPER+CRUSH | UPPER+SJUMP | UPPER+BOUNCE | UPPER+SLAM",
+        "WAR Treasure": "GRAB+CRUSH | GRAB+SJUMP | GRAB+BOUNCE | GRAB+SLAM | UPPER+CRUSH | UPPER+SJUMP | UPPER+BOUNCE | UPPER+SLAM",
+        "Chef Task: Trip to the Warzone": "GRAB+SJUMP+SLAM | GRAB+SJUMP+TORN | GRAB+SJUMP+BOUNCE | UPPER+SJUMP+SLAM | UPPER+SJUMP+TORN | UPPER+SJUMP+BOUNCE",
+        "Chef Task: Sharpshooter": "GRAB+SJUMP+SLAM | GRAB+SJUMP+TORN | GRAB+SJUMP+BOUNCE | UPPER+SJUMP+SLAM | UPPER+SJUMP+TORN | UPPER+SJUMP+BOUNCE",
+        "Chef Task: Decorated Veteran": "GRAB+SJUMP+SLAM | GRAB+SJUMP+TORN | GRAB+SJUMP+BOUNCE | UPPER+SJUMP+SLAM | UPPER+SJUMP+TORN | UPPER+SJUMP+BOUNCE",
 
     #Crumbling Tower of Pizza
-        "The Crumbling Tower of Pizza Complete": noise_requires_big_upward_mobility and requires_grab and noise_requires_downward_mobility,
-        "The Crumbling Tower of Pizza S Rank": noise_requires_big_upward_mobility and requires_grab and noise_requires_downward_mobility,
-        "The Crumbling Tower of Pizza P Rank": noise_requires_big_upward_mobility and requires_grab and noise_requires_downward_mobility,
+        "The Crumbling Tower of Pizza Complete": "SJUMP+GRAB+SLAM | SJUMP+GRAB+TORN | SJUMP+GRAB+BOUNCE | CRUSH+GRAB",
+        "The Crumbling Tower of Pizza S Rank": "SJUMP+GRAB+SLAM | SJUMP+GRAB+TORN | SJUMP+GRAB+BOUNCE | CRUSH+GRAB",
+        "The Crumbling Tower of Pizza P Rank": "SJUMP+GRAB+SLAM | SJUMP+GRAB+TORN | SJUMP+GRAB+BOUNCE | CRUSH+GRAB",
 
     #Pepperman
-        "Pepperman Defeated": requires_none,
-        "Chef Task: The Critic": requires_none,
-        "Pepperman S Rank": requires_none,
-        "Pepperman P Rank": requires_none,
+        "Pepperman Defeated": "NONE",
+        "Chef Task: The Critic": "NONE",
+        "Pepperman S Rank": "NONE",
+        "Pepperman P Rank": "NONE",
 
     #Vigilante
-        "The Vigilante Defeated": noise_requires_bomb,
-        "Chef Task: The Ugly": noise_requires_bomb,
-        "The Vigilante S Rank": noise_requires_bomb,
-        "The Vigilante P Rank": noise_requires_bomb,
+        "The Vigilante Defeated": "BOMB",
+        "Chef Task: The Ugly": "BOMB",
+        "The Vigilante S Rank": "BOMB",
+        "The Vigilante P Rank": "BOMB",
 
     #Noise
-        "The Doise Defeated": requires_none,
-        "Chef Task: Denoise": requires_none,
-        "The Doise S Rank": requires_none,
-        "The Doise P Rank": requires_none,
+        "The Doise Defeated": "NONE",
+        "Chef Task: Denoise": "NONE",
+        "The Doise S Rank": "NONE",
+        "The Doise P Rank": "NONE",
 
     #Fake Pep
-        "Fake Peppino Defeated": requires_none,
-        "Chef Task: Faker": requires_none,
-        "Fake Peppino S Rank": requires_none,
-        "Fake Peppino P Rank": requires_none,
+        "Fake Peppino Defeated": "NONE",
+        "Chef Task: Faker": "NONE",
+        "Fake Peppino S Rank": "NONE",
+        "Fake Peppino P Rank": "NONE",
 
     #Pizzaface
-        "Pizzaface Defeated": noise_requires_bomb,
-        "Chef Task: Face Off": noise_requires_bomb,
+        "Pizzaface Defeated": "BOMB",
+        "Chef Task: Face Off": "BOMB",
 
     #Tutorial
-        "Tutorial Complete": (noise_requires_big_upward_mobility or noise_requires_tornado) and noise_requires_upward_mobility and noise_requires_downward_mobility,
-        "Tutorial Complete in under 2 minutes": (noise_requires_big_upward_mobility or noise_requires_tornado) and noise_requires_upward_mobility and noise_requires_downward_mobility,
+        "Tutorial Complete": "SJUMP+SLAM | SJUMP+TORNADO | SJUMP+BOUNCE | CRUSH",
+        "Tutorial Complete in under 2 minutes": "SJUMP+SLAM | SJUMP+TORNADO | SJUMP+BOUNCE | CRUSH",
 
     #misc
-        "Snotty Murdered": requires_none,
+        "Snotty Murdered": "NONE",
     }
 
     pt_noise_extra_rules = { #internal rules for rando purposes; do not correspond to real checks
-	    "John Gutter Secret 1 Passed": requires_none,
-        "John Gutter Secret 2 Passed": noise_requires_upward_mobility,
-        "John Gutter Secret 3 Passed": noise_requires_upward_mobility,
+	    "John Gutter Secret 1 Passed": "NONE",
+        "John Gutter Secret 2 Passed": "SJUMP | UPPER | CRUSH | BOUNCE",
+        "John Gutter Secret 3 Passed": "SJUMP | UPPER | CRUSH | BOUNCE",
 
-        "Pizzascape Secret 1 Passed": requires_none,
-        "Pizzascape Secret 2 Passed": requires_any_grab,
-        "Pizzascape Secret 3 Passed": requires_none,
+        "Pizzascape Secret 1 Passed": "NONE",
+        "Pizzascape Secret 2 Passed": "GRAB | UPPER",
+        "Pizzascape Secret 3 Passed": "NONE",
 
-        "Ancient Cheese Secret 1 Passed": requires_none,
-        "Ancient Cheese Secret 2 Passed": requires_any_grab,
-        "Ancient Cheese Secret 3 Passed": noise_requires_upward_mobility,
+        "Ancient Cheese Secret 1 Passed": "NONE",
+        "Ancient Cheese Secret 2 Passed": "GRAB | UPPER",
+        "Ancient Cheese Secret 3 Passed": "SJUMP | UPPER | CRUSH | BOUNCE",
 
-        "Bloodsauce Dungeon Secret 1 Passed": noise_requires_upward_mobility,
-        "Bloodsauce Dungeon Secret 2 Passed": noise_requires_crusher or noise_requires_wallbounce or requires_uppercut,
-        "Bloodsauce Dungeon Secret 3 Passed": requires_none,
+        "Bloodsauce Dungeon Secret 1 Passed": "SJUMP | UPPER | CRUSH | BOUNCE",
+        "Bloodsauce Dungeon Secret 2 Passed": "CRUSH | BOUNCE | UPPER",
+        "Bloodsauce Dungeon Secret 3 Passed": "NONE",
 
-        "Oregano Desert Secret 1 Passed": noise_requires_downward_mobility,
-        "Oregano Desert Secret 2 Passed": requires_none,
-        "Oregano Desert Secret 3 Passed": noise_requires_crusher or noise_requires_big_upward_mobility,
+        "Oregano Desert Secret 1 Passed": "SLAM | CRUSH | BOUNCE | TORN",
+        "Oregano Desert Secret 2 Passed": "NONE",
+        "Oregano Desert Secret 3 Passed": "CRUSH | SJUMP",
 
-        "Wasteyard Secret 1 Passed": requires_none,
-        "Wasteyard Secret 2 Passed": requires_none,
-        "Wasteyard Secret 3 Passed": noise_requires_upward_mobility,
+        "Wasteyard Secret 1 Passed": "NONE",
+        "Wasteyard Secret 2 Passed": "NONE",
+        "Wasteyard Secret 3 Passed": "SJUMP | UPPER | CRUSH | BOUNCE",
 
-        "Fun Farm Secret 1 Passed": requires_none,
-        "Fun Farm Secret 2 Passed": requires_none,
-        "Fun Farm Secret 3 Passed": noise_requires_upward_mobility,
+        "Fun Farm Secret 1 Passed": "NONE",
+        "Fun Farm Secret 2 Passed": "NONE",
+        "Fun Farm Secret 3 Passed": "SJUMP | UPPER | CRUSH | BOUNCE",
 
-        "Fastfood Saloon Secret 1 Passed": noise_requires_upward_mobility,
-        "Fastfood Saloon Secret 2 Passed": (noise_requires_crusher or noise_requires_wallbounce or requires_uppercut),
-        "Fastfood Saloon Secret 3 Passed": noise_requires_downward_mobility,
+        "Fastfood Saloon Secret 1 Passed": "SJUMP | UPPER | CRUSH | BOUNCE",
+        "Fastfood Saloon Secret 2 Passed": "CRUSH | BOUNCE | UPPER",
+        "Fastfood Saloon Secret 3 Passed": "SLAM | CRUSH | BOUNCE | TORN",
 
-        "Crust Cove Secret 1 Passed": requires_none,
-        "Crust Cove Secret 2 Passed": noise_requires_upward_mobility,
-        "Crust Cove Secret 3 Passed": requires_taunt,
+        "Crust Cove Secret 1 Passed": "NONE",
+        "Crust Cove Secret 2 Passed": "SJUMP | UPPER | CRUSH | BOUNCE",
+        "Crust Cove Secret 3 Passed": "TAUNT",
 
-        "Gnome Forest Secret 1 Passed": noise_requires_big_upward_mobility or requires_uppercut,
-        "Gnome Forest Secret 2 Passed": noise_requires_big_upward_mobility or requires_uppercut,
-        "Gnome Forest Secret 3 Passed": noise_requires_big_upward_mobility or noise_requires_wallbounce,
+        "Gnome Forest Secret 1 Passed": "SJUMP | CRUSH | UPPER",
+        "Gnome Forest Secret 2 Passed": "SJUMP | CRUSH | UPPER",
+        "Gnome Forest Secret 3 Passed": "SJUMP | CRUSH | BOUNCE",
 
-        "Deep-Dish 9 Secret 1 Passed": requires_none,
-        "Deep-Dish 9 Secret 2 Passed": requires_none,
-        "Deep-Dish 9 Secret 3 Passed": (requires_bodyslam or noise_requires_crusher),
+        "Deep-Dish 9 Secret 1 Passed": "NONE",
+        "Deep-Dish 9 Secret 2 Passed": "NONE",
+        "Deep-Dish 9 Secret 3 Passed": "SLAM | CRUSH",
 
-        "GOLF Secret 1 Passed": requires_none,
-        "GOLF Secret 2 Passed": requires_none,
-        "GOLF Secret 3 Passed": requires_none,
+        "GOLF Secret 1 Passed": "NONE",
+        "GOLF Secret 2 Passed": "NONE",
+        "GOLF Secret 3 Passed": "NONE",
 
-        "The Pig City Secret 1 Passed": noise_requires_upward_mobility,
-        "The Pig City Secret 2 Passed": noise_requires_upward_mobility,
-        "The Pig City Secret 3 Passed": requires_none,
+        "The Pig City Secret 1 Passed": "SJUMP | UPPER | CRUSH | BOUNCE",
+        "The Pig City Secret 2 Passed": "SJUMP | UPPER | CRUSH | BOUNCE",
+        "The Pig City Secret 3 Passed": "NONE",
 
-        "Peppibot Factory Secret 1 Passed": requires_none,
-        "Peppibot Factory Secret 2 Passed": requires_any_grab,
-        "Peppibot Factory Secret 3 Passed": requires_none,
+        "Peppibot Factory Secret 1 Passed": "NONE",
+        "Peppibot Factory Secret 2 Passed": "GRAB | UPPER",
+        "Peppibot Factory Secret 3 Passed": "NONE",
 
-        "Oh Shit! Secret 1 Passed": requires_none,
-        "Oh Shit! Secret 2 Passed": requires_none,
-        "Oh Shit! Secret 3 Passed": requires_none,
+        "Oh Shit! Secret 1 Passed": "NONE",
+        "Oh Shit! Secret 2 Passed": "NONE",
+        "Oh Shit! Secret 3 Passed": "NONE",
 
-        "Freezerator Secret 1 Passed": requires_none,
-        "Freezerator Secret 2 Passed": requires_none,
-        "Freezerator Secret 3 Passed": requires_none,
+        "Freezerator Secret 1 Passed": "NONE",
+        "Freezerator Secret 2 Passed": "NONE",
+        "Freezerator Secret 3 Passed": "NONE",
 
-        "Pizzascare Secret 1 Passed": noise_requires_upward_mobility,
-        "Pizzascare Secret 2 Passed": noise_requires_upward_mobility,
-        "Pizzascare Secret 3 Passed": noise_requires_upward_mobility,
+        "Pizzascare Secret 1 Passed": "SJUMP | UPPER | CRUSH | BOUNCE",
+        "Pizzascare Secret 2 Passed": "SJUMP | UPPER | CRUSH | BOUNCE",
+        "Pizzascare Secret 3 Passed": "SJUMP | UPPER | CRUSH | BOUNCE",
 
-        "Don't Make a Sound Secret 1 Passed": requires_none,
-        "Don't Make a Sound Secret 2 Passed": noise_requires_upward_mobility,
-        "Don't Make a Sound Secret 3 Passed": noise_requires_upward_mobility,
+        "Don't Make a Sound Secret 1 Passed": "NONE",
+        "Don't Make a Sound Secret 2 Passed": "SJUMP | UPPER | CRUSH | BOUNCE",
+        "Don't Make a Sound Secret 3 Passed": "SJUMP | UPPER | CRUSH | BOUNCE",
 
-        "WAR Secret 1 Passed": requires_none,
-        "WAR Secret 2 Passed": noise_requires_upward_mobility,
-        "WAR Secret 3 Passed": requires_none,
+        "WAR Secret 1 Passed": "NONE",
+        "WAR Secret 2 Passed": "SJUMP | UPPER | CRUSH | BOUNCE",
+        "WAR Secret 3 Passed": "NONE",
     }
 
     pt_swap_rules = { #for swap-specific rules
@@ -1068,13 +1061,27 @@ def set_rules(multiworld: MultiWorld, world: World, options: PTOptions, toppins:
     world.boss_map = bosses_map
     world.secret_map = secrets_map
 
-    def get_s_rank_rule(lvl: str, character: int):
+    def interpret_rule(rule_str: str) -> Callable:
+        if rule_str == "NONE":
+            return lambda state: True
+        rules = rule_str.split(" | ")
+        lambda_components = []
+        for rule in rules:
+            tokens = rule.split("+")
+            itemset = [rule_moves[move] for move in tokens]
+            lambda_components.append(lambda state: state.has_all(itemset, world.player))
+        return lambda state: any(comp(state) for comp in lambda_components)
+
+    def get_s_rank_rule(lvl: str, character: int) -> Callable:
         if character == 0:
-            return pt_peppino_rules[lvl + " Complete"] #imprecise but idc rn
+            return interpret_rule(pt_peppino_rules[lvl + " Complete"])
+            #return lambda state: all([interpret_rule(pt_peppino_rules[lvl + " Mushroom Toppin"]), interpret_rule(pt_peppino_rules[lvl + " Cheese Toppin"]), interpret_rule(pt_peppino_rules[lvl + " Tomato Toppin"]), interpret_rule(pt_peppino_rules[lvl + " Sausage Toppin"]), interpret_rule(pt_peppino_rules[lvl + " Pineapple Toppin"]), interpret_rule(pt_peppino_rules[lvl + " Complete"]), interpret_rule(pt_peppino_rules[lvl + " Treasure"]), interpret_rule(pt_peppino_rules[lvl + " Secret 1"]), interpret_rule(pt_peppino_rules[lvl + " Secret 2"]), interpret_rule(pt_peppino_rules[lvl + " Secret 3"]), interpret_rule(pt_peppino_extra_rules[lvl + " Secret 1 Passed"]), interpret_rule(pt_peppino_extra_rules[lvl + " Secret 2 Passed"]), interpret_rule(pt_peppino_extra_rules[lvl + " Secret 3 Passed"])]) #imprecise but idc rn
         elif character == 1:
-            return pt_noise_rules[lvl + " Complete"]
+            return interpret_rule(pt_noise_rules[lvl + " Complete"])
+            #return lambda state: all([interpret_rule(pt_noise_rules[lvl + " Mushroom Toppin"]), interpret_rule(pt_noise_rules[lvl + " Cheese Toppin"]), interpret_rule(pt_noise_rules[lvl + " Tomato Toppin"]), interpret_rule(pt_noise_rules[lvl + " Sausage Toppin"]), interpret_rule(pt_noise_rules[lvl + " Pineapple Toppin"]), interpret_rule(pt_noise_rules[lvl + " Complete"]), interpret_rule(pt_noise_rules[lvl + " Treasure"]), interpret_rule(pt_noise_rules[lvl + " Secret 1"]), interpret_rule(pt_noise_rules[lvl + " Secret 2"]), interpret_rule(pt_noise_rules[lvl + " Secret 3"]), interpret_rule(pt_noise_extra_rules[lvl + " Secret 1 Passed"]), interpret_rule(pt_noise_extra_rules[lvl + " Secret 2 Passed"]), interpret_rule(pt_noise_extra_rules[lvl + " Secret 3 Passed"])])
         else:
-            return (get_s_rank_rule(lvl, 0) and get_s_rank_rule(lvl, 1))
+            return lambda state: any([interpret_rule(pt_peppino_rules[lvl + " Complete"]), pt_noise_rules[lvl + " Complete"]])
+            #return lambda state: any([get_s_rank_rule(lvl, 0) and get_s_rank_rule(lvl, 1)])
 
     #connect regions
     multiworld.get_region("Menu", world.player).connect(multiworld.get_region("Floor 1 Tower Lobby", world.player), "Menu to Floor 1 Tower Lobby")
@@ -1099,67 +1106,67 @@ def set_rules(multiworld: MultiWorld, world: World, options: PTOptions, toppins:
     #set rules
     for location in multiworld.get_locations(world.player):
         if (("S Rank" in location.name) or ("P Rank" in location.name)) and (location.parent_region.name in levels_list):
-            add_rule(location, get_s_rank_rule(location.parent_region.name, options.character))
+            set_rule(location, get_s_rank_rule(location.parent_region.name, options.character))
         elif ("Chef Task: S Ranked" in location.name) or ("Chef Task: P Ranked" in location.name):
             floor_first_lvl_index = (floors_list.index(location.parent_region.name) * 4)
             if location.parent_region.name == "Floor 5 Staff Only":
-                add_rule(location, get_s_rank_rule(levels_map[levels_list[floor_first_lvl_index]], options.character) and get_s_rank_rule(levels_map[levels_list[floor_first_lvl_index + 1]], options.character) and get_s_rank_rule(levels_map[levels_list[floor_first_lvl_index + 2]], options.character))
+                set_rule(location, get_s_rank_rule(levels_map[levels_list[floor_first_lvl_index]], options.character) and get_s_rank_rule(levels_map[levels_list[floor_first_lvl_index + 1]], options.character) and get_s_rank_rule(levels_map[levels_list[floor_first_lvl_index + 2]], options.character))
             else:
-                add_rule(location, get_s_rank_rule(levels_map[levels_list[floor_first_lvl_index]], options.character) and get_s_rank_rule(levels_map[levels_list[floor_first_lvl_index + 1]], options.character) and get_s_rank_rule(levels_map[levels_list[floor_first_lvl_index + 2]], options.character) and get_s_rank_rule(levels_map[levels_list[floor_first_lvl_index + 3]], options.character))
+                set_rule(location, get_s_rank_rule(levels_map[levels_list[floor_first_lvl_index]], options.character) and get_s_rank_rule(levels_map[levels_list[floor_first_lvl_index + 1]], options.character) and get_s_rank_rule(levels_map[levels_list[floor_first_lvl_index + 2]], options.character) and get_s_rank_rule(levels_map[levels_list[floor_first_lvl_index + 3]], options.character))
         else:
-            if options.character == 0: add_rule(location, pt_peppino_rules[location.name])
-            elif options.character == 1: add_rule(location, pt_noise_rules[location.name])
-            else: add_rule(location, (pt_peppino_rules[location.name] or pt_noise_rules[location.name]))
+            if options.character == 0: set_rule(location, interpret_rule(pt_peppino_rules[location.name]))
+            elif options.character == 1: set_rule(location, interpret_rule(pt_noise_rules[location.name]))
+            else: set_rule(location, lambda state: any([interpret_rule(pt_peppino_rules[location.name]), interpret_rule(pt_noise_rules[location.name])]))
 
     def get_toppin_prop(perc: int):
         return floor(toppins * (perc / 100))
 
     #toppin requirements for bosses
-    add_rule(multiworld.get_entrance("Floor 1 Tower Lobby to " + bosses_map["Pepperman"], world.player), lambda state: state.has("Toppin", world.player, get_toppin_prop(options.floor_1_cost)))
-    add_rule(multiworld.get_entrance("Floor 2 Western District to " + bosses_map["The Vigilante"], world.player), lambda state: state.has("Toppin", world.player, get_toppin_prop(options.floor_2_cost)))
-    add_rule(multiworld.get_entrance("Floor 3 Vacation Resort to " + bosses_map[bosses_list[2]], world.player), lambda state: state.has("Toppin", world.player, get_toppin_prop(options.floor_3_cost))) #the noise or the doise, depending on character played
-    add_rule(multiworld.get_entrance("Floor 4 Slum to " + bosses_map["Fake Peppino"], world.player), lambda state: state.has("Toppin", world.player, get_toppin_prop(options.floor_4_cost)))
-    add_rule(multiworld.get_entrance("Floor 5 Staff Only to Pizzaface", world.player), lambda state: state.has("Toppin", world.player, get_toppin_prop(options.floor_5_cost)))
+    set_rule(multiworld.get_entrance("Floor 1 Tower Lobby to " + bosses_map["Pepperman"], world.player), lambda state: state.has("Toppin", world.player, get_toppin_prop(options.floor_1_cost)))
+    set_rule(multiworld.get_entrance("Floor 2 Western District to " + bosses_map["The Vigilante"], world.player), lambda state: state.has("Toppin", world.player, get_toppin_prop(options.floor_2_cost)))
+    set_rule(multiworld.get_entrance("Floor 3 Vacation Resort to " + bosses_map[bosses_list[2]], world.player), lambda state: state.has("Toppin", world.player, get_toppin_prop(options.floor_3_cost))) #the noise or the doise, depending on character played
+    set_rule(multiworld.get_entrance("Floor 4 Slum to " + bosses_map["Fake Peppino"], world.player), lambda state: state.has("Toppin", world.player, get_toppin_prop(options.floor_4_cost)))
+    set_rule(multiworld.get_entrance("Floor 5 Staff Only to Pizzaface", world.player), lambda state: state.has("Toppin", world.player, get_toppin_prop(options.floor_5_cost)))
 
     #boss key requirements for floors
     if not options.open_world:
-        add_rule(multiworld.get_entrance("Floor 1 Tower Lobby to Floor 2 Western District", world.player), lambda state: state.has("Boss Key", world.player, 1))
-        add_rule(multiworld.get_entrance("Floor 2 Western District to Floor 3 Vacation Resort", world.player), lambda state: state.has("Boss Key", world.player, 2))
-        add_rule(multiworld.get_entrance("Floor 3 Vacation Resort to Floor 4 Slum", world.player), lambda state: state.has("Boss Key", world.player, 3))
-        add_rule(multiworld.get_entrance("Floor 4 Slum to Floor 5 Staff Only", world.player), lambda state: state.has("Boss Key", world.player, 4))
+        set_rule(multiworld.get_entrance("Floor 1 Tower Lobby to Floor 2 Western District", world.player), lambda state: state.has("Boss Key", world.player, 1))
+        set_rule(multiworld.get_entrance("Floor 2 Western District to Floor 3 Vacation Resort", world.player), lambda state: state.has("Boss Key", world.player, 2))
+        set_rule(multiworld.get_entrance("Floor 3 Vacation Resort to Floor 4 Slum", world.player), lambda state: state.has("Boss Key", world.player, 3))
+        set_rule(multiworld.get_entrance("Floor 4 Slum to Floor 5 Staff Only", world.player), lambda state: state.has("Boss Key", world.player, 4))
 
     #access rules for floors
     for i in range(4): 
         if options.bonus_ladders < (i+1):
             if options.character == 0:
-                add_rule(multiworld.get_entrance(floors_list[i] + " to " + floors_list[i+1], world.player), peppino_next_floor_access_rules[i])
+                add_rule(multiworld.get_entrance(floors_list[i] + " to " + floors_list[i+1], world.player), interpret_rule(peppino_next_floor_access_rules[i]))
             elif options.character == 1:
-                add_rule(multiworld.get_entrance(floors_list[i] + " to " + floors_list[i+1], world.player), noise_next_floor_access_rules[i])
+                add_rule(multiworld.get_entrance(floors_list[i] + " to " + floors_list[i+1], world.player), interpret_rule(noise_next_floor_access_rules[i]))
             elif options.character == 2:
-                add_rule(multiworld.get_entrance(floors_list[i] + " to " + floors_list[i+1], world.player), peppino_next_floor_access_rules[i] or noise_next_floor_access_rules[i])
+                add_rule(multiworld.get_entrance(floors_list[i] + " to " + floors_list[i+1], world.player), lambda state: any([interpret_rule(peppino_next_floor_access_rules[i]), interpret_rule(noise_next_floor_access_rules[i])]))
 
     #access rules for levels
     for i in range(4):
         if options.bonus_ladders < (i+1):
             for ii in range(4):
                 level_name = levels_map[levels_list[(4*i)+ii]]
-                if options.character == 0: add_rule(multiworld.get_entrance(floors_list[i] + " to " + level_name, world.player), peppino_level_access_rules[levels_list[(4*i)+ii]])
-                elif options.character == 1: add_rule(multiworld.get_entrance(floors_list[i] + " to " + level_name, world.player), noise_level_access_rules[levels_list[(4*i)+ii]])
-                elif options.character == 2: add_rule(multiworld.get_entrance(floors_list[i] + " to " + level_name, world.player), peppino_level_access_rules[levels_list[(4*i)+ii]] or noise_level_access_rules[levels_list[(4*i)+ii]])
+                if options.character == 0: set_rule(multiworld.get_entrance(floors_list[i] + " to " + level_name, world.player), interpret_rule(peppino_level_access_rules[levels_list[(4*i)+ii]]))
+                elif options.character == 1: set_rule(multiworld.get_entrance(floors_list[i] + " to " + level_name, world.player), interpret_rule(noise_level_access_rules[levels_list[(4*i)+ii]]))
+                elif options.character == 2: set_rule(multiworld.get_entrance(floors_list[i] + " to " + level_name, world.player), lambda state: any([interpret_rule(peppino_level_access_rules[levels_list[(4*i)+ii]]), interpret_rule(noise_level_access_rules[levels_list[(4*i)+ii]])]))
     for i in range(3):
         if options.bonus_ladders < 5:
             level_name = levels_map[levels_list[i+16]]
-            if options.character == 0: add_rule(multiworld.get_entrance("Floor 5 Staff Only to " + level_name, world.player), peppino_level_access_rules[levels_list[i+16]])
-            elif options.character == 1: add_rule(multiworld.get_entrance("Floor 5 Staff Only to " + level_name, world.player), noise_level_access_rules[levels_list[i+16]])
-            elif options.character == 2: add_rule(multiworld.get_entrance("Floor 5 Staff Only to " + level_name, world.player), peppino_level_access_rules[levels_list[i+16]] or noise_level_access_rules[levels_list[i+16]])
+            if options.character == 0: set_rule(multiworld.get_entrance("Floor 5 Staff Only to " + level_name, world.player), interpret_rule(peppino_level_access_rules[levels_list[i+16]]))
+            elif options.character == 1: set_rule(multiworld.get_entrance("Floor 5 Staff Only to " + level_name, world.player), interpret_rule(noise_level_access_rules[levels_list[i+16]]))
+            elif options.character == 2: set_rule(multiworld.get_entrance("Floor 5 Staff Only to " + level_name, world.player), lambda state: any([interpret_rule(peppino_level_access_rules[levels_list[i+16]]), interpret_rule(noise_level_access_rules[levels_list[i+16]])]))
 
     #access rules for bosses
     for i in range(4):
         if options.bonus_ladders < (i+1):
-            if options.character == 0: add_rule(multiworld.get_entrance(floors_list[i] + " to " + bosses_map[bosses_list[i]], world.player), peppino_boss_access_rules[bosses_list[i]])
-            elif options.character == 1: add_rule(multiworld.get_entrance(floors_list[i] + " to " + bosses_map[bosses_list[i]], world.player), noise_boss_access_rules[bosses_list[i]])
-            elif options.character == 1: add_rule(multiworld.get_entrance(floors_list[i] + " to " + bosses_map[bosses_list[i]], world.player), peppino_boss_access_rules[bosses_list[i]] or noise_boss_access_rules[bosses_list[i]])
+            if options.character == 0: add_rule(multiworld.get_entrance(floors_list[i] + " to " + bosses_map[bosses_list[i]], world.player), interpret_rule(peppino_boss_access_rules[bosses_list[i]]))
+            elif options.character == 1: add_rule(multiworld.get_entrance(floors_list[i] + " to " + bosses_map[bosses_list[i]], world.player), interpret_rule(noise_boss_access_rules[bosses_list[i]]))
+            elif options.character == 1: add_rule(multiworld.get_entrance(floors_list[i] + " to " + bosses_map[bosses_list[i]], world.player), lambda state: any([interpret_rule(peppino_boss_access_rules[bosses_list[i]]), interpret_rule(noise_boss_access_rules[bosses_list[i]])]))
     #...and pizzaface
     if options.bonus_ladders < 5:
-        if options.character == 0: add_rule(multiworld.get_entrance("Floor 5 Staff Only to Pizzaface", world.player), requires_superjump)
-        else: add_rule(multiworld.get_entrance("Floor 5 Staff Only to Pizzaface", world.player), noise_requires_big_upward_mobility)
+        if options.character == 0: set_rule(multiworld.get_entrance("Floor 5 Staff Only to Pizzaface", world.player), lambda state: state.has("Superjump", world.player))
+        else: set_rule(multiworld.get_entrance("Floor 5 Staff Only to Pizzaface", world.player), lambda state: state.has_any(["Superjump", "Noise: Crusher"], world.player))
