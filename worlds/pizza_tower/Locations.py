@@ -15,200 +15,200 @@ pt_locations = {
     "John Gutter Pineapple Toppin": 105,
 
 #Pizzascape
-    "Pizzascape Complete": 107,
-    "Pizzascape Mushroom Toppin": 108,
-    "Pizzascape Cheese Toppin": 109,
-    "Pizzascape Tomato Toppin": 110,
-    "Pizzascape Sausage Toppin": 111,
-    "Pizzascape Pineapple Toppin": 112,
+    "Pizzascape Complete": 106,
+    "Pizzascape Mushroom Toppin": 107,
+    "Pizzascape Cheese Toppin": 108,
+    "Pizzascape Tomato Toppin": 109,
+    "Pizzascape Sausage Toppin": 110,
+    "Pizzascape Pineapple Toppin": 111,
 
 #Ancient Cheese
-    "Ancient Cheese Complete": 114,
-    "Ancient Cheese Mushroom Toppin": 115,
-    "Ancient Cheese Cheese Toppin": 116,
-    "Ancient Cheese Tomato Toppin": 117,
-    "Ancient Cheese Sausage Toppin": 118,
-    "Ancient Cheese Pineapple Toppin": 119,
+    "Ancient Cheese Complete": 112,
+    "Ancient Cheese Mushroom Toppin": 113,
+    "Ancient Cheese Cheese Toppin": 114,
+    "Ancient Cheese Tomato Toppin": 115,
+    "Ancient Cheese Sausage Toppin": 116,
+    "Ancient Cheese Pineapple Toppin": 117,
 
 #Bloodsauce Dungeon
-    "Bloodsauce Dungeon Complete": 121,
-    "Bloodsauce Dungeon Mushroom Toppin": 122,
-    "Bloodsauce Dungeon Cheese Toppin": 123,
-    "Bloodsauce Dungeon Tomato Toppin": 124,
-    "Bloodsauce Dungeon Sausage Toppin": 125,
-    "Bloodsauce Dungeon Pineapple Toppin": 126,
+    "Bloodsauce Dungeon Complete": 118,
+    "Bloodsauce Dungeon Mushroom Toppin": 119,
+    "Bloodsauce Dungeon Cheese Toppin": 120,
+    "Bloodsauce Dungeon Tomato Toppin": 121,
+    "Bloodsauce Dungeon Sausage Toppin": 122,
+    "Bloodsauce Dungeon Pineapple Toppin": 123,
 
 #Oregano Desert
-    "Oregano Desert Complete": 128,
-    "Oregano Desert Mushroom Toppin": 129,
-    "Oregano Desert Cheese Toppin": 130,
-    "Oregano Desert Tomato Toppin": 131,
-    "Oregano Desert Sausage Toppin": 132,
-    "Oregano Desert Pineapple Toppin": 133,
+    "Oregano Desert Complete": 124,
+    "Oregano Desert Mushroom Toppin": 125,
+    "Oregano Desert Cheese Toppin": 126,
+    "Oregano Desert Tomato Toppin": 127,
+    "Oregano Desert Sausage Toppin": 128,
+    "Oregano Desert Pineapple Toppin": 129,
 
 #Wasteyard
-    "Wasteyard Complete": 135,
-    "Wasteyard Mushroom Toppin": 136,
-    "Wasteyard Cheese Toppin": 137,
-    "Wasteyard Tomato Toppin": 138,
-    "Wasteyard Sausage Toppin": 139,
-    "Wasteyard Pineapple Toppin": 140,
+    "Wasteyard Complete": 130,
+    "Wasteyard Mushroom Toppin": 131,
+    "Wasteyard Cheese Toppin": 132,
+    "Wasteyard Tomato Toppin": 133,
+    "Wasteyard Sausage Toppin": 134,
+    "Wasteyard Pineapple Toppin": 135,
 
 #Fun Farm
-    "Fun Farm Complete": 142,
-    "Fun Farm Mushroom Toppin": 143,
-    "Fun Farm Cheese Toppin": 144,
-    "Fun Farm Tomato Toppin": 145,
-    "Fun Farm Sausage Toppin": 146,
-    "Fun Farm Pineapple Toppin": 147,
+    "Fun Farm Complete": 136,
+    "Fun Farm Mushroom Toppin": 137,
+    "Fun Farm Cheese Toppin": 138,
+    "Fun Farm Tomato Toppin": 139,
+    "Fun Farm Sausage Toppin": 140,
+    "Fun Farm Pineapple Toppin": 141,
 
 #Fastfood Saloon
-    "Fastfood Saloon Complete": 149,
-    "Fastfood Saloon Mushroom Toppin": 150,
-    "Fastfood Saloon Cheese Toppin": 151,
-    "Fastfood Saloon Tomato Toppin": 152,
-    "Fastfood Saloon Sausage Toppin": 153,
-    "Fastfood Saloon Pineapple Toppin": 154,
+    "Fastfood Saloon Complete": 142,
+    "Fastfood Saloon Mushroom Toppin": 143,
+    "Fastfood Saloon Cheese Toppin": 144,
+    "Fastfood Saloon Tomato Toppin": 145,
+    "Fastfood Saloon Sausage Toppin": 146,
+    "Fastfood Saloon Pineapple Toppin": 147,
 
 #Crust Cove
-    "Crust Cove Complete": 156,
-    "Crust Cove Mushroom Toppin": 157,
-    "Crust Cove Cheese Toppin": 158,
-    "Crust Cove Tomato Toppin": 159,
-    "Crust Cove Sausage Toppin": 160,
-    "Crust Cove Pineapple Toppin": 161,
+    "Crust Cove Complete": 148,
+    "Crust Cove Mushroom Toppin": 149,
+    "Crust Cove Cheese Toppin": 150,
+    "Crust Cove Tomato Toppin": 151,
+    "Crust Cove Sausage Toppin": 152,
+    "Crust Cove Pineapple Toppin": 153,
 
 #Gnome Forest
-    "Gnome Forest Complete": 163,
-    "Gnome Forest Mushroom Toppin": 164,
-    "Gnome Forest Cheese Toppin": 165,
-    "Gnome Forest Tomato Toppin": 166,
-    "Gnome Forest Sausage Toppin": 167,
-    "Gnome Forest Pineapple Toppin": 168,
+    "Gnome Forest Complete": 154,
+    "Gnome Forest Mushroom Toppin": 155,
+    "Gnome Forest Cheese Toppin": 156,
+    "Gnome Forest Tomato Toppin": 157,
+    "Gnome Forest Sausage Toppin": 158,
+    "Gnome Forest Pineapple Toppin": 159,
 
 #Deep-Dish 9
-    "Deep-Dish 9 Complete": 170,
-    "Deep-Dish 9 Mushroom Toppin": 171,
-    "Deep-Dish 9 Cheese Toppin": 172,
-    "Deep-Dish 9 Tomato Toppin": 173,
-    "Deep-Dish 9 Sausage Toppin": 174,
-    "Deep-Dish 9 Pineapple Toppin": 175,
+    "Deep-Dish 9 Complete": 160,
+    "Deep-Dish 9 Mushroom Toppin": 161,
+    "Deep-Dish 9 Cheese Toppin": 162,
+    "Deep-Dish 9 Tomato Toppin": 163,
+    "Deep-Dish 9 Sausage Toppin": 164,
+    "Deep-Dish 9 Pineapple Toppin": 165,
 
 #GOLF
-    "GOLF Complete": 177,
-    "GOLF Mushroom Toppin": 178,
-    "GOLF Cheese Toppin": 179,
-    "GOLF Tomato Toppin": 180,
-    "GOLF Sausage Toppin": 181,
-    "GOLF Pineapple Toppin": 182,
+    "GOLF Complete": 166,
+    "GOLF Mushroom Toppin": 167,
+    "GOLF Cheese Toppin": 168,
+    "GOLF Tomato Toppin": 169,
+    "GOLF Sausage Toppin": 170,
+    "GOLF Pineapple Toppin": 171,
 
 #The Pig City
-    "The Pig City Complete": 184,
-    "The Pig City Mushroom Toppin": 185,
-    "The Pig City Cheese Toppin": 186,
-    "The Pig City Tomato Toppin": 187,
-    "The Pig City Sausage Toppin": 188,
-    "The Pig City Pineapple Toppin": 189,
+    "The Pig City Complete": 172,
+    "The Pig City Mushroom Toppin": 173,
+    "The Pig City Cheese Toppin": 174,
+    "The Pig City Tomato Toppin": 175,
+    "The Pig City Sausage Toppin": 176,
+    "The Pig City Pineapple Toppin": 177,
 
 #Peppibot Factory
-    "Peppibot Factory Complete": 191,
-    "Peppibot Factory Mushroom Toppin": 192,
-    "Peppibot Factory Cheese Toppin": 193,
-    "Peppibot Factory Tomato Toppin": 194,
-    "Peppibot Factory Sausage Toppin": 195,
-    "Peppibot Factory Pineapple Toppin": 196,
+    "Peppibot Factory Complete": 178,
+    "Peppibot Factory Mushroom Toppin": 179,
+    "Peppibot Factory Cheese Toppin": 180,
+    "Peppibot Factory Tomato Toppin": 181,
+    "Peppibot Factory Sausage Toppin": 182,
+    "Peppibot Factory Pineapple Toppin": 183,
 
 #Oh Shit!
-    "Oh Shit! Complete": 198,
-    "Oh Shit! Mushroom Toppin": 199,
-    "Oh Shit! Cheese Toppin": 200,
-    "Oh Shit! Tomato Toppin": 201,
-    "Oh Shit! Sausage Toppin": 202,
-    "Oh Shit! Pineapple Toppin": 203,
+    "Oh Shit! Complete": 184,
+    "Oh Shit! Mushroom Toppin": 185,
+    "Oh Shit! Cheese Toppin": 186,
+    "Oh Shit! Tomato Toppin": 187,
+    "Oh Shit! Sausage Toppin": 188,
+    "Oh Shit! Pineapple Toppin": 189,
 
 #Freezerator
-    "Freezerator Complete": 205,
-    "Freezerator Mushroom Toppin": 206,
-    "Freezerator Cheese Toppin": 207,
-    "Freezerator Tomato Toppin": 208,
-    "Freezerator Sausage Toppin": 209,
-    "Freezerator Pineapple Toppin": 210,
+    "Freezerator Complete": 190,
+    "Freezerator Mushroom Toppin": 191,
+    "Freezerator Cheese Toppin": 192,
+    "Freezerator Tomato Toppin": 193,
+    "Freezerator Sausage Toppin": 194,
+    "Freezerator Pineapple Toppin": 195,
 
 #Pizzascare
-    "Pizzascare Complete": 212,
-    "Pizzascare Mushroom Toppin": 213,
-    "Pizzascare Cheese Toppin": 214,
-    "Pizzascare Tomato Toppin": 215,
-    "Pizzascare Sausage Toppin": 216,
-    "Pizzascare Pineapple Toppin": 217,
+    "Pizzascare Complete": 196,
+    "Pizzascare Mushroom Toppin": 197,
+    "Pizzascare Cheese Toppin": 198,
+    "Pizzascare Tomato Toppin": 199,
+    "Pizzascare Sausage Toppin": 200,
+    "Pizzascare Pineapple Toppin": 201,
 
 #Don't Make a Sound
-    "Don't Make a Sound Complete": 219,
-    "Don't Make a Sound Mushroom Toppin": 220,
-    "Don't Make a Sound Cheese Toppin": 221,
-    "Don't Make a Sound Tomato Toppin": 222,
-    "Don't Make a Sound Sausage Toppin": 223,
-    "Don't Make a Sound Pineapple Toppin": 224,
+    "Don't Make a Sound Complete": 202,
+    "Don't Make a Sound Mushroom Toppin": 203,
+    "Don't Make a Sound Cheese Toppin": 204,
+    "Don't Make a Sound Tomato Toppin": 205,
+    "Don't Make a Sound Sausage Toppin": 206,
+    "Don't Make a Sound Pineapple Toppin": 207,
 
 #WAR
-    "WAR Complete": 226,
-    "WAR Mushroom Toppin": 227,
-    "WAR Cheese Toppin": 228,
-    "WAR Tomato Toppin": 229,
-    "WAR Sausage Toppin": 230,
-    "WAR Pineapple Toppin": 231,
+    "WAR Complete": 208,
+    "WAR Mushroom Toppin": 209,
+    "WAR Cheese Toppin": 210,
+    "WAR Tomato Toppin": 211,
+    "WAR Sausage Toppin": 212,
+    "WAR Pineapple Toppin": 213,
 
 #Crumbling Tower of Pizza
-    "The Crumbling Tower of Pizza Complete": 233,
+    "The Crumbling Tower of Pizza Complete": 214,
 
 #Bosses
-    "Pepperman Defeated": 235,
-    "The Vigilante Defeated": 237,
-    "The Noise Defeated": 239,
-    "Fake Peppino Defeated": 241,
-    "Pizzaface Defeated": 243,
+    "Pepperman Defeated": 215,
+    "The Vigilante Defeated": 216,
+    "The Noise Defeated": 217,
+    "Fake Peppino Defeated": 218,
+    "Pizzaface Defeated": 219,
 
 #misc
-    "Snotty Murdered": 244,
+    "Snotty Murdered": 220,
 
 #Tutorial
-    "Tutorial Complete": 245,
-    "Tutorial Complete in under 2 minutes": 246,
-    "Tutorial Mushroom Toppin": 247,
-    "Tutorial Cheese Toppin": 248,
-    "Tutorial Tomato Toppin": 249,
-    "Tutorial Sausage Toppin": 250,
-    "Tutorial Pineapple Toppin": 251,
+    "Tutorial Complete": 221,
+    "Tutorial Complete in under 2 minutes": 222,
+    "Tutorial Mushroom Toppin": 223,
+    "Tutorial Cheese Toppin": 224,
+    "Tutorial Tomato Toppin": 225,
+    "Tutorial Sausage Toppin": 226,
+    "Tutorial Pineapple Toppin": 227,
     
     #s ranks
 
     #Levels
-    "John Gutter S Rank": 106,
-    "Pizzascape S Rank": 113,
-    "Ancient Cheese S Rank": 120,
-    "Bloodsauce Dungeon S Rank": 127,
-    "Oregano Desert S Rank": 134,
-    "Wasteyard S Rank": 141,
-    "Fun Farm S Rank": 148,
-    "Fastfood Saloon S Rank": 155,
-    "Crust Cove S Rank": 162,
-    "Gnome Forest S Rank": 169,
-    "Deep-Dish 9 S Rank": 176,
-    "GOLF S Rank": 183,
-    "The Pig City S Rank": 190,
-    "Peppibot Factory S Rank": 197,
-    "Oh Shit! S Rank": 204,
-    "Freezerator S Rank": 211,
-    "Pizzascare S Rank": 218,
-    "Don't Make a Sound S Rank": 225,
-    "WAR S Rank": 232,
-    "The Crumbling Tower of Pizza S Rank": 234,
+    "John Gutter S Rank": 228,
+    "Pizzascape S Rank": 229,
+    "Ancient Cheese S Rank": 230,
+    "Bloodsauce Dungeon S Rank": 231,
+    "Oregano Desert S Rank": 232,
+    "Wasteyard S Rank": 233,
+    "Fun Farm S Rank": 234,
+    "Fastfood Saloon S Rank": 235,
+    "Crust Cove S Rank": 236,
+    "Gnome Forest S Rank": 237,
+    "Deep-Dish 9 S Rank": 238,
+    "GOLF S Rank": 239,
+    "The Pig City S Rank": 240,
+    "Peppibot Factory S Rank": 241,
+    "Oh Shit! S Rank": 242,
+    "Freezerator S Rank": 243,
+    "Pizzascare S Rank": 244,
+    "Don't Make a Sound S Rank": 245,
+    "WAR S Rank": 246,
+    "The Crumbling Tower of Pizza S Rank": 247,
 
     #Bosses
-    "Pepperman S Rank": 236,
-    "The Vigilante S Rank": 238,
-    "The Noise S Rank": 240,
-    "Fake Peppino S Rank": 242,
+    "Pepperman S Rank": 248,
+    "The Vigilante S Rank": 249,
+    "The Noise S Rank": 250,
+    "Fake Peppino S Rank": 251,
 
     #secrets 
 
@@ -341,8 +341,8 @@ pt_locations = {
 
     #John Gutter
     "Chef Task: John Gutted": 333,
-    "Chef Task: Primate Rage": 334,
-    "Chef Task: Let's Make This Quick": 335,
+    "Chef Task: Let's Make This Quick": 334,
+    "Chef Task: Primate Rage": 335,
 
     #Pizzascape
     "Chef Task: Shining Armor": 336,
@@ -355,8 +355,8 @@ pt_locations = {
     "Chef Task: Delicacy": 341,
 
     #Bloodsauce Dungeon
-    "Chef Task: Eruption Man": 342,
-    "Chef Task: Very Very Hot Sauce": 343,
+    "Chef Task: Very Very Hot Sauce": 342,
+    "Chef Task: Eruption Man": 343,
     "Chef Task: Unsliced Pizzaman": 344,
 
     #Oregano Desert
@@ -365,74 +365,74 @@ pt_locations = {
     "Chef Task: Alien Cow": 347,
 
     #Wasteyard
-    "Chef Task: Alive and Well": 348,
+    "Chef Task: Ghosted": 348,
     "Chef Task: Pretend Ghost": 349,
-    "Chef Task: Ghosted": 350,
+    "Chef Task: Alive and Well": 350,
 
     #Fun Farm
-    "Chef Task: Good Egg": 351,
-    "Chef Task: No One Is Safe": 352,
-    "Chef Task: Cube Menace": 353,
+    "Chef Task: No One Is Safe": 351,
+    "Chef Task: Cube Menace": 352,
+    "Chef Task: Good Egg": 353,
 
     #Fastfood Saloon
-    "Chef Task: Royal Flush": 354,
-    "Chef Task: Non-Alcoholic": 355,
-    "Chef Task: Already Pressed": 356,
+    "Chef Task: Non-Alcoholic": 354,
+    "Chef Task: Already Pressed": 355,
+    "Chef Task: Royal Flush": 356,
 
     #Crust Cove
-    "Chef Task: Demolition Expert": 357,
-    "Chef Task: Blowback": 358,
-    "Chef Task: X": 359,
+    "Chef Task: Blowback": 357,
+    "Chef Task: X": 358,
+    "Chef Task: Demolition Expert": 359,
 
     #Gnome Forest
     "Chef Task: Bee Nice": 360,
-    "Chef Task: Bullseye": 361,
-    "Chef Task: Lumberjack": 362,
+    "Chef Task: Lumberjack": 361,
+    "Chef Task: Bullseye": 362,
 
     #Deep-Dish 9
-    "Chef Task: Blast 'Em Asteroids": 363,
-    "Chef Task: Turbo Tunnel": 364,
+    "Chef Task: Turbo Tunnel": 363,
+    "Chef Task: Blast 'Em Asteroids": 364,
     "Chef Task: Man Meteor": 365,
 
     #GOLF
     "Chef Task: Primo Golfer": 366,
-    "Chef Task: Helpful Burger": 367,
-    "Chef Task: Nice Shot": 368,
+    "Chef Task: Nice Shot": 367,
+    "Chef Task: Helpful Burger": 368,
 
     #The Pig City
-    "Chef Task: Say Oink!": 369,
-    "Chef Task: Pan Fried": 370,
-    "Chef Task: Strike!": 371,
+    "Chef Task: Pan Fried": 369,
+    "Chef Task: Strike!": 370,
+    "Chef Task: Say Oink!": 371,
 
     #Peppibot Factory
-    "Chef Task: There Can Be Only One": 372,
+    "Chef Task: Unflattening": 372,
     "Chef Task: Whoop This!": 373,
-    "Chef Task: Unflattening": 374,
+    "Chef Task: There Can Be Only One": 374,
 
     #Oh Shit!
-    "Chef Task: Food Clan": 375,
-    "Chef Task: Can't Fool Me": 376,
+    "Chef Task: Can't Fool Me": 375,
+    "Chef Task: Food Clan": 376,
     "Chef Task: Penny Pincher": 377,
 
     #Freezerator
-    "Chef Task: Ice Climber": 378,
+    "Chef Task: Frozen Nuggets": 378,
     "Chef Task: Season's Greetings": 379,
-    "Chef Task: Frozen Nuggets": 380,
+    "Chef Task: Ice Climber": 380,
 
     #Pizzascare
-    "Chef Task: Haunted Playground": 381,
-    "Chef Task: Skullsplitter": 382,
-    "Chef Task: Cross to Bare": 383,
+    "Chef Task: Cross To Bare": 381,
+    "Chef Task: Haunted Playground": 382,
+    "Chef Task: Skullsplitter": 383,
 
     #Don't Make a Sound
-    "Chef Task: Let Them Sleep": 384,
-    "Chef Task: Jumpspared": 385,
-    "Chef Task: And This... Is My Gun on a Stick!": 386,
+    "Chef Task: And This... Is My Gun On A Stick!": 384,
+    "Chef Task: Let Them Sleep": 385,
+    "Chef Task: Jumpspared": 386,
 
     #WAR
-    "Chef Task: Trip to the Warzone": 387,
+    "Chef Task: Decorated Veteran": 387,
     "Chef Task: Sharpshooter": 388,
-    "Chef Task: Decorated Veteran": 389,
+    "Chef Task: Trip to the Warzone": 389,
 
     #Floor Tasks
     "Chef Task: S Ranked #1": 390,

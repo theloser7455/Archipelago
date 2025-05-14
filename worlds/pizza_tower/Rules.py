@@ -173,12 +173,12 @@ def set_rules(multiworld: MultiWorld, world: World, options: PTOptions, toppins:
         "Fake Peppino": "SJUMP | CLIMB"
     }
 
-    peppino_next_floor_access_rules = [
-        "SJUMP | CLIMB",
-        "NONE",
-        "SJUMP | CLIMB | UPPER",
-        "NONE"
-    ]
+    peppino_next_floor_access_rules = {
+        "Floor 1 Tower Lobby": "SJUMP | CLIMB",
+        "Floor 2 Western District": "NONE",
+        "Floor 3 Vacation Resort": "SJUMP | CLIMB | UPPER",
+        "Floor 4 Slum": "NONE"
+    }
 
     pt_peppino_rules = { #access rules within levels, which do not change
     #John Gutter
@@ -223,7 +223,7 @@ def set_rules(multiworld: MultiWorld, world: World, options: PTOptions, toppins:
         "Ancient Cheese Secret 3": "UPPER+SLAM | GRAB+CLIMB+SLAM | GRAB+SJUMP+SLAM",
         "Ancient Cheese Treasure": "UPPER | GRAB+CLIMB | GRAB+SJUMP",
         "Chef Task: Thrill Seeker": "UPPER+CLIMB+SLAM | UPPER+SJUMP+SLAM | GRAB+CLIMB+SLAM | GRAB+SJUMP+SLAM",
-        "Chef Task: Volleybomb": "NONE",
+        "Chef Task: Volleybomb": "UPPER | GRAB+CLIMB | GRAB+SJUMP",
         "Chef Task: Delicacy": "NONE",
 
     #Bloodsauce Dungeon
@@ -287,19 +287,19 @@ def set_rules(multiworld: MultiWorld, world: World, options: PTOptions, toppins:
         "Chef Task: Cube Menace": "SLAM+UPPER | SLAM+SJUMP | SLAM+CLIMB",
 
     #Fastfood Saloon
-        "Fastfood Saloon Complete": "GRAB+SJUMP+DIVE | GRAB+CLIMB",
+        "Fastfood Saloon Complete": "GRAB+SJUMP | GRAB+CLIMB",
         "Fastfood Saloon Mushroom Toppin": "SJUMP | CLIMB",
         "Fastfood Saloon Cheese Toppin": "GRAB+SJUMP | GRAB+CLIMB",
-        "Fastfood Saloon Tomato Toppin": "GRAB+SJUMP+DIVE | GRAB+CLIMB",
-        "Fastfood Saloon Sausage Toppin": "GRAB+SJUMP+DIVE | GRAB+CLIMB",
-        "Fastfood Saloon Pineapple Toppin": "GRAB+SJUMP+DIVE | GRAB+CLIMB",
-        "Fastfood Saloon Secret 1": "GRAB+SJUMP+DIVE | GRAB+CLIMB",
-        "Fastfood Saloon Secret 2": "GRAB+SJUMP+DIVE | GRAB+CLIMB",
+        "Fastfood Saloon Tomato Toppin": "GRAB+SJUMP | GRAB+CLIMB",
+        "Fastfood Saloon Sausage Toppin": "GRAB+SJUMP | GRAB+CLIMB",
+        "Fastfood Saloon Pineapple Toppin": "GRAB+SJUMP | GRAB+CLIMB",
+        "Fastfood Saloon Secret 1": "GRAB+SJUMP | GRAB+CLIMB",
+        "Fastfood Saloon Secret 2": "GRAB+SJUMP | GRAB+CLIMB",
         "Fastfood Saloon Secret 3": "GRAB+CLIMB",
-	    "Fastfood Saloon Treasure": "GRAB+SJUMP+DIVE | GRAB+CLIMB",
-        "Chef Task: Royal Flush": "GRAB+SJUMP+DIVE | GRAB+CLIMB",
-        "Chef Task: Non-Alcoholic": "GRAB+SJUMP+DIVE | GRAB+CLIMB",
-        "Chef Task: Already Pressed": "GRAB+SJUMP+DIVE | GRAB+CLIMB",
+	    "Fastfood Saloon Treasure": "GRAB+SJUMP | GRAB+CLIMB",
+        "Chef Task: Royal Flush": "GRAB+SJUMP | GRAB+CLIMB",
+        "Chef Task: Non-Alcoholic": "GRAB+SJUMP | GRAB+CLIMB",
+        "Chef Task: Already Pressed": "GRAB+SJUMP | GRAB+CLIMB",
 
     #Crust Cove
         "Crust Cove Complete": "SLAM+CLIMB | SLAM+SJUMP+UPPER",
@@ -434,7 +434,7 @@ def set_rules(multiworld: MultiWorld, world: World, options: PTOptions, toppins:
         "Pizzascare Treasure": "SJUMP+SLAM | CLIMB+SLAM",
         "Chef Task: Haunted Playground": "SJUMP+SLAM | CLIMB+SLAM",
         "Chef Task: Skullsplitter": "SJUMP+SLAM | CLIMB+SLAM",
-        "Chef Task: Cross to Bare": "SJUMP+SLAM | CLIMB+SLAM",
+        "Chef Task: Cross To Bare": "SJUMP+SLAM | CLIMB+SLAM",
 
     #Don't Make a Sound
         "Don't Make a Sound Complete": "CLIMB+GRAB | CLIMB+UPPER",
@@ -449,7 +449,7 @@ def set_rules(multiworld: MultiWorld, world: World, options: PTOptions, toppins:
         "Don't Make a Sound Treasure": "CLIMB+GRAB | CLIMB+UPPER",
         "Chef Task: Let Them Sleep": "CLIMB+GRAB | CLIMB+UPPER",
         "Chef Task: Jumpspared": "CLIMB+GRAB | CLIMB+UPPER",
-        "Chef Task: And This... Is My Gun on a Stick!": "CLIMB+GRAB | CLIMB+UPPER",
+        "Chef Task: And This... Is My Gun On A Stick!": "CLIMB+GRAB | CLIMB+UPPER",
 
     #WAR
         "WAR Complete": "GRAB+SLAM+SJUMP | UPPER+SLAM+SJUMP | GRAB+SLAM+CLIMB | UPPER+SLAM+CLIMB",
@@ -472,10 +472,10 @@ def set_rules(multiworld: MultiWorld, world: World, options: PTOptions, toppins:
         "The Crumbling Tower of Pizza P Rank": "GRAB+SLAM+SJUMP | GRAB+SLAM+CLIMB",
 
     #Pepperman
-        "Pepperman Defeated": "NONE",
-        "Chef Task: The Critic": "NONE",
-        "Pepperman S Rank": "NONE",
-        "Pepperman P Rank": "NONE",
+        "Pepperman Defeated": "GRAB",
+        "Chef Task: The Critic": "GRAB",
+        "Pepperman S Rank": "GRAB",
+        "Pepperman P Rank": "GRAB",
 
     #Vigilante
         "The Vigilante Defeated": "GRAB",
@@ -625,12 +625,12 @@ def set_rules(multiworld: MultiWorld, world: World, options: PTOptions, toppins:
         "Fake Peppino": "SJUMP | UPPER | CRUSH | BOUNCE"
     }
 
-    noise_next_floor_access_rules = [
-        "SJUMP | UPPER | CRUSH | BOUNCE",
-        "NONE",
-        "SJUMP | UPPER | CRUSH | BOUNCE",
-        "NONE"
-    ]
+    noise_next_floor_access_rules = {
+        "Floor 1 Tower Lobby": "SJUMP | UPPER | CRUSH | BOUNCE",
+        "Floor 2 Western District": "NONE",
+        "Floor 3 Vacation Resort": "SJUMP | UPPER | CRUSH | BOUNCE",
+        "Floor 4 Slum": "NONE"
+    }
 
     pt_noise_rules = { #access rules within levels, which do not change
     #John Gutter
@@ -664,18 +664,18 @@ def set_rules(multiworld: MultiWorld, world: World, options: PTOptions, toppins:
         "Chef Task: Spherical": "GRAB | UPPER",
 
     #Ancient Cheese
-        "Ancient Cheese Complete": "GRAB+SJUMP+SLAM | GRAB+SJUMP+TORN | GRAB+SJUMP+BOUNCE | UPPER+SJUMP+SLAM | UPPER+SJUMP+TORN | UPPER+SJUMP+BOUNCE",
+        "Ancient Cheese Complete": "GRAB+SJUMP+SLAM | GRAB+SJUMP+TORN | UPPER+SJUMP+SLAM | UPPER+SJUMP+TORN",
         "Ancient Cheese Mushroom Toppin": "NONE",
         "Ancient Cheese Cheese Toppin": "GRAB | UPPER",
-        "Ancient Cheese Tomato Toppin": "GRAB+SJUMP+SLAM | GRAB+SJUMP+TORN | GRAB+SJUMP+BOUNCE | UPPER+SJUMP+SLAM | UPPER+SJUMP+TORN | UPPER+SJUMP+BOUNCE",
-        "Ancient Cheese Sausage Toppin": "GRAB+SJUMP+SLAM | GRAB+SJUMP+TORN | GRAB+SJUMP+BOUNCE | UPPER+SJUMP+SLAM | UPPER+SJUMP+TORN | UPPER+SJUMP+BOUNCE",
-        "Ancient Cheese Pineapple Toppin": "GRAB+SJUMP+SLAM | GRAB+SJUMP+TORN | GRAB+SJUMP+BOUNCE | UPPER+SJUMP+SLAM | UPPER+SJUMP+TORN | UPPER+SJUMP+BOUNCE",
+        "Ancient Cheese Tomato Toppin": "GRAB+SJUMP+SLAM | GRAB+SJUMP+TORN | UPPER+SJUMP+SLAM | UPPER+SJUMP+TORN",
+        "Ancient Cheese Sausage Toppin": "GRAB+SJUMP+SLAM | GRAB+SJUMP+TORN | UPPER+SJUMP+SLAM | UPPER+SJUMP+TORN",
+        "Ancient Cheese Pineapple Toppin": "GRAB+SJUMP+SLAM | GRAB+SJUMP+TORN | UPPER+SJUMP+SLAM | UPPER+SJUMP+TORN",
         "Ancient Cheese Secret 1": "NONE",
         "Ancient Cheese Secret 2": "GRAB+SJUMP | UPPER | GRAB+BOUNCE | GRAB+CRUSH",
-        "Ancient Cheese Secret 3": "GRAB+SJUMP+SLAM | GRAB+SJUMP+TORN | GRAB+SJUMP+BOUNCE | UPPER+SJUMP+SLAM | UPPER+SJUMP+TORN | UPPER+SJUMP+BOUNCE",
+        "Ancient Cheese Secret 3": "GRAB+SJUMP+SLAM | GRAB+SJUMP+TORN | UPPER+SJUMP+SLAM | UPPER+SJUMP+TORN",
         "Ancient Cheese Treasure": "GRAB+SJUMP | UPPER | GRAB+BOUNCE | GRAB+CRUSH",
-        "Chef Task: Thrill Seeker": "GRAB+SJUMP+SLAM | GRAB+SJUMP+TORN | GRAB+SJUMP+BOUNCE | UPPER+SJUMP+SLAM | UPPER+SJUMP+TORN | UPPER+SJUMP+BOUNCE",
-        "Chef Task: Volleybomb": "NONE",
+        "Chef Task: Thrill Seeker": "GRAB+SJUMP+SLAM | GRAB+SJUMP+TORN | UPPER+SJUMP+SLAM | UPPER+SJUMP+TORN",
+        "Chef Task: Volleybomb": "GRAB+SJUMP | UPPER | GRAB+BOUNCE | GRAB+CRUSH",
         "Chef Task: Delicacy": "NONE",
 
     #Bloodsauce Dungeon
@@ -886,7 +886,7 @@ def set_rules(multiworld: MultiWorld, world: World, options: PTOptions, toppins:
         "Pizzascare Treasure": "CRUSH | SJUMP+SLAM | SJUMP+TORN | UPPER+SLAM | UPPER+TORN | BOUNCE",
         "Chef Task: Haunted Playground": "CRUSH | SJUMP+SLAM | SJUMP+TORN | UPPER+SLAM | UPPER+TORN | BOUNCE",
         "Chef Task: Skullsplitter": "CRUSH | SJUMP+SLAM | SJUMP+TORN | UPPER+SLAM | UPPER+TORN | BOUNCE",
-        "Chef Task: Cross to Bare": "CRUSH | SJUMP+SLAM | SJUMP+TORN | UPPER+SLAM | UPPER+TORN | BOUNCE",
+        "Chef Task: Cross To Bare": "CRUSH | SJUMP+SLAM | SJUMP+TORN | UPPER+SLAM | UPPER+TORN | BOUNCE",
 
     #Don't Make a Sound
         "Don't Make a Sound Complete": "SJUMP+GRAB | SJUMP+UPPER",
@@ -901,7 +901,7 @@ def set_rules(multiworld: MultiWorld, world: World, options: PTOptions, toppins:
         "Don't Make a Sound Treasure": "SJUMP+GRAB | SJUMP+UPPER",
         "Chef Task: Let Them Sleep": "SJUMP+GRAB | SJUMP+UPPER",
         "Chef Task: Jumpspared": "SJUMP+GRAB | SJUMP+UPPER",
-        "Chef Task: And This... Is My Gun on a Stick!": "SJUMP+GRAB | SJUMP+UPPER",
+        "Chef Task: And This... Is My Gun On A Stick!": "SJUMP+GRAB | SJUMP+UPPER",
 
     #WAR
         "WAR Complete": "GRAB+SJUMP+SLAM | GRAB+SJUMP+TORN | GRAB+SJUMP+BOUNCE | UPPER+SJUMP+SLAM | UPPER+SJUMP+TORN | UPPER+SJUMP+BOUNCE",
@@ -924,10 +924,10 @@ def set_rules(multiworld: MultiWorld, world: World, options: PTOptions, toppins:
         "The Crumbling Tower of Pizza P Rank": "SJUMP+GRAB+SLAM | SJUMP+GRAB+TORN | SJUMP+GRAB+BOUNCE | CRUSH+GRAB",
 
     #Pepperman
-        "Pepperman Defeated": "NONE",
-        "Chef Task: The Critic": "NONE",
-        "Pepperman S Rank": "NONE",
-        "Pepperman P Rank": "NONE",
+        "Pepperman Defeated": "BOMB",
+        "Chef Task: The Critic": "BOMB",
+        "Pepperman S Rank": "BOMB",
+        "Pepperman P Rank": "BOMB",
 
     #Vigilante
         "The Vigilante Defeated": "BOMB",
@@ -952,8 +952,8 @@ def set_rules(multiworld: MultiWorld, world: World, options: PTOptions, toppins:
         "Chef Task: Face Off": "BOMB",
 
     #Tutorial
-        "Tutorial Complete": "SJUMP+SLAM | SJUMP+TORNADO | SJUMP+BOUNCE | CRUSH",
-        "Tutorial Complete in under 2 minutes": "SJUMP+SLAM | SJUMP+TORNADO | SJUMP+BOUNCE | CRUSH",
+        "Tutorial Complete": "SJUMP+SLAM | SJUMP+TORN | SJUMP+BOUNCE | CRUSH",
+        "Tutorial Complete in under 2 minutes": "SJUMP+SLAM | SJUMP+TORN | SJUMP+BOUNCE | CRUSH",
 
     #misc
         "Snotty Murdered": "NONE",
@@ -1061,10 +1061,25 @@ def set_rules(multiworld: MultiWorld, world: World, options: PTOptions, toppins:
     world.boss_map = bosses_map
     world.secret_map = secrets_map
 
-    def interpret_rule(rule_str: str) -> Callable:
-        if rule_str == "NONE":
-            return lambda state: True
+    def interpret_rule(rule_chk: str, mode: int) -> Callable:
+        if options.character == 0:
+            if mode == 0: rule_str = pt_peppino_rules[rule_chk]
+            if mode == 1: rule_str = peppino_level_access_rules[rule_chk]
+            if mode == 2: rule_str = peppino_boss_access_rules[rule_chk]
+            if mode == 3: rule_str = peppino_next_floor_access_rules[rule_chk]
+        elif options.character == 1:
+            if mode == 0: rule_str = pt_noise_rules[rule_chk]
+            if mode == 1: rule_str = noise_level_access_rules[rule_chk]
+            if mode == 2: rule_str = noise_boss_access_rules[rule_chk]
+            if mode == 3: rule_str = noise_next_floor_access_rules[rule_chk]
+        else:
+            if mode == 0: rule_str = pt_peppino_rules[rule_chk] + " | " + pt_noise_rules[rule_chk]
+            if mode == 1: rule_str = peppino_level_access_rules[rule_chk] + " | " + noise_level_access_rules[rule_chk]
+            if mode == 2: rule_str = peppino_boss_access_rules[rule_chk] + " | " + noise_boss_access_rules[rule_chk]
+            if mode == 3: rule_str = peppino_next_floor_access_rules[rule_chk] + " | " + noise_next_floor_access_rules[rule_chk]
         rules = rule_str.split(" | ")
+        if "NONE" in rules:
+            return lambda state: True
         lambda_components = []
         for rule in rules:
             tokens = rule.split("+")
@@ -1073,15 +1088,7 @@ def set_rules(multiworld: MultiWorld, world: World, options: PTOptions, toppins:
         return lambda state: any(comp(state) for comp in lambda_components)
 
     def get_s_rank_rule(lvl: str, character: int) -> Callable:
-        if character == 0:
-            return interpret_rule(pt_peppino_rules[lvl + " Complete"])
-            #return lambda state: all([interpret_rule(pt_peppino_rules[lvl + " Mushroom Toppin"]), interpret_rule(pt_peppino_rules[lvl + " Cheese Toppin"]), interpret_rule(pt_peppino_rules[lvl + " Tomato Toppin"]), interpret_rule(pt_peppino_rules[lvl + " Sausage Toppin"]), interpret_rule(pt_peppino_rules[lvl + " Pineapple Toppin"]), interpret_rule(pt_peppino_rules[lvl + " Complete"]), interpret_rule(pt_peppino_rules[lvl + " Treasure"]), interpret_rule(pt_peppino_rules[lvl + " Secret 1"]), interpret_rule(pt_peppino_rules[lvl + " Secret 2"]), interpret_rule(pt_peppino_rules[lvl + " Secret 3"]), interpret_rule(pt_peppino_extra_rules[lvl + " Secret 1 Passed"]), interpret_rule(pt_peppino_extra_rules[lvl + " Secret 2 Passed"]), interpret_rule(pt_peppino_extra_rules[lvl + " Secret 3 Passed"])]) #imprecise but idc rn
-        elif character == 1:
-            return interpret_rule(pt_noise_rules[lvl + " Complete"])
-            #return lambda state: all([interpret_rule(pt_noise_rules[lvl + " Mushroom Toppin"]), interpret_rule(pt_noise_rules[lvl + " Cheese Toppin"]), interpret_rule(pt_noise_rules[lvl + " Tomato Toppin"]), interpret_rule(pt_noise_rules[lvl + " Sausage Toppin"]), interpret_rule(pt_noise_rules[lvl + " Pineapple Toppin"]), interpret_rule(pt_noise_rules[lvl + " Complete"]), interpret_rule(pt_noise_rules[lvl + " Treasure"]), interpret_rule(pt_noise_rules[lvl + " Secret 1"]), interpret_rule(pt_noise_rules[lvl + " Secret 2"]), interpret_rule(pt_noise_rules[lvl + " Secret 3"]), interpret_rule(pt_noise_extra_rules[lvl + " Secret 1 Passed"]), interpret_rule(pt_noise_extra_rules[lvl + " Secret 2 Passed"]), interpret_rule(pt_noise_extra_rules[lvl + " Secret 3 Passed"])])
-        else:
-            return lambda state: any([interpret_rule(pt_peppino_rules[lvl + " Complete"]), pt_noise_rules[lvl + " Complete"]])
-            #return lambda state: any([get_s_rank_rule(lvl, 0) and get_s_rank_rule(lvl, 1)])
+        return interpret_rule(lvl + " Complete", 0)
 
     #connect regions
     multiworld.get_region("Menu", world.player).connect(multiworld.get_region("Floor 1 Tower Lobby", world.player), "Menu to Floor 1 Tower Lobby")
@@ -1114,9 +1121,7 @@ def set_rules(multiworld: MultiWorld, world: World, options: PTOptions, toppins:
             else:
                 set_rule(location, get_s_rank_rule(levels_map[levels_list[floor_first_lvl_index]], options.character) and get_s_rank_rule(levels_map[levels_list[floor_first_lvl_index + 1]], options.character) and get_s_rank_rule(levels_map[levels_list[floor_first_lvl_index + 2]], options.character) and get_s_rank_rule(levels_map[levels_list[floor_first_lvl_index + 3]], options.character))
         else:
-            if options.character == 0: set_rule(location, interpret_rule(pt_peppino_rules[location.name]))
-            elif options.character == 1: set_rule(location, interpret_rule(pt_noise_rules[location.name]))
-            else: set_rule(location, lambda state: any([interpret_rule(pt_peppino_rules[location.name]), interpret_rule(pt_noise_rules[location.name])]))
+            set_rule(location, interpret_rule(location.name, 0))
 
     def get_toppin_prop(perc: int):
         return floor(toppins * (perc / 100))
@@ -1138,34 +1143,23 @@ def set_rules(multiworld: MultiWorld, world: World, options: PTOptions, toppins:
     #access rules for floors
     for i in range(4): 
         if options.bonus_ladders < (i+1):
-            if options.character == 0:
-                add_rule(multiworld.get_entrance(floors_list[i] + " to " + floors_list[i+1], world.player), interpret_rule(peppino_next_floor_access_rules[i]))
-            elif options.character == 1:
-                add_rule(multiworld.get_entrance(floors_list[i] + " to " + floors_list[i+1], world.player), interpret_rule(noise_next_floor_access_rules[i]))
-            elif options.character == 2:
-                add_rule(multiworld.get_entrance(floors_list[i] + " to " + floors_list[i+1], world.player), lambda state: any([interpret_rule(peppino_next_floor_access_rules[i]), interpret_rule(noise_next_floor_access_rules[i])]))
+            add_rule(multiworld.get_entrance(floors_list[i] + " to " + floors_list[i+1], world.player), interpret_rule(floors_list[i], 3))
 
     #access rules for levels
     for i in range(4):
         if options.bonus_ladders < (i+1):
             for ii in range(4):
                 level_name = levels_map[levels_list[(4*i)+ii]]
-                if options.character == 0: set_rule(multiworld.get_entrance(floors_list[i] + " to " + level_name, world.player), interpret_rule(peppino_level_access_rules[levels_list[(4*i)+ii]]))
-                elif options.character == 1: set_rule(multiworld.get_entrance(floors_list[i] + " to " + level_name, world.player), interpret_rule(noise_level_access_rules[levels_list[(4*i)+ii]]))
-                elif options.character == 2: set_rule(multiworld.get_entrance(floors_list[i] + " to " + level_name, world.player), lambda state: any([interpret_rule(peppino_level_access_rules[levels_list[(4*i)+ii]]), interpret_rule(noise_level_access_rules[levels_list[(4*i)+ii]])]))
+                set_rule(multiworld.get_entrance(floors_list[i] + " to " + level_name, world.player), interpret_rule(levels_list[(4*i)+ii], 1))
     for i in range(3):
         if options.bonus_ladders < 5:
             level_name = levels_map[levels_list[i+16]]
-            if options.character == 0: set_rule(multiworld.get_entrance("Floor 5 Staff Only to " + level_name, world.player), interpret_rule(peppino_level_access_rules[levels_list[i+16]]))
-            elif options.character == 1: set_rule(multiworld.get_entrance("Floor 5 Staff Only to " + level_name, world.player), interpret_rule(noise_level_access_rules[levels_list[i+16]]))
-            elif options.character == 2: set_rule(multiworld.get_entrance("Floor 5 Staff Only to " + level_name, world.player), lambda state: any([interpret_rule(peppino_level_access_rules[levels_list[i+16]]), interpret_rule(noise_level_access_rules[levels_list[i+16]])]))
+            set_rule(multiworld.get_entrance("Floor 5 Staff Only to " + level_name, world.player), interpret_rule(levels_list[i+16], 1))
 
     #access rules for bosses
     for i in range(4):
         if options.bonus_ladders < (i+1):
-            if options.character == 0: add_rule(multiworld.get_entrance(floors_list[i] + " to " + bosses_map[bosses_list[i]], world.player), interpret_rule(peppino_boss_access_rules[bosses_list[i]]))
-            elif options.character == 1: add_rule(multiworld.get_entrance(floors_list[i] + " to " + bosses_map[bosses_list[i]], world.player), interpret_rule(noise_boss_access_rules[bosses_list[i]]))
-            elif options.character == 1: add_rule(multiworld.get_entrance(floors_list[i] + " to " + bosses_map[bosses_list[i]], world.player), lambda state: any([interpret_rule(peppino_boss_access_rules[bosses_list[i]]), interpret_rule(noise_boss_access_rules[bosses_list[i]])]))
+            if options.character == 0: add_rule(multiworld.get_entrance(floors_list[i] + " to " + bosses_map[bosses_list[i]], world.player), interpret_rule(bosses_list[i], 2))
     #...and pizzaface
     if options.bonus_ladders < 5:
         if options.character == 0: set_rule(multiworld.get_entrance("Floor 5 Staff Only to Pizzaface", world.player), lambda state: state.has("Superjump", world.player))

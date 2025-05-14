@@ -145,12 +145,12 @@ def create_regions(player: int, world: MultiWorld, options: PTOptions):
         #Pizzascare
         "Chef Task: Haunted Playground",
         "Chef Task: Skullsplitter",
-        "Chef Task: Cross to Bare",
+        "Chef Task: Cross To Bare",
 
         #Don't Make a Sound
         "Chef Task: Let Them Sleep",
         "Chef Task: Jumpspared",
-        "Chef Task: And This... Is My Gun on a Stick!",
+        "Chef Task: And This... Is My Gun On A Stick!",
 
         #WAR
         "Chef Task: Trip to the Warzone",
@@ -237,14 +237,14 @@ def create_regions(player: int, world: MultiWorld, options: PTOptions):
     region_ctop = Region("The Crumbling Tower of Pizza", player, world, None)
 
     #odd locations
-    region_pface.locations.append(PTLocation(player, "Pizzaface Defeated", 243, region_pface))
+    region_pface.locations.append(PTLocation(player, "Pizzaface Defeated", 219, region_pface))
 
-    region_ctop.locations.append(PTLocation(player, "The Crumbling Tower of Pizza Complete", 233, region_ctop))
+    region_ctop.locations.append(PTLocation(player, "The Crumbling Tower of Pizza Complete", 214, region_ctop))
     if options.srank_checks:
         region_ctop.locations.append(PTLocation(player, "The Crumbling Tower of Pizza S Rank", 234, region_ctop))
     if options.prank_checks:
         region_ctop.locations.append(PTLocation(player, "The Crumbling Tower of Pizza P Rank", 234, region_ctop))
-    tower_regions[4].locations.append(PTLocation(player, "Snotty Murdered", 244, tower_regions[4]))
+    tower_regions[4].locations.append(PTLocation(player, "Snotty Murdered", 220, tower_regions[4]))
 
     #must handle chef tasks separately since they aren't common to all levels
     #weird naming here. cheftask_checks is the option bool, cheftasks_checks is the list of task names

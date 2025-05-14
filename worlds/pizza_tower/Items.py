@@ -6,7 +6,7 @@ class PTItem(Item):
 pt_items = {
     "Toppin": (101, ItemClassification.progression_skip_balancing),
     "Boss Key": (102, ItemClassification.progression),
-    "Lap 2 Portals": (132, ItemClassification.useful),
+    "Lap 2 Portals": (149, ItemClassification.useful),
 
     "Mach 4": (103, ItemClassification.useful),
     "Uppercut": (104, ItemClassification.progression),
@@ -19,7 +19,7 @@ pt_items = {
     "Breakdance": (111, ItemClassification.filler),
 
     "Peppino: Wallclimb": (112, ItemClassification.progression),
-    "Peppino: Dive": (113, ItemClassification.useful),
+    #"Peppino: Dive": (113, ItemClassification.useful),
     "Gustavo & Brick: Double Jump": (114, ItemClassification.progression),
     "Gustavo & Brick: Rat Kick": (115, ItemClassification.progression),
     "Gustavo & Brick: Wall Jump": (116, ItemClassification.progression),
@@ -40,7 +40,7 @@ pt_items = {
     "Permanent 10 Points": (126, ItemClassification.filler),
     "Permanent 50 Points": (127, ItemClassification.filler),
     "Permanent 100 Points": (128, ItemClassification.filler),
-    "1000 Points": (129, ItemClassification.filler),
+    "500 Points": (129, ItemClassification.filler),
     "Cross Buff": (130, ItemClassification.filler),
     "Pizza Shield": (131, ItemClassification.filler),
 
