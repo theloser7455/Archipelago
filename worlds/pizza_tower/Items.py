@@ -33,9 +33,9 @@ pt_items = {
     "Clown Trap": (121, ItemClassification.trap),
     "Timer Trap": (122, ItemClassification.trap),
     "Pizzaface": (123, ItemClassification.trap),
-    "Fake Santa Trap": (124, ItemClassification.trap),
+    "Fake Santa Trap": (124, ItemClassification.trap), #unused cuz i never got around to it
     "Oktoberfest!": (125, ItemClassification.trap),
-    "Granny Trap": (147, ItemClassification.trap),
+    "Granny Trap": (147, ItemClassification.trap), #show a granny text box to obscure the screen; unused cuz idk how to do that
 
     "Permanent 10 Points": (126, ItemClassification.filler),
     "Permanent 50 Points": (127, ItemClassification.filler),
@@ -44,6 +44,7 @@ pt_items = {
     "Cross Buff": (130, ItemClassification.filler),
     "Pizza Shield": (131, ItemClassification.filler),
 
+    #transfo items; may get used someday but not right now
     "Ball": (132, ItemClassification.progression),
     "Knight": (133, ItemClassification.progression),
     "Firemouth": (134, ItemClassification.progression),

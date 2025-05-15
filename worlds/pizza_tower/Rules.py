@@ -118,7 +118,7 @@ def boss_gate_rando(world: World, is_noise: bool) -> list[str]:
     if world.options.character != 0:
         boss_queue[2] = "The Doise"
     world.random.shuffle(boss_queue)
-    while boss_queue[0] == "The Vigilante": #floor 1 boss should not be vigi
+    while boss_queue[0] == "The Vigilante" or boss_queue[0] == "Pepperman": #floor 1 boss should not be vigi or pepperman
         world.random.shuffle(boss_queue)
     return boss_queue
 
@@ -1089,7 +1089,7 @@ def set_rules(multiworld: MultiWorld, world: World, options: PTOptions, toppins:
         return lambda state: any(comp(state) for comp in lambda_components)
 
     def get_s_rank_rule(lvl: str, character: int) -> Callable:
-        return interpret_rule(lvl + " Complete", 0)
+        return interpret_rule(lvl + " Complete", 0) #TODO make this better without making the logic handler freak out
 
     #connect regions
     multiworld.get_region("Menu", world.player).connect(multiworld.get_region("Floor 1 Tower Lobby", world.player), "Menu to Floor 1 Tower Lobby")

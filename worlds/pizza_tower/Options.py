@@ -238,10 +238,10 @@ class PTOptions(PerGameCommonOptions):
     open_world: OpenWorld
     bonus_ladders: BonusLadders
     trap_percentage: TrapPercentage
-    #enabled_traps: EnabledTraps
+    #enabled_traps: EnabledTraps # not implemented
     jumpscare: Jumpscare
 
-#presets
+#presets - feel free to suggest more
 
 toppin_hunt = {
     "toppin_count": 100,

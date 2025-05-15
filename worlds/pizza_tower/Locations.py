@@ -3,7 +3,7 @@ from BaseClasses import Location
 class PTLocation(Location):
     game: str = "Pizza Tower"
 
-pt_locations = { 
+pt_locations = { #TODO allow pumpkins to be checks eventually maybe
     #basics
 
 #John Gutter
