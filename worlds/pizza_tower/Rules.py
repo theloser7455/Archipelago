@@ -4,6 +4,7 @@ from .Options import PTOptions
 from ..generic.Rules import add_rule, set_rule
 from math import floor
 from typing import Callable
+from BaseClasses import LocationProgressType
 
 levels_list = [ #ctop handled separately
     "John Gutter",
@@ -1116,6 +1117,10 @@ def set_rules(multiworld: MultiWorld, world: World, options: PTOptions, toppins:
             set_rule(location, get_s_rank_rule(location.parent_region.name, options.character))
         elif ("Chef Task: S Ranked" in location.name) or ("Chef Task: P Ranked" in location.name):
             floor_first_lvl_index = (floors_list.index(location.parent_region.name) * 4)
+            if "Chef Task: S Ranked" in location.name and not options.srank_checks:
+                location.progress_type = LocationProgressType.EXCLUDED
+            if "Chef Task: P Ranked" in location.name and not options.prank_checks:
+                location.progress_type = LocationProgressType.EXCLUDED
             if location.parent_region.name == "Floor 5 Staff Only":
                 set_rule(location, get_s_rank_rule(levels_map[levels_list[floor_first_lvl_index]], options.character) and get_s_rank_rule(levels_map[levels_list[floor_first_lvl_index + 1]], options.character) and get_s_rank_rule(levels_map[levels_list[floor_first_lvl_index + 2]], options.character))
             else:
