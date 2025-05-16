@@ -95,11 +95,12 @@ def level_gate_rando(world: World, is_noise: bool) -> list[str]:
     rando_level_order = []
 
     #place two levels from ok_start_levels at the beginning of the rando level order
-    for i in range(2):
-        rando_level = ok_start_levels[world.random.randrange(len(ok_start_levels) - 1)]
-        rando_level_order.append(rando_level)
-        ok_start_levels.remove(rando_level)
-        level_queue.remove(rando_level)
+    if world.options.fairly_random:
+        for i in range(2):
+            rando_level = ok_start_levels[world.random.randrange(len(ok_start_levels) - 1)]
+            rando_level_order.append(rando_level)
+            ok_start_levels.remove(rando_level)
+            level_queue.remove(rando_level)
     
     #don't care where the leftover levels go
     world.random.shuffle(level_queue)
@@ -117,8 +118,9 @@ def boss_gate_rando(world: World, is_noise: bool) -> list[str]:
     if world.options.character != 0:
         boss_queue[2] = "The Doise"
     world.random.shuffle(boss_queue)
-    while boss_queue[0] == "The Vigilante" or boss_queue[0] == "Pepperman": #floor 1 boss should not be vigi or pepperman
-        world.random.shuffle(boss_queue)
+    if world.options.fairly_random:
+        while boss_queue[0] == "The Vigilante" or boss_queue[0] == "Pepperman": #floor 1 boss should not be vigi or pepperman
+            world.random.shuffle(boss_queue)
     return boss_queue
 
 def get_secrets_list() -> list[str]:

@@ -183,6 +183,16 @@ class Jumpscare(Toggle):
     """
     display_name = "Replace Oktoberfest with Jumpscare"
 
+class FairlyRandom(DefaultOnToggle):
+    """
+    On: The first two levels will have at least two accessible locations each, and the first boss will not require a grab to defeat.
+
+    Off: The first two levels and first boss can be anything.
+
+    Only applies when Shuffle Level Gates and/or Shuffle Boss Gates are enabled.
+    """
+    display_name = "Fairly Random"
+
 pt_option_groups = [
     OptionGroup("General Options", [
         CharacterToPlay,
@@ -213,7 +223,8 @@ pt_option_groups = [
     OptionGroup("Randomization Options", [
         RandomizeLevels,
         RandomizeBosses,
-        RandomizeSecrets
+        RandomizeSecrets,
+        FairlyRandom
     ])
 ]
 
@@ -240,6 +251,7 @@ class PTOptions(PerGameCommonOptions):
     trap_percentage: TrapPercentage
     #enabled_traps: EnabledTraps # not implemented
     jumpscare: Jumpscare
+    fairly_random: FairlyRandom
 
 #presets - feel free to suggest more
 
@@ -251,7 +263,8 @@ toppin_hunt = {
     "floor_4_cost": 0,
     "floor_5_cost": 100,
     "open_world": True,
-    "bonus_ladders": 5
+    "bonus_ladders": 5,
+    "fairly_random": False
 }
 
 pt_option_presets = {
