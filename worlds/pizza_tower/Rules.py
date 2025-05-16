@@ -24,7 +24,7 @@ levels_list = [ #ctop handled separately
     "Oh Shit!",
     "Freezerator",
     "Pizzascare",
-    "Don't Make a Sound",
+    "Don't Make A Sound",
     "WAR"
 ]
 
@@ -47,7 +47,6 @@ rule_moves = {
     "STAUNT": "Supertaunt",
     "SLAM": "Bodyslam",
     "DJUMP": "Gustavo & Brick: Double Jump",
-    "WJUMP": "Gustavo & Brick: Wall Jump",
     "KICK": "Gustavo & Brick: Rat Kick",
     "SPIN": "Gustavo: Spin Attack",
     "CRUSH": "Noise: Crusher",
@@ -65,7 +64,7 @@ def level_gate_rando(world: World, is_noise: bool) -> list[str]:
         "Wasteyard",
         "GOLF",
         "The Pig City",
-        "Don't Make a Sound"
+        "Don't Make A Sound"
     ]
     if is_noise:
         ok_start_levels.append("Freezerator")
@@ -89,7 +88,7 @@ def level_gate_rando(world: World, is_noise: bool) -> list[str]:
         "Oh Shit!",
         "Freezerator",
         "Pizzascare",
-        "Don't Make a Sound",
+        "Don't Make A Sound",
         "WAR"
     ]
 
@@ -162,7 +161,7 @@ def set_rules(multiworld: MultiWorld, world: World, options: PTOptions, toppins:
         "Oh Shit!": "NONE", 
         "Freezerator": "SJUMP | CLIMB",
         "Pizzascare": "SJUMP | CLIMB",
-        "Don't Make a Sound": "SJUMP | CLIMB", 
+        "Don't Make A Sound": "SJUMP | CLIMB", 
         "WAR": "SJUMP",
     }
 
@@ -318,19 +317,19 @@ def set_rules(multiworld: MultiWorld, world: World, options: PTOptions, toppins:
         "Chef Task: X": "SLAM+SJUMP | SLAM+CLIMB",
 
     #Gnome Forest
-        "Gnome Forest Complete": "SJUMP+SLAM+DJUMP+WJUMP | CLIMB+SLAM+DJUMP+WJUMP",
-        "Gnome Forest Mushroom Toppin": "SLAM+DJUMP+WJUMP",
-        "Gnome Forest Cheese Toppin": "SLAM+DJUMP+WJUMP",
-        "Gnome Forest Tomato Toppin": "SLAM+DJUMP+WJUMP",
-        "Gnome Forest Sausage Toppin": "SLAM+DJUMP+WJUMP",
-        "Gnome Forest Pineapple Toppin": "SLAM+DJUMP+WJUMP",
-        "Gnome Forest Secret 1": "SLAM+DJUMP+WJUMP",
-        "Gnome Forest Secret 2": "SLAM+DJUMP+WJUMP",
-        "Gnome Forest Secret 3": "SJUMP+SLAM+DJUMP+WJUMP | CLIMB+SLAM+DJUMP+WJUMP",
-        "Gnome Forest Treasure": "SJUMP+SLAM+DJUMP+WJUMP | CLIMB+SLAM+DJUMP+WJUMP",
+        "Gnome Forest Complete": "SJUMP+SLAM+DJUMP | CLIMB+SLAM+DJUMP",
+        "Gnome Forest Mushroom Toppin": "SLAM+DJUMP",
+        "Gnome Forest Cheese Toppin": "SLAM+DJUMP",
+        "Gnome Forest Tomato Toppin": "SLAM+DJUMP",
+        "Gnome Forest Sausage Toppin": "SLAM+DJUMP",
+        "Gnome Forest Pineapple Toppin": "SLAM+DJUMP",
+        "Gnome Forest Secret 1": "SLAM+DJUMP",
+        "Gnome Forest Secret 2": "SLAM+DJUMP",
+        "Gnome Forest Secret 3": "SJUMP+SLAM+DJUMP | CLIMB+SLAM+DJUMP",
+        "Gnome Forest Treasure": "SJUMP+SLAM+DJUMP | CLIMB+SLAM+DJUMP",
         "Chef Task: Bee Nice": "TAUNT",
         "Chef Task: Bullseye": "TAUNT",
-        "Chef Task: Lumberjack": "SJUMP+SLAM+DJUMP+WJUMP | CLIMB+SLAM+DJUMP+WJUMP",
+        "Chef Task: Lumberjack": "SJUMP+SLAM+DJUMP | CLIMB+SLAM+DJUMP",
 
     #Deep-Dish 9
         "Deep-Dish 9 Complete": "SLAM+SJUMP | SLAM+CLIMB",
@@ -367,13 +366,13 @@ def set_rules(multiworld: MultiWorld, world: World, options: PTOptions, toppins:
         "The Pig City Mushroom Toppin": "NONE",
         "The Pig City Cheese Toppin": "SJUMP | CLIMB",
         "The Pig City Tomato Toppin": "SLAM",
-        "The Pig City Sausage Toppin": "SLAM+DJUMP+WJUMP",
+        "The Pig City Sausage Toppin": "SLAM+DJUMP",
         "The Pig City Pineapple Toppin": "SLAM+DJUMP",
         "The Pig City Secret 1": "NONE",
-        "The Pig City Secret 2": "SLAM+DJUMP+WJUMP",
+        "The Pig City Secret 2": "SLAM+DJUMP",
         "The Pig City Secret 3": "SLAM+DJUMP",
         "The Pig City Treasure": "SLAM+DJUMP",
-        "Chef Task: Say Oink!": "SLAM+DJUMP+WJUMP+TAUNT",
+        "Chef Task: Say Oink!": "SLAM+DJUMP+TAUNT",
         "Chef Task: Pan Fried": "SLAM+SJUMP | SLAM+CLIMB",
         "Chef Task: Strike!": "SLAM+DJUMP+KICK",
 
@@ -437,17 +436,17 @@ def set_rules(multiworld: MultiWorld, world: World, options: PTOptions, toppins:
         "Chef Task: Skullsplitter": "SJUMP+SLAM | CLIMB+SLAM",
         "Chef Task: Cross To Bare": "SJUMP+SLAM | CLIMB+SLAM",
 
-    #Don't Make a Sound
-        "Don't Make a Sound Complete": "CLIMB+GRAB | CLIMB+UPPER",
-        "Don't Make a Sound Mushroom Toppin": "NONE",
-        "Don't Make a Sound Cheese Toppin": "SJUMP | CLIMB",
-        "Don't Make a Sound Tomato Toppin": "SJUMP+SLAM | CLIMB+SLAM",
-        "Don't Make a Sound Sausage Toppin": "SJUMP | CLIMB",
-        "Don't Make a Sound Pineapple Toppin": "CLIMB+GRAB | CLIMB+UPPER",
-        "Don't Make a Sound Secret 1": "NONE",
-        "Don't Make a Sound Secret 2": "SJUMP+UPPER | CLIMB",
-        "Don't Make a Sound Secret 3": "SJUMP+UPPER | CLIMB",
-        "Don't Make a Sound Treasure": "CLIMB+GRAB | CLIMB+UPPER",
+    #Don't Make A Sound
+        "Don't Make A Sound Complete": "CLIMB+GRAB | CLIMB+UPPER",
+        "Don't Make A Sound Mushroom Toppin": "NONE",
+        "Don't Make A Sound Cheese Toppin": "SJUMP | CLIMB",
+        "Don't Make A Sound Tomato Toppin": "SJUMP+SLAM | CLIMB+SLAM",
+        "Don't Make A Sound Sausage Toppin": "SJUMP | CLIMB",
+        "Don't Make A Sound Pineapple Toppin": "CLIMB+GRAB | CLIMB+UPPER",
+        "Don't Make A Sound Secret 1": "NONE",
+        "Don't Make A Sound Secret 2": "SJUMP+UPPER | CLIMB",
+        "Don't Make A Sound Secret 3": "SJUMP+UPPER | CLIMB",
+        "Don't Make A Sound Treasure": "CLIMB+GRAB | CLIMB+UPPER",
         "Chef Task: Let Them Sleep": "CLIMB+GRAB | CLIMB+UPPER",
         "Chef Task: Jumpspared": "CLIMB+GRAB | CLIMB+UPPER",
         "Chef Task: And This... Is My Gun On A Stick!": "CLIMB+GRAB | CLIMB+UPPER",
@@ -588,9 +587,9 @@ def set_rules(multiworld: MultiWorld, world: World, options: PTOptions, toppins:
         "Pizzascare Secret 2 Passed": "CLIMB",
         "Pizzascare Secret 3 Passed": "SJUMP | CLIMB",
 
-        "Don't Make a Sound Secret 1 Passed": "NONE",
-        "Don't Make a Sound Secret 2 Passed": "CLIMB",
-        "Don't Make a Sound Secret 3 Passed": "SJUMP | CLIMB",
+        "Don't Make A Sound Secret 1 Passed": "NONE",
+        "Don't Make A Sound Secret 2 Passed": "CLIMB",
+        "Don't Make A Sound Secret 3 Passed": "SJUMP | CLIMB",
 
         "WAR Secret 1 Passed": "NONE",
         "WAR Secret 2 Passed": "SJUMP | CLIMB",
@@ -615,7 +614,7 @@ def set_rules(multiworld: MultiWorld, world: World, options: PTOptions, toppins:
         "Oh Shit!": "NONE", 
         "Freezerator": "SJUMP | UPPER | CRUSH | BOUNCE",
         "Pizzascare": "SJUMP | UPPER | CRUSH | BOUNCE",
-        "Don't Make a Sound": "SJUMP | UPPER | CRUSH | BOUNCE", 
+        "Don't Make A Sound": "SJUMP | UPPER | CRUSH | BOUNCE", 
         "WAR": "SJUMP | CRUSH",
     }
 
@@ -889,17 +888,17 @@ def set_rules(multiworld: MultiWorld, world: World, options: PTOptions, toppins:
         "Chef Task: Skullsplitter": "CRUSH | SJUMP+SLAM | SJUMP+TORN | UPPER+SLAM | UPPER+TORN | BOUNCE",
         "Chef Task: Cross To Bare": "CRUSH | SJUMP+SLAM | SJUMP+TORN | UPPER+SLAM | UPPER+TORN | BOUNCE",
 
-    #Don't Make a Sound
-        "Don't Make a Sound Complete": "SJUMP+GRAB | SJUMP+UPPER",
-        "Don't Make a Sound Mushroom Toppin": "NONE",
-        "Don't Make a Sound Cheese Toppin": "SJUMP | UPPER | CRUSH | BOUNCE",
-        "Don't Make a Sound Tomato Toppin": "SJUMP+CRUSH | SJUMP+TORN | SJUMP+SLAM | SJUMP+BOUNCE",
-        "Don't Make a Sound Sausage Toppin": "SJUMP",
-        "Don't Make a Sound Pineapple Toppin": "SJUMP+GRAB | SJUMP+UPPER",
-        "Don't Make a Sound Secret 1": "NONE",
-        "Don't Make a Sound Secret 2": "SJUMP | UPPER | CRUSH | BOUNCE",
-        "Don't Make a Sound Secret 3": "SJUMP",
-        "Don't Make a Sound Treasure": "SJUMP+GRAB | SJUMP+UPPER",
+    #Don't Make A Sound
+        "Don't Make A Sound Complete": "SJUMP+GRAB | SJUMP+UPPER",
+        "Don't Make A Sound Mushroom Toppin": "NONE",
+        "Don't Make A Sound Cheese Toppin": "SJUMP | UPPER | CRUSH | BOUNCE",
+        "Don't Make A Sound Tomato Toppin": "SJUMP+CRUSH | SJUMP+TORN | SJUMP+SLAM | SJUMP+BOUNCE",
+        "Don't Make A Sound Sausage Toppin": "SJUMP",
+        "Don't Make A Sound Pineapple Toppin": "SJUMP+GRAB | SJUMP+UPPER",
+        "Don't Make A Sound Secret 1": "NONE",
+        "Don't Make A Sound Secret 2": "SJUMP | UPPER | CRUSH | BOUNCE",
+        "Don't Make A Sound Secret 3": "SJUMP",
+        "Don't Make A Sound Treasure": "SJUMP+GRAB | SJUMP+UPPER",
         "Chef Task: Let Them Sleep": "SJUMP+GRAB | SJUMP+UPPER",
         "Chef Task: Jumpspared": "SJUMP+GRAB | SJUMP+UPPER",
         "Chef Task: And This... Is My Gun On A Stick!": "SJUMP+GRAB | SJUMP+UPPER",
@@ -1029,9 +1028,9 @@ def set_rules(multiworld: MultiWorld, world: World, options: PTOptions, toppins:
         "Pizzascare Secret 2 Passed": "SJUMP | UPPER | CRUSH | BOUNCE",
         "Pizzascare Secret 3 Passed": "SJUMP | UPPER | CRUSH | BOUNCE",
 
-        "Don't Make a Sound Secret 1 Passed": "NONE",
-        "Don't Make a Sound Secret 2 Passed": "SJUMP | UPPER | CRUSH | BOUNCE",
-        "Don't Make a Sound Secret 3 Passed": "SJUMP | UPPER | CRUSH | BOUNCE",
+        "Don't Make A Sound Secret 1 Passed": "NONE",
+        "Don't Make A Sound Secret 2 Passed": "SJUMP | UPPER | CRUSH | BOUNCE",
+        "Don't Make A Sound Secret 3 Passed": "SJUMP | UPPER | CRUSH | BOUNCE",
 
         "WAR Secret 1 Passed": "NONE",
         "WAR Secret 2 Passed": "SJUMP | UPPER | CRUSH | BOUNCE",

@@ -29,7 +29,7 @@ def create_regions(player: int, world: MultiWorld, options: PTOptions):
         "Oh Shit!",
         "Freezerator",
         "Pizzascare",
-        "Don't Make a Sound",
+        "Don't Make A Sound",
         "WAR"
     ]
 
@@ -147,7 +147,7 @@ def create_regions(player: int, world: MultiWorld, options: PTOptions):
         "Chef Task: Skullsplitter",
         "Chef Task: Cross To Bare",
 
-        #Don't Make a Sound
+        #Don't Make A Sound
         "Chef Task: Let Them Sleep",
         "Chef Task: Jumpspared",
         "Chef Task: And This... Is My Gun On A Stick!",

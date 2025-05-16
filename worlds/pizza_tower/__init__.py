@@ -6,6 +6,41 @@ from .Regions import create_regions
 from .Rules import set_rules
 from math import floor
 
+def internal_from_external(name: str):
+    aliases = {
+        "John Gutter": "entrance",
+        "Pizzascape": "medieval",
+        "Ancient Cheese": "ruin",
+        "Bloodsauce Dungeon": "dungeon",
+        "Oregano Desert": "badland",
+        "Wasteyard": "graveyard",
+        "Fun Farm": "farm",
+        "Fastfood Saloon": "saloon",
+        "Crust Cove": "plage",
+        "Gnome Forest": "forest",
+        "Deep-Dish 9": "space",
+        "GOLF": "minigolf",
+        "The Pig City": "street",
+        "Peppibot Factory": "industrial",
+        "Oh Shit!": "sewer",
+        "Freezerator": "freezer",
+        "Pizzascare": "chateau",
+        "Don't Make A Sound": "kidsparty",
+        "WAR": "war",
+        "Pepperman": "boss_pepperman",
+        "The Vigilante": "boss_vigilante",
+        "The Noise": "boss_noise",
+        "The Doise": "boss_noise",
+        "Fake Peppino": "boss_fakepep"
+    }
+    if "Secret 1" in name:
+        return aliases[name.replace(" Secret 1", "")] + "1"
+    if "Secret 2" in name:
+        return aliases[name.replace(" Secret 2", "")] + "2"
+    if "Secret 3" in name:
+        return aliases[name.replace(" Secret 3", "")] + "3"
+    return aliases[name]
+
 class PizzaTowerWebWorld(WebWorld):
     theme = "stone"
     option_groups = pt_option_groups
@@ -130,3 +165,17 @@ class PizzaTowerWorld(World):
     def set_rules(self):
         set_rules(self.multiworld, self, self.options, self.toppin_number)
         self.multiworld.completion_condition[self.player] = lambda state: state.can_reach("The Crumbling Tower of Pizza Complete", "Location", self.player)
+
+    def fill_slot_data(self):
+        return {
+            "floor_1_toppins": floor((self.toppin_number / 100) * self.options.floor_1_cost),
+            "floor_2_toppins": floor((self.toppin_number / 100) * self.options.floor_2_cost),
+            "floor_3_toppins": floor((self.toppin_number / 100) * self.options.floor_3_cost),
+            "floor_4_toppins": floor((self.toppin_number / 100) * self.options.floor_4_cost),
+            "floor_5_toppins": floor((self.toppin_number / 100) * self.options.floor_5_cost),
+            "rando_levels": {internal_from_external(level): internal_from_external(self.level_map[level]) for level in self.level_map},
+            "rando_bosses": {internal_from_external(boss): internal_from_external(self.boss_map[boss]) for boss in self.boss_map},
+            "rando_secrets": {internal_from_external(sec): internal_from_external(self.secret_map[sec]) for sec in self.secret_map},
+            "open_world": bool(self.options.open_world),
+            "bonus_ladders": int(self.options.bonus_ladders)
+        }

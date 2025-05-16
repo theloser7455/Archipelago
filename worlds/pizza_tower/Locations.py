@@ -142,13 +142,13 @@ pt_locations = { #TODO allow pumpkins to be checks eventually maybe
     "Pizzascare Sausage Toppin": 200,
     "Pizzascare Pineapple Toppin": 201,
 
-#Don't Make a Sound
-    "Don't Make a Sound Complete": 202,
-    "Don't Make a Sound Mushroom Toppin": 203,
-    "Don't Make a Sound Cheese Toppin": 204,
-    "Don't Make a Sound Tomato Toppin": 205,
-    "Don't Make a Sound Sausage Toppin": 206,
-    "Don't Make a Sound Pineapple Toppin": 207,
+#Don't Make A Sound
+    "Don't Make A Sound Complete": 202,
+    "Don't Make A Sound Mushroom Toppin": 203,
+    "Don't Make A Sound Cheese Toppin": 204,
+    "Don't Make A Sound Tomato Toppin": 205,
+    "Don't Make A Sound Sausage Toppin": 206,
+    "Don't Make A Sound Pineapple Toppin": 207,
 
 #WAR
     "WAR Complete": 208,
@@ -200,7 +200,7 @@ pt_locations = { #TODO allow pumpkins to be checks eventually maybe
     "Oh Shit! S Rank": 242,
     "Freezerator S Rank": 243,
     "Pizzascare S Rank": 244,
-    "Don't Make a Sound S Rank": 245,
+    "Don't Make A Sound S Rank": 245,
     "WAR S Rank": 246,
     "The Crumbling Tower of Pizza S Rank": 247,
 
@@ -297,10 +297,10 @@ pt_locations = { #TODO allow pumpkins to be checks eventually maybe
     "Pizzascare Secret 2": 301,
     "Pizzascare Secret 3": 302,
 
-    #Don't Make a Sound
-    "Don't Make a Sound Secret 1": 303,
-    "Don't Make a Sound Secret 2": 304,
-    "Don't Make a Sound Secret 3": 305,
+    #Don't Make A Sound
+    "Don't Make A Sound Secret 1": 303,
+    "Don't Make A Sound Secret 2": 304,
+    "Don't Make A Sound Secret 3": 305,
 
     #WAR
     "WAR Secret 1": 306,
@@ -327,7 +327,7 @@ pt_locations = { #TODO allow pumpkins to be checks eventually maybe
     "Oh Shit! P Rank": 323,
     "Freezerator P Rank": 324,
     "Pizzascare P Rank": 325,
-    "Don't Make a Sound P Rank": 326,
+    "Don't Make A Sound P Rank": 326,
     "WAR P Rank": 327,
     "The Crumbling Tower of Pizza P Rank": 328,
 
@@ -424,7 +424,7 @@ pt_locations = { #TODO allow pumpkins to be checks eventually maybe
     "Chef Task: Haunted Playground": 382,
     "Chef Task: Skullsplitter": 383,
 
-    #Don't Make a Sound
+    #Don't Make A Sound
     "Chef Task: And This... Is My Gun On A Stick!": 384,
     "Chef Task: Let Them Sleep": 385,
     "Chef Task: Jumpspared": 386,
@@ -471,7 +471,7 @@ pt_locations = { #TODO allow pumpkins to be checks eventually maybe
     "Oh Shit! Treasure": 419,
     "Freezerator Treasure": 420,
     "Pizzascare Treasure": 421,
-    "Don't Make a Sound Treasure": 422,
+    "Don't Make A Sound Treasure": 422,
     "WAR Treasure": 423,
 
     #doise
