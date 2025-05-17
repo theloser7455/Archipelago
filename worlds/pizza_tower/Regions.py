@@ -241,9 +241,9 @@ def create_regions(player: int, world: MultiWorld, options: PTOptions):
 
     region_ctop.locations.append(PTLocation(player, "The Crumbling Tower of Pizza Complete", 214, region_ctop))
     if options.srank_checks:
-        region_ctop.locations.append(PTLocation(player, "The Crumbling Tower of Pizza S Rank", 234, region_ctop))
+        region_ctop.locations.append(PTLocation(player, "The Crumbling Tower of Pizza S Rank", 247, region_ctop))
     if options.prank_checks:
-        region_ctop.locations.append(PTLocation(player, "The Crumbling Tower of Pizza P Rank", 234, region_ctop))
+        region_ctop.locations.append(PTLocation(player, "The Crumbling Tower of Pizza P Rank", 328, region_ctop))
     tower_regions[4].locations.append(PTLocation(player, "Snotty Murdered", 220, tower_regions[4]))
 
     #must handle chef tasks separately since they aren't common to all levels
