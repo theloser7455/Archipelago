@@ -73,7 +73,6 @@ class PizzaTowerWorld(World):
         pizza_itempool = []
 
         locations_to_fill = 121
-        if self.options.open_world or not self.options.shuffle_boss_keys: locations_to_fill -= 4
         if self.options.secret_checks: locations_to_fill += 57
         if self.options.treasure_checks: locations_to_fill += 19
         if self.options.srank_checks: locations_to_fill += 24
