@@ -1126,10 +1126,10 @@ def set_rules(multiworld: MultiWorld, world: World, options: PTOptions, toppins:
         else:
             add_rule(location, interpret_rule(location.name, 0))
 
-    def get_toppin_prop(perc: int):
+    def get_toppin_prop(perc: int) -> int:
         return floor(toppins * (perc / 100))
     
-    def sum_toppins_to_floor(floor: int):
+    def sum_toppins_to_floor(floor: int) -> int:
         sum = 0
         toppin_costs = [
             get_toppin_prop(options.floor_1_cost),
@@ -1138,7 +1138,7 @@ def set_rules(multiworld: MultiWorld, world: World, options: PTOptions, toppins:
             get_toppin_prop(options.floor_4_cost),
             get_toppin_prop(options.floor_5_cost)
         ]
-        for i in range(floor):
+        for i in range(floor+1):
             sum += toppin_costs[i]
         return sum
 
