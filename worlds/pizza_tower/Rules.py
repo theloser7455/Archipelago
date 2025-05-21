@@ -1441,191 +1441,191 @@ def set_rules(multiworld: MultiWorld, world: World, options: PTOptions, toppins:
         "Chef Task: X": "SJUMP+SLAM | CRUSH",
 
     #Gnome Forest
-        "Gnome Forest Complete": 
-        "Gnome Forest Mushroom Toppin": 
-        "Gnome Forest Cheese Toppin": 
-        "Gnome Forest Tomato Toppin": 
-        "Gnome Forest Sausage Toppin": 
-        "Gnome Forest Pineapple Toppin": 
-        "Gnome Forest Secret 1": 
-        "Gnome Forest Secret 2": 
-        "Gnome Forest Secret 3": 
-        "Gnome Forest Treasure": 
-        "Chef Task: Bee Nice": 
-        "Chef Task: Bullseye": 
-        "Chef Task: Lumberjack": 
+        "Gnome Forest Complete": "SLAM+SJUMP | SLAM+BOUNCE | CRUSH",
+        "Gnome Forest Mushroom Toppin": "SLAM+SJUMP | SLAM+BOUNCE | CRUSH",
+        "Gnome Forest Cheese Toppin": "SLAM+SJUMP | SLAM+BOUNCE | CRUSH",
+        "Gnome Forest Tomato Toppin": "SLAM+SJUMP | SLAM+BOUNCE | CRUSH",
+        "Gnome Forest Sausage Toppin": "SLAM+SJUMP | SLAM+BOUNCE | CRUSH",
+        "Gnome Forest Pineapple Toppin": "SLAM+SJUMP | SLAM+BOUNCE | CRUSH",
+        "Gnome Forest Secret 1": "SLAM+SJUMP | SLAM+BOUNCE | CRUSH",
+        "Gnome Forest Secret 2": "SLAM+SJUMP | SLAM+BOUNCE | CRUSH",
+        "Gnome Forest Secret 3": "SLAM+SJUMP | SLAM+BOUNCE | CRUSH",
+        "Gnome Forest Treasure": "SLAM+SJUMP | SLAM+BOUNCE | CRUSH",
+        "Chef Task: Bee Nice": "TAUNT",
+        "Chef Task: Bullseye": "TAUNT",
+        "Chef Task: Lumberjack": "SLAM+SJUMP | SLAM+BOUNCE | CRUSH",
 
     #Deep-Dish 9
-        "Deep-Dish 9 Complete": 
-        "Deep-Dish 9 Mushroom Toppin": 
-        "Deep-Dish 9 Cheese Toppin": 
-        "Deep-Dish 9 Tomato Toppin": 
-        "Deep-Dish 9 Sausage Toppin": 
-        "Deep-Dish 9 Pineapple Toppin": 
-        "Deep-Dish 9 Secret 1": 
-        "Deep-Dish 9 Secret 2": 
-        "Deep-Dish 9 Secret 3": 
-        "Deep-Dish 9 Treasure": 
-        "Chef Task: Blast 'Em Asteroids": 
-        "Chef Task: Turbo Tunnel": 
-        "Chef Task: Man Meteor": 
+        "Deep-Dish 9 Complete": "SLAM+SJUMP | CRUSH | TORN+SJUMP | SLAM+BOUNCE | TORN+BOUNCE | SLAM+UPPER | TORN+UPPER",
+        "Deep-Dish 9 Mushroom Toppin": "SLAM | CRUSH | TORN",
+        "Deep-Dish 9 Cheese Toppin": "SLAM+SJUMP | CRUSH | TORN+SJUMP | SLAM+BOUNCE | TORN+BOUNCE",
+        "Deep-Dish 9 Tomato Toppin": "SLAM+SJUMP | CRUSH | TORN+SJUMP | SLAM+BOUNCE | TORN+BOUNCE | SLAM+UPPER | TORN+UPPER",
+        "Deep-Dish 9 Sausage Toppin": "SLAM+SJUMP | CRUSH | TORN+SJUMP | SLAM+BOUNCE | TORN+BOUNCE | SLAM+UPPER | TORN+UPPER",
+        "Deep-Dish 9 Pineapple Toppin": "SLAM+SJUMP | CRUSH | TORN+SJUMP | SLAM+BOUNCE | TORN+BOUNCE | SLAM+UPPER | TORN+UPPER",
+        "Deep-Dish 9 Secret 1": "SLAM+SJUMP | CRUSH | TORN+SJUMP | SLAM+BOUNCE | TORN+BOUNCE | SLAM+UPPER | TORN+UPPER",
+        "Deep-Dish 9 Secret 2": "SLAM+SJUMP | CRUSH | TORN+SJUMP | SLAM+BOUNCE | TORN+BOUNCE | SLAM+UPPER | TORN+UPPER",
+        "Deep-Dish 9 Secret 3": "SLAM+SJUMP | CRUSH | TORN+SJUMP | SLAM+BOUNCE | TORN+BOUNCE | SLAM+UPPER | TORN+UPPER",
+        "Deep-Dish 9 Treasure": "SLAM+SJUMP | CRUSH | TORN+SJUMP | SLAM+BOUNCE | TORN+BOUNCE | SLAM+UPPER | TORN+UPPER",
+        "Chef Task: Blast 'Em Asteroids": "SLAM+SJUMP | CRUSH | TORN+SJUMP | SLAM+BOUNCE | TORN+BOUNCE | SLAM+UPPER | TORN+UPPER",
+        "Chef Task: Turbo Tunnel": "SLAM+SJUMP | CRUSH | TORN+SJUMP | SLAM+BOUNCE | TORN+BOUNCE | SLAM+UPPER | TORN+UPPER",
+        "Chef Task: Man Meteor": "SLAM+SJUMP | CRUSH+SLAM | SLAM+BOUNCE",
 
     #GOLF
-        "GOLF Complete": 
-        "GOLF Mushroom Toppin": 
-        "GOLF Cheese Toppin": 
-        "GOLF Tomato Toppin": 
-        "GOLF Sausage Toppin": 
-        "GOLF Pineapple Toppin": 
-        "GOLF Secret 1": 
-        "GOLF Secret 2": 
-        "GOLF Secret 3": 
-        "GOLF Treasure": 
-        "Chef Task: Primo Golfer": 
-        "Chef Task: Helpful Burger": 
-        "Chef Task: Nice Shot": 
+        "GOLF Complete": "SJUMP+GRAB | CRUSH+GRAB | UPPER+GRAB | BOUNCE+GRAB",
+        "GOLF Mushroom Toppin": "SJUMP+GRAB | CRUSH+GRAB | UPPER+GRAB | BOUNCE+GRAB",
+        "GOLF Cheese Toppin": "SJUMP+GRAB | CRUSH+GRAB | UPPER+GRAB | BOUNCE+GRAB",
+        "GOLF Tomato Toppin": "SJUMP+GRAB | CRUSH+GRAB | UPPER+GRAB | BOUNCE+GRAB",
+        "GOLF Sausage Toppin": "SJUMP+GRAB | CRUSH+GRAB | UPPER+GRAB | BOUNCE+GRAB",
+        "GOLF Pineapple Toppin": "SJUMP+GRAB | CRUSH+GRAB | UPPER+GRAB | BOUNCE+GRAB",
+        "GOLF Secret 1": "SJUMP+GRAB | CRUSH+GRAB | UPPER+GRAB | BOUNCE+GRAB",
+        "GOLF Secret 2": "SJUMP+GRAB | CRUSH+GRAB | UPPER+GRAB | BOUNCE+GRAB",
+        "GOLF Secret 3": "SJUMP+GRAB | CRUSH+GRAB | UPPER+GRAB | BOUNCE+GRAB",
+        "GOLF Treasure": "SJUMP+GRAB | CRUSH+GRAB | UPPER+GRAB | BOUNCE+GRAB",
+        "Chef Task: Primo Golfer": "SJUMP+GRAB | CRUSH+GRAB | UPPER+GRAB | BOUNCE+GRAB",
+        "Chef Task: Helpful Burger": "SJUMP+GRAB | CRUSH+GRAB | UPPER+GRAB | BOUNCE+GRAB",
+        "Chef Task: Nice Shot": "SJUMP+GRAB | CRUSH+GRAB | UPPER+GRAB | BOUNCE+GRAB",
 
     #The Pig City
-        "The Pig City Complete": 
-        "The Pig City Mushroom Toppin": 
-        "The Pig City Cheese Toppin": 
-        "The Pig City Tomato Toppin": 
-        "The Pig City Sausage Toppin": 
-        "The Pig City Pineapple Toppin": 
-        "The Pig City Secret 1": 
-        "The Pig City Secret 2": 
-        "The Pig City Secret 3": 
-        "The Pig City Treasure": 
-        "Chef Task: Say Oink!": 
-        "Chef Task: Pan Fried": 
-        "Chef Task: Strike!": 
+        "The Pig City Complete": "SJUMP+SLAM | CRUSH | BOUNCE+SLAM | UPPER+SLAM",
+        "The Pig City Mushroom Toppin": "NONE",
+        "The Pig City Cheese Toppin": "SJUMP | CRUSH",
+        "The Pig City Tomato Toppin": "SJUMP+SLAM | CRUSH | BOUNCE+SLAM | UPPER+SLAM",
+        "The Pig City Sausage Toppin": "SJUMP+SLAM | CRUSH | BOUNCE+SLAM | UPPER+SLAM",
+        "The Pig City Pineapple Toppin": "SJUMP+SLAM | CRUSH | BOUNCE+SLAM | UPPER+SLAM",
+        "The Pig City Secret 1": "NONE",
+        "The Pig City Secret 2": "SJUMP+SLAM | CRUSH | BOUNCE+SLAM | UPPER+SLAM",
+        "The Pig City Secret 3": "SJUMP+SLAM | CRUSH | BOUNCE+SLAM | UPPER+SLAM",
+        "The Pig City Treasure": "SJUMP+SLAM | CRUSH | BOUNCE+SLAM | UPPER+SLAM",
+        "Chef Task: Say Oink!": "SJUMP+SLAM+TAUNT | CRUSH+TAUNT | BOUNCE+SLAM+TAUNT | UPPER+SLAM+TAUNT",
+        "Chef Task: Pan Fried": "SJUMP+SLAM | CRUSH | BOUNCE+SLAM | UPPER+SLAM",
+        "Chef Task: Strike!": "SJUMP+SLAM | CRUSH | BOUNCE+SLAM | UPPER+SLAM",
 
     #Peppibot Factory
-        "Peppibot Factory Complete": 
-        "Peppibot Factory Mushroom Toppin": 
-        "Peppibot Factory Cheese Toppin": 
-        "Peppibot Factory Tomato Toppin": 
-        "Peppibot Factory Sausage Toppin": 
-        "Peppibot Factory Pineapple Toppin": 
-        "Peppibot Factory Secret 1": 
-        "Peppibot Factory Secret 2": 
-        "Peppibot Factory Secret 3": 
-        "Peppibot Factory Treasure": 
-        "Chef Task: There Can Be Only One": 
-        "Chef Task: Whoop This!": 
-        "Chef Task: Unflattening": 
+        "Peppibot Factory Complete": "CRUSH | SJUMP+SLAM | SJUMP+TORN",
+        "Peppibot Factory Mushroom Toppin": "CRUSH | SJUMP",
+        "Peppibot Factory Cheese Toppin": "CRUSH | SJUMP",
+        "Peppibot Factory Tomato Toppin": "CRUSH | SJUMP",
+        "Peppibot Factory Sausage Toppin": "CRUSH | SJUMP",
+        "Peppibot Factory Pineapple Toppin": "CRUSH | SJUMP",
+        "Peppibot Factory Secret 1": "CRUSH | SJUMP",
+        "Peppibot Factory Secret 2": "CRUSH | SJUMP",
+        "Peppibot Factory Secret 3": "CRUSH | SJUMP",
+        "Peppibot Factory Treasure": "CRUSH | SJUMP+SLAM | SJUMP+TORN",
+        "Chef Task: There Can Be Only One": "CRUSH | SJUMP+SLAM | SJUMP+TORN",
+        "Chef Task: Whoop This!": "CRUSH | SJUMP",
+        "Chef Task: Unflattening": "CRUSH | SJUMP+SLAM | SJUMP+TORN",
 
     #Oh Shit!
-        "Oh Shit! Complete": 
-        "Oh Shit! Mushroom Toppin": 
-        "Oh Shit! Cheese Toppin": 
-        "Oh Shit! Tomato Toppin": 
-        "Oh Shit! Sausage Toppin": 
-        "Oh Shit! Pineapple Toppin": 
-        "Oh Shit! Secret 1": 
-        "Oh Shit! Secret 2": 
-        "Oh Shit! Secret 3": 
-        "Oh Shit! Treasure": 
-        "Chef Task: Food Clan": 
-        "Chef Task: Can't Fool Me": 
-        "Chef Task: Penny Pincher": 
+        "Oh Shit! Complete": "SLAM+BOUNCE | TORN+BOUNCE | CRUSH | SLAM+SJUMP | TORN+SJUMP | SLAM+UPPER | TORN+UPPER",
+        "Oh Shit! Mushroom Toppin": "SLAM | TORN | CRUSH",
+        "Oh Shit! Cheese Toppin": "SLAM+BOUNCE | TORN+BOUNCE | CRUSH | SLAM+SJUMP | TORN+SJUMP | SLAM+UPPER | TORN+UPPER",
+        "Oh Shit! Tomato Toppin": "SLAM+BOUNCE | TORN+BOUNCE | CRUSH | SLAM+SJUMP | TORN+SJUMP | SLAM+UPPER | TORN+UPPER",
+        "Oh Shit! Sausage Toppin": "SLAM+BOUNCE | TORN+BOUNCE | CRUSH | SLAM+SJUMP | TORN+SJUMP | SLAM+UPPER | TORN+UPPER",
+        "Oh Shit! Pineapple Toppin": "SLAM+BOUNCE | TORN+BOUNCE | CRUSH | SLAM+SJUMP | TORN+SJUMP | SLAM+UPPER | TORN+UPPER",
+        "Oh Shit! Secret 1": "SLAM | TORN | CRUSH",
+        "Oh Shit! Secret 2": "SLAM+BOUNCE | TORN+BOUNCE | CRUSH | SLAM+SJUMP | TORN+SJUMP | SLAM+UPPER | TORN+UPPER",
+        "Oh Shit! Secret 3": "SLAM+BOUNCE | TORN+BOUNCE | CRUSH | SLAM+SJUMP | TORN+SJUMP | SLAM+UPPER | TORN+UPPER",
+        "Oh Shit! Treasure": "SLAM+BOUNCE | TORN+BOUNCE | CRUSH | SLAM+SJUMP | TORN+SJUMP | SLAM+UPPER | TORN+UPPER",
+        "Chef Task: Food Clan": "SLAM+BOUNCE+TAUNT | TORN+BOUNCE+TAUNT | CRUSH+TAUNT | SLAM+SJUMP+TAUNT | TORN+SJUMP+TAUNT | SLAM+UPPER+TAUNT | TORN+UPPER+TAUNT",
+        "Chef Task: Can't Fool Me": "SLAM+BOUNCE | TORN+BOUNCE | CRUSH | SLAM+SJUMP | TORN+SJUMP | SLAM+UPPER | TORN+UPPER",
+        "Chef Task: Penny Pincher": "SLAM+BOUNCE | TORN+BOUNCE | CRUSH | SLAM+SJUMP | TORN+SJUMP | SLAM+UPPER | TORN+UPPER",
 
     #Freezerator
-        "Freezerator Complete": 
-        "Freezerator Mushroom Toppin": 
-        "Freezerator Cheese Toppin": 
-        "Freezerator Tomato Toppin": 
-        "Freezerator Sausage Toppin": 
-        "Freezerator Pineapple Toppin": 
-        "Freezerator Secret 1": 
-        "Freezerator Secret 2": 
-        "Freezerator Secret 3": 
-        "Freezerator Treasure": 
-        "Chef Task: Ice Climber": 
-        "Chef Task: Season's Greetings": 
-        "Chef Task: Frozen Nuggets": 
+        "Freezerator Complete": "NONE",
+        "Freezerator Mushroom Toppin": "NONE",
+        "Freezerator Cheese Toppin": "NONE",
+        "Freezerator Tomato Toppin": "NONE",
+        "Freezerator Sausage Toppin": "NONE",
+        "Freezerator Pineapple Toppin": "NONE",
+        "Freezerator Secret 1": "NONE",
+        "Freezerator Secret 2": "NONE",
+        "Freezerator Secret 3": "NONE",
+        "Freezerator Treasure": "NONE",
+        "Chef Task: Ice Climber": "NONE",
+        "Chef Task: Season's Greetings": "GRAB",
+        "Chef Task: Frozen Nuggets": "NONE",
 
     #Pizzascare
-        "Pizzascare Complete": 
-        "Pizzascare Mushroom Toppin": 
-        "Pizzascare Cheese Toppin": 
-        "Pizzascare Tomato Toppin": 
-        "Pizzascare Sausage Toppin": 
-        "Pizzascare Pineapple Toppin": 
-        "Pizzascare Secret 1": 
-        "Pizzascare Secret 2": 
-        "Pizzascare Secret 3": 
-        "Pizzascare Treasure": 
-        "Chef Task: Haunted Playground": 
-        "Chef Task: Skullsplitter": 
-        "Chef Task: Cross To Bare": 
+        "Pizzascare Complete": "SJUMP+SLAM | BOUNCE+SLAM | CRUSH | SJUMP+TORN | BOUNCE+TORN",
+        "Pizzascare Mushroom Toppin": "SJUMP+SLAM | BOUNCE+SLAM | CRUSH | UPPER+SLAM | SJUMP+TORN | BOUNCE+TORN | UPPER+TORN",
+        "Pizzascare Cheese Toppin": "SJUMP+SLAM | BOUNCE+SLAM | CRUSH | UPPER+SLAM | SJUMP+TORN | BOUNCE+TORN | UPPER+TORN",
+        "Pizzascare Tomato Toppin": "SJUMP+SLAM | BOUNCE+SLAM | CRUSH | SJUMP+TORN | BOUNCE+TORN",
+        "Pizzascare Sausage Toppin": "SJUMP+SLAM | BOUNCE+SLAM | CRUSH | SJUMP+TORN | BOUNCE+TORN",
+        "Pizzascare Pineapple Toppin": "SJUMP+SLAM | BOUNCE+SLAM | CRUSH | SJUMP+TORN | BOUNCE+TORN",
+        "Pizzascare Secret 1": "SJUMP+SLAM | BOUNCE+SLAM | CRUSH | SJUMP+TORN | BOUNCE+TORN",
+        "Pizzascare Secret 2": "SJUMP+SLAM | BOUNCE+SLAM | CRUSH | SJUMP+TORN | BOUNCE+TORN",
+        "Pizzascare Secret 3": "SJUMP+SLAM | BOUNCE+SLAM | CRUSH | SJUMP+TORN | BOUNCE+TORN",
+        "Pizzascare Treasure": "SJUMP+SLAM | BOUNCE+SLAM | CRUSH | SJUMP+TORN | BOUNCE+TORN",
+        "Chef Task: Haunted Playground": "SJUMP+SLAM | BOUNCE+SLAM | CRUSH | SJUMP+TORN | BOUNCE+TORN",
+        "Chef Task: Skullsplitter": "SJUMP+SLAM | BOUNCE+SLAM | CRUSH | SJUMP+TORN | BOUNCE+TORN",
+        "Chef Task: Cross To Bare": "SJUMP+SLAM | BOUNCE+SLAM | CRUSH | SJUMP+TORN | BOUNCE+TORN",
 
     #Don't Make A Sound
-        "Don't Make A Sound Complete": 
-        "Don't Make A Sound Mushroom Toppin": 
-        "Don't Make A Sound Cheese Toppin": 
-        "Don't Make A Sound Tomato Toppin": 
-        "Don't Make A Sound Sausage Toppin": 
-        "Don't Make A Sound Pineapple Toppin": 
-        "Don't Make A Sound Secret 1": 
-        "Don't Make A Sound Secret 2": 
-        "Don't Make A Sound Secret 3": 
-        "Don't Make A Sound Treasure": 
-        "Chef Task: Let Them Sleep": 
-        "Chef Task: Jumpspared": 
-        "Chef Task: And This... Is My Gun On A Stick!": 
+        "Don't Make A Sound Complete": "SJUMP+SLAM+GRAB | CRUSH+GRAB",
+        "Don't Make A Sound Mushroom Toppin": "NONE",
+        "Don't Make A Sound Cheese Toppin": "SJUMP | CRUSH | BOUNCE | UPPER",
+        "Don't Make A Sound Tomato Toppin": "SJUMP+SLAM | SJUMP+TORN | CRUSH",
+        "Don't Make A Sound Sausage Toppin": "SJUMP+SLAM | CRUSH",
+        "Don't Make A Sound Pineapple Toppin": "SJUMP+SLAM+GRAB | CRUSH+GRAB",
+        "Don't Make A Sound Secret 1": "NONE",
+        "Don't Make A Sound Secret 2": "SJUMP | CRUSH | BOUNCE | UPPER",
+        "Don't Make A Sound Secret 3": "SJUMP | CRUSH",
+        "Don't Make A Sound Treasure": "SJUMP+SLAM+GRAB | CRUSH+GRAB",
+        "Chef Task: Let Them Sleep": "SJUMP+SLAM+GRAB | CRUSH+GRAB",
+        "Chef Task: Jumpspared": "SJUMP+SLAM+GRAB | CRUSH+GRAB",
+        "Chef Task: And This... Is My Gun On A Stick!": "SJUMP+SLAM+GRAB | CRUSH+GRAB",
 
     #WAR
-        "WAR Complete": 
-        "WAR Mushroom Toppin": 
-        "WAR Cheese Toppin": 
-        "WAR Tomato Toppin": 
-        "WAR Sausage Toppin": 
-        "WAR Pineapple Toppin": 
-        "WAR Secret 1": 
-        "WAR Secret 2": 
-        "WAR Secret 3": 
-        "WAR Treasure": 
-        "Chef Task: Trip to the Warzone": 
-        "Chef Task: Sharpshooter": 
-        "Chef Task: Decorated Veteran": 
+        "WAR Complete": "GRAB+SLAM | GRAB+CRUSH",
+        "WAR Mushroom Toppin": "GRAB+SLAM | GRAB+BOUNCE | GRAB+SJUMP | GRAB+CRUSH",
+        "WAR Cheese Toppin": "GRAB+SLAM | GRAB+BOUNCE | GRAB+SJUMP | GRAB+CRUSH",
+        "WAR Tomato Toppin": "GRAB+SLAM | GRAB+CRUSH",
+        "WAR Sausage Toppin": "GRAB+SLAM | GRAB+CRUSH",
+        "WAR Pineapple Toppin": "GRAB+SLAM | GRAB+CRUSH",
+        "WAR Secret 1": "GRAB+SLAM | GRAB+CRUSH",
+        "WAR Secret 2": "GRAB+SLAM | GRAB+CRUSH",
+        "WAR Secret 3": "GRAB+SLAM | GRAB+CRUSH",
+        "WAR Treasure": "GRAB+SLAM | GRAB+CRUSH",
+        "Chef Task: Trip to the Warzone": "GRAB+SLAM | GRAB+CRUSH",
+        "Chef Task: Sharpshooter": "GRAB+SLAM+SJUMP | GRAB+CRUSH",
+        "Chef Task: Decorated Veteran": "GRAB+SLAM | GRAB+CRUSH",
 
     #Crumbling Tower of Pizza
-        "The Crumbling Tower of Pizza Complete": 
-        "The Crumbling Tower of Pizza S Rank": 
-        "The Crumbling Tower of Pizza P Rank": 
+        "The Crumbling Tower of Pizza Complete": "GRAB+SJUMP+SLAM | GRAB+SJUMP+TORN | GRAB+CRUSH",
+        "The Crumbling Tower of Pizza S Rank": "GRAB+SJUMP+SLAM | GRAB+SJUMP+TORN | GRAB+CRUSH",
+        "The Crumbling Tower of Pizza P Rank": "GRAB+SJUMP+SLAM | GRAB+SJUMP+TORN | GRAB+CRUSH",
 
     #Pepperman
-        "Pepperman Defeated": 
-        "Chef Task: The Critic": 
-        "Pepperman S Rank": 
-        "Pepperman P Rank": 
+        "Pepperman Defeated": "BOMB | GRAB",
+        "Chef Task: The Critic": "BOMB | GRAB",
+        "Pepperman S Rank": "BOMB | GRAB",
+        "Pepperman P Rank": "BOMB | GRAB",
 
     #Vigilante
-        "The Vigilante Defeated": 
-        "Chef Task: The Ugly": 
-        "The Vigilante S Rank": 
-        "The Vigilante P Rank": 
+        "The Vigilante Defeated": "BOMB",
+        "Chef Task: The Ugly": "BOMB",
+        "The Vigilante S Rank": "BOMB",
+        "The Vigilante P Rank": "BOMB",
 
     #Noise
-        "The Doise Defeated": 
-        "Chef Task: Denoise": 
-        "The Doise S Rank": 
-        "The Doise P Rank": 
+        "The Doise Defeated": "BOMB | GRAB",
+        "Chef Task: Denoise": "BOMB | GRAB",
+        "The Doise S Rank": "BOMB | GRAB",
+        "The Doise P Rank": "BOMB | GRAB",
 
     #Fake Pep
-        "Fake Peppino Defeated": 
-        "Chef Task: Faker": 
-        "Fake Peppino S Rank": 
-        "Fake Peppino P Rank": 
+        "Fake Peppino Defeated": "BOMB | GRAB",
+        "Chef Task: Faker": "BOMB | GRAB",
+        "Fake Peppino S Rank": "BOMB | GRAB",
+        "Fake Peppino P Rank": "BOMB | GRAB",
 
     #Pizzaface
-        "Pizzaface Defeated": 
-        "Chef Task: Face Off": 
+        "Pizzaface Defeated": "BOMB",
+        "Chef Task: Face Off": "BOMB",
 
     #Tutorial
-        "Tutorial Complete": 
-        "Tutorial Complete in under 2 minutes": 
+        "Tutorial Complete": "SJUMP+SLAM | CRUSH | SJUMP+TORN",
+        "Tutorial Complete in under 2 minutes": "SJUMP+SLAM | CRUSH | SJUMP+TORN",
 
     #misc
         "Snotty Murdered": "NONE",
@@ -1735,17 +1735,23 @@ def set_rules(multiworld: MultiWorld, world: World, options: PTOptions, toppins:
 
     def interpret_rule(rule_chk: str, mode: int) -> Callable:
         if options.character == 0:
-            if mode == 0: rule_str = pt_peppino_rules[rule_chk]
+            if mode == 0:
+                if options.difficulty == 0: rule_str = pt_peppino_rules_easy[rule_chk]
+                else: rule_str = pt_peppino_rules[rule_chk]
             if mode == 1: rule_str = peppino_level_access_rules[rule_chk]
             if mode == 2: rule_str = peppino_boss_access_rules[rule_chk]
             if mode == 3: rule_str = peppino_next_floor_access_rules[rule_chk]
         elif options.character == 1:
-            if mode == 0: rule_str = pt_noise_rules[rule_chk]
+            if mode == 0:
+                if options.difficulty == 0: rule_str = pt_noise_rules_easy[rule_chk]
+                else: rule_str = pt_noise_rules[rule_chk]
             if mode == 1: rule_str = noise_level_access_rules[rule_chk]
             if mode == 2: rule_str = noise_boss_access_rules[rule_chk]
             if mode == 3: rule_str = noise_next_floor_access_rules[rule_chk]
         else:
-            if mode == 0: rule_str = pt_peppino_rules[rule_chk] + " | " + pt_noise_rules[rule_chk]
+            if mode == 0:
+                if options.difficulty == 0: rule_str = pt_peppino_rules_easy[rule_chk] + " | " + pt_noise_rules_easy[rule_chk]
+                else: rule_str = pt_peppino_rules_easy[rule_chk] + " | " + pt_noise_rules_easy[rule_chk]
             if mode == 1: rule_str = peppino_level_access_rules[rule_chk] + " | " + noise_level_access_rules[rule_chk]
             if mode == 2: rule_str = peppino_boss_access_rules[rule_chk] + " | " + noise_boss_access_rules[rule_chk]
             if mode == 3: rule_str = peppino_next_floor_access_rules[rule_chk] + " | " + noise_next_floor_access_rules[rule_chk]

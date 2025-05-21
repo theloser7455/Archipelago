@@ -193,6 +193,19 @@ class FairlyRandom(DefaultOnToggle):
     """
     display_name = "Fairly Random"
 
+class LogicDifficulty(Choice):
+    """
+    Determines how strict the randomizer logic will be, and as a result, how difficult your run may be.
+
+    Normal: Stricter logic for new players or those looking for a quick, simple run. The randomizer will never expect you to do anything too technical or creative.
+
+    Expert: Relaxed logic for those looking for a challenge. The randomizer may expect you to use obscure mechanics or perform precise tricks.
+    """
+    display_name = "Difficulty"
+    option_Normal = 0
+    option_Expert = 1
+    default = 0
+
 pt_option_groups = [
     OptionGroup("General Options", [
         CharacterToPlay,
@@ -252,6 +265,7 @@ class PTOptions(PerGameCommonOptions):
     #enabled_traps: EnabledTraps # not implemented
     jumpscare: Jumpscare
     fairly_random: FairlyRandom
+    difficulty: LogicDifficulty
 
 #presets - feel free to suggest more
 
