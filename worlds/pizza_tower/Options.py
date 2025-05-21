@@ -55,7 +55,7 @@ class Floor5Door(Range):
     """
     display_name = "Floor 5 Boss Toppins"
     range_start = 0
-    range_end = 150
+    range_end = 100
     default = 91
 
 class TreasureChecks(DefaultOnToggle):
