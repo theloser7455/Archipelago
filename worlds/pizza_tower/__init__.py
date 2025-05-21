@@ -84,6 +84,8 @@ class PizzaTowerWorld(World):
             locations_to_fill += 2 #no toppins in noise tutorial
         #no tutorial in swap mode, so no tutorial checks
 
+        if self.options.open_world or not self.options.shuffle_boss_keys:
+            locations_to_fill -= 4
         #disable for now; unlocking laps is kind of annoying
         #pizza_itempool.append(self.create_item("Lap 2 Portals"))
 
@@ -146,16 +148,18 @@ class PizzaTowerWorld(World):
                 pizza_itempool.append(self.create_item("Clown Trap"))
         for i in range(locations_to_fill - len(pizza_itempool)):
             roll_item = self.random.randint(0, 100)
-            if (roll_item <= 2):
+            if (roll_item <= 3):
                 pizza_itempool.append(self.create_item("Permanent 100 Points"))
-            elif (roll_item <= 12):
+            elif (roll_item <= 10):
+                pizza_itempool.append(self.create_item("Nothing"))
+            elif (roll_item <= 20):
                 pizza_itempool.append(self.create_item("Permanent 50 Points"))
-            elif (roll_item <= 22):
+            elif (roll_item <= 30):
                 pizza_itempool.append(self.create_item("Pizza Shield"))
-            elif (roll_item <= 42):
+            elif (roll_item <= 40):
                 pizza_itempool.append(self.create_item("Cross Buff"))
             elif (roll_item <= 70):
-                pizza_itempool.append(self.create_item("500 Points"))
+                pizza_itempool.append(self.create_item("Primo Burg"))
             else:
                 pizza_itempool.append(self.create_item("Permanent 10 Points"))
 

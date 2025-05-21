@@ -40,7 +40,7 @@ pt_items = {
     "Permanent 10 Points": (126, ItemClassification.filler),
     "Permanent 50 Points": (127, ItemClassification.filler),
     "Permanent 100 Points": (128, ItemClassification.filler),
-    "500 Points": (129, ItemClassification.filler),
+    "Primo Burg": (129, ItemClassification.filler),
     "Cross Buff": (130, ItemClassification.filler),
     "Pizza Shield": (131, ItemClassification.filler),
 
@@ -60,7 +60,7 @@ pt_items = {
     "Shotgun": (144, ItemClassification.progression),
     "Revolver": (145, ItemClassification.progression),
 
-    "Sorry Nothing": (146, ItemClassification.filler), #may or may not ever get used
+    "Nothing": (146, ItemClassification.filler), #may or may not ever get used
 
     "Jumpscare": (148, ItemClassification.filler) #replaces oktoberfest if options.jumpscare == true
 }
