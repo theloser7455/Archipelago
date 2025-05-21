@@ -101,17 +101,17 @@ class PizzaTowerWorld(World):
 
         #peppino's moves (and gus + brick)
         if self.options.character != 1:
-            pizza_itempool.append(self.create_item("Peppino: Wallclimb"))
-            pizza_itempool.append(self.create_item("Gustavo & Brick: Double Jump"))
-            pizza_itempool.append(self.create_item("Gustavo & Brick: Rat Kick"))
-            pizza_itempool.append(self.create_item("Gustavo: Spin Attack"))
+            pizza_itempool.append(self.create_item("Wallclimb"))
+            pizza_itempool.append(self.create_item("Double Jump"))
+            pizza_itempool.append(self.create_item("Rat Kick"))
+            pizza_itempool.append(self.create_item("Spin Attack"))
 
         #noise's moves
         if self.options.character != 0:
-            pizza_itempool.append(self.create_item("Noise: Wallbounce"))
-            pizza_itempool.append(self.create_item("Noise: Tornado"))
-            pizza_itempool.append(self.create_item("Noise: Crusher"))
-            pizza_itempool.append(self.create_item("Noise: Bomb"))
+            pizza_itempool.append(self.create_item("Wallbounce"))
+            pizza_itempool.append(self.create_item("Tornado"))
+            pizza_itempool.append(self.create_item("Crusher"))
+            pizza_itempool.append(self.create_item("Bomb"))
         
         #add keys
         if not self.options.open_world:

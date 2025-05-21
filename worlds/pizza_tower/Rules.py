@@ -41,18 +41,18 @@ rule_moves = {
     "UPPER": "Uppercut",
     "MACH4": "Mach 4",
     "SJUMP": "Superjump",
-    "CLIMB": "Peppino: Wallclimb",
-    "DIVE": "Peppino: Dive",
+    "CLIMB": "Wallclimb",
+    "DIVE": "Dive",
     "TAUNT": "Taunt",
     "STAUNT": "Supertaunt",
     "SLAM": "Bodyslam",
-    "DJUMP": "Gustavo & Brick: Double Jump",
-    "KICK": "Gustavo & Brick: Rat Kick",
-    "SPIN": "Gustavo: Spin Attack",
-    "CRUSH": "Noise: Crusher",
-    "BOUNCE": "Noise: Wallbounce",
-    "TORN": "Noise: Tornado",
-    "BOMB": "Noise: Bomb"
+    "DJUMP": "Double Jump",
+    "KICK": "Rat Kick",
+    "SPIN": "Spin Attack",
+    "CRUSH": "Crusher",
+    "BOUNCE": "Wallbounce",
+    "TORN": "Tornado",
+    "BOMB": "Bomb"
 }
 
 def level_gate_rando(world: World, is_noise: bool, logic_type: int) -> list[str]:
@@ -1849,4 +1849,4 @@ def set_rules(multiworld: MultiWorld, world: World, options: PTOptions, toppins:
     #...and pizzaface
     if options.bonus_ladders < 5:
         if options.character == 0: add_rule(multiworld.get_entrance("Floor 5 Staff Only to Pizzaface", world.player), lambda state: state.has("Superjump", world.player))
-        else: add_rule(multiworld.get_entrance("Floor 5 Staff Only to Pizzaface", world.player), lambda state: state.has_any(["Superjump", "Noise: Crusher"], world.player))
+        else: add_rule(multiworld.get_entrance("Floor 5 Staff Only to Pizzaface", world.player), lambda state: state.has_any(["Superjump", "Crusher"], world.player))

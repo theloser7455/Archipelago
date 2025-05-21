@@ -12,23 +12,23 @@ pt_items = {
     "Uppercut": (104, ItemClassification.progression),
     "Superjump": (105, ItemClassification.progression),
     "Grab": (106, ItemClassification.progression),
-    #ID 107 has been reassigned to "Noise: Bomb"
+    #ID 107 has been reassigned to "Bomb"
     "Taunt": (108, ItemClassification.progression),
     "Supertaunt": (109, ItemClassification.progression),
     "Bodyslam": (110, ItemClassification.progression),
     "Breakdance": (111, ItemClassification.filler),
 
-    "Peppino: Wallclimb": (112, ItemClassification.progression),
-    #"Peppino: Dive": (113, ItemClassification.useful),
-    "Gustavo & Brick: Double Jump": (114, ItemClassification.progression),
-    "Gustavo & Brick: Rat Kick": (115, ItemClassification.progression),
-    "Gustavo & Brick: Wall Jump": (116, ItemClassification.progression),
+    "Wallclimb": (112, ItemClassification.progression),
+    #"Dive": (113, ItemClassification.useful),
+    "Double Jump": (114, ItemClassification.progression),
+    "Rat Kick": (115, ItemClassification.progression),
+    "Wall Jump": (116, ItemClassification.progression),
     "Gustavo: Spin Attack": (117, ItemClassification.useful),
 
-    "Noise: Wallbounce": (118, ItemClassification.progression),
-    "Noise: Tornado": (119, ItemClassification.progression),
-    "Noise: Crusher": (120, ItemClassification.progression),
-    "Noise: Bomb": (107, ItemClassification.progression),
+    "Wallbounce": (118, ItemClassification.progression),
+    "Tornado": (119, ItemClassification.progression),
+    "Crusher": (120, ItemClassification.progression),
+    "Bomb": (107, ItemClassification.progression),
 
     "Clown Trap": (121, ItemClassification.trap),
     "Timer Trap": (122, ItemClassification.trap),
