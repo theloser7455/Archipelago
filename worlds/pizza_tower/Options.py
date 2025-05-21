@@ -29,7 +29,7 @@ class Floor2Door(Range):
     display_name = "Floor 2 Boss Toppins"
     range_start = 0
     range_end = 100
-    default = 16
+    default = 27
 
 class Floor3Door(Range):
     """
@@ -38,7 +38,7 @@ class Floor3Door(Range):
     display_name = "Floor 3 Boss Toppins"
     range_start = 0
     range_end = 100
-    default = 22
+    default = 48
 
 class Floor4Door(Range):
     """
@@ -47,7 +47,7 @@ class Floor4Door(Range):
     display_name = "Floor 4 Boss Toppins"
     range_start = 0
     range_end = 100
-    default = 22
+    default = 69
 
 class Floor5Door(Range):
     """
@@ -56,7 +56,7 @@ class Floor5Door(Range):
     display_name = "Floor 5 Boss Toppins"
     range_start = 0
     range_end = 150
-    default = 23
+    default = 91
 
 class TreasureChecks(DefaultOnToggle):
     """
@@ -90,7 +90,7 @@ class ChefTaskChecks(Toggle):
     """
     display_name = "Chef Tasks Award Checks"
 
-class ShuffleBossKeys(DefaultOnToggle):
+class ShuffleBossKeys(Toggle):
     """
     On: Shuffle Boss Keys into the item pool.
 
