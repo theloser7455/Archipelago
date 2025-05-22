@@ -133,35 +133,36 @@ class PizzaTowerWorld(World):
             for i in range(self.options.toppin_count): pizza_itempool.append(self.create_item("Toppin"))
         
         #add filler
-        for i in range(floor((locations_to_fill - len(pizza_itempool)) * (self.options.trap_percentage * 0.01))):
-            roll_item = self.random.randint(0, 100)
-            if (roll_item <= 10):
-                pizza_itempool.append(self.create_item("Pizzaface"))
-            elif (roll_item <= 20):
-                pizza_itempool.append(self.create_item("Timer Trap"))
-            elif (roll_item <= 40):
-                if self.options.jumpscare:
-                    pizza_itempool.append(self.create_item("Jumpscare"))
-                else:
-                    pizza_itempool.append(self.create_item("Oktoberfest!"))
+        one_percent_trap = (locations_to_fill - len(pizza_itempool)) / 1000
+        for i in range(floor(one_percent_trap * 5)):
+            pizza_itempool.append(self.create_item("Pizzaface"))
+        for i in range(floor(one_percent_trap * 5)):
+            pizza_itempool.append(self.create_item("Timer Trap"))
+        for i in range(floor(one_percent_trap * 20)):
+            if self.options.jumpscare:
+                pizza_itempool.append(self.create_item("Jumpscare"))
             else:
-                pizza_itempool.append(self.create_item("Clown Trap"))
+                pizza_itempool.append(self.create_item("Oktoberfest!"))
+        for i in range(floor(one_percent_trap * 20)):
+            pizza_itempool.append(self.create_item("Granny Trap"))
+        for i in range(floor(one_percent_trap * 20)):
+            pizza_itempool.append(self.create_item("Fake Santa Trap"))
+        for i in range(floor(one_percent_trap * 30)):
+            pizza_itempool.append(self.create_item("Clown Trap"))
+        
+        one_percent_filler = (locations_to_fill - len(pizza_itempool)) / 100
+        for i in range(floor(one_percent_filler * 3)):
+            pizza_itempool.append(self.create_item("Permanent 100 Points"))
+        for i in range(floor(one_percent_filler * 7)):
+            pizza_itempool.append(self.create_item("Permanent 50 Points"))
+        for i in range(floor(one_percent_filler * 20)):
+            pizza_itempool.append(self.create_item("Cross Buff"))
+        for i in range(floor(one_percent_filler * 10)):
+            pizza_itempool.append(self.create_item("Pizza Shield"))
+        for i in range(floor(one_percent_filler * 45)):
+            pizza_itempool.append(self.create_item("Permanent 10 Points"))
         for i in range(locations_to_fill - len(pizza_itempool)):
-            roll_item = self.random.randint(0, 100)
-            if (roll_item <= 3):
-                pizza_itempool.append(self.create_item("Permanent 100 Points"))
-            elif (roll_item <= 10):
-                pizza_itempool.append(self.create_item("Nothing"))
-            elif (roll_item <= 20):
-                pizza_itempool.append(self.create_item("Permanent 50 Points"))
-            elif (roll_item <= 30):
-                pizza_itempool.append(self.create_item("Pizza Shield"))
-            elif (roll_item <= 40):
-                pizza_itempool.append(self.create_item("Cross Buff"))
-            elif (roll_item <= 70):
-                pizza_itempool.append(self.create_item("Primo Burg"))
-            else:
-                pizza_itempool.append(self.create_item("Permanent 10 Points"))
+            pizza_itempool.append(self.create_item("Primo Burg"))
 
         self.multiworld.itempool += pizza_itempool
 

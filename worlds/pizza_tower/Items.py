@@ -8,7 +8,7 @@ pt_items = {
     "Boss Key": (102, ItemClassification.progression),
     "Lap 2 Portals": (149, ItemClassification.useful),
 
-    "Mach 4": (103, ItemClassification.useful),
+    "Mach 4": (103, ItemClassification.progression),
     "Uppercut": (104, ItemClassification.progression),
     "Superjump": (105, ItemClassification.progression),
     "Grab": (106, ItemClassification.progression),
@@ -23,7 +23,7 @@ pt_items = {
     "Double Jump": (114, ItemClassification.progression),
     "Rat Kick": (115, ItemClassification.progression),
     "Wall Jump": (116, ItemClassification.progression),
-    "Gustavo: Spin Attack": (117, ItemClassification.useful),
+    "Spin Attack": (117, ItemClassification.useful),
 
     "Wallbounce": (118, ItemClassification.progression),
     "Tornado": (119, ItemClassification.progression),
@@ -33,9 +33,9 @@ pt_items = {
     "Clown Trap": (121, ItemClassification.trap),
     "Timer Trap": (122, ItemClassification.trap),
     "Pizzaface": (123, ItemClassification.trap),
-    "Fake Santa Trap": (124, ItemClassification.trap), #unused cuz i never got around to it
+    "Fake Santa Trap": (124, ItemClassification.trap),
     "Oktoberfest!": (125, ItemClassification.trap),
-    "Granny Trap": (147, ItemClassification.trap), #show a granny text box to obscure the screen; unused cuz idk how to do that
+    "Granny Trap": (147, ItemClassification.trap),
 
     "Permanent 10 Points": (126, ItemClassification.filler),
     "Permanent 50 Points": (127, ItemClassification.filler),
@@ -60,7 +60,7 @@ pt_items = {
     "Shotgun": (144, ItemClassification.progression),
     "Revolver": (145, ItemClassification.progression),
 
-    "Nothing": (146, ItemClassification.filler), #may or may not ever get used
+    "Nothing": (146, ItemClassification.filler),
 
     "Jumpscare": (148, ItemClassification.filler) #replaces oktoberfest if options.jumpscare == true
 }

@@ -1715,7 +1715,7 @@ def set_rules(multiworld: MultiWorld, world: World, options: PTOptions, toppins:
 
     secrets_list = get_secrets_list() 
     if options.randomize_levels:
-        levels_map = dict(zip(levels_list, level_gate_rando(world, options.character != 0)))
+        levels_map = dict(zip(levels_list, level_gate_rando(world, options.character != 0, options.difficulty)))
     else:
         levels_map = dict(zip(levels_list, levels_list))
 
@@ -1725,7 +1725,7 @@ def set_rules(multiworld: MultiWorld, world: World, options: PTOptions, toppins:
         bosses_map = dict(zip(bosses_list, bosses_list))
 
     if options.randomize_secrets:
-        secrets_map = dict(zip(secrets_list, secret_rando(world)))
+        secrets_map = dict(zip(secrets_list, secret_rando(world, options)))
     else:
         secrets_map = dict(zip(secrets_list, secrets_list))
 
