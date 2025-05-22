@@ -159,7 +159,9 @@ class PizzaTowerWorld(World):
             pizza_itempool.append(self.create_item("Cross Buff"))
         for i in range(floor(one_percent_filler * 10)):
             pizza_itempool.append(self.create_item("Pizza Shield"))
-        for i in range(floor(one_percent_filler * 45)):
+        for i in range(floor(one_percent_filler * 5)):
+            pizza_itempool.append(self.create_item("Nothing"))
+        for i in range(floor(one_percent_filler * 40)):
             pizza_itempool.append(self.create_item("Permanent 10 Points"))
         for i in range(locations_to_fill - len(pizza_itempool)):
             pizza_itempool.append(self.create_item("Primo Burg"))
