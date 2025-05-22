@@ -183,5 +183,6 @@ class PizzaTowerWorld(World):
             "rando_bosses": {internal_from_external(boss): internal_from_external(self.boss_map[boss]) for boss in self.boss_map},
             "rando_secrets": {internal_from_external(sec): internal_from_external(self.secret_map[sec]) for sec in self.secret_map},
             "open_world": bool(self.options.open_world),
-            "bonus_ladders": int(self.options.bonus_ladders)
+            "bonus_ladders": int(self.options.bonus_ladders),
+            "character": int(self.options.character.value)
         }
