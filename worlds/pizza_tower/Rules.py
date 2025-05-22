@@ -134,10 +134,12 @@ def get_secrets_list() -> list[str]:
 def secret_rando(world: World, options: PTOptions) -> list[str]:
     secrets_queue = get_secrets_list()
     world.random.shuffle(secrets_queue)
-    if options.cheftask_checks: # pretend ghost is impossible without secret 2
-        temp_secret = secrets_queue[17]
-        secrets_queue[secrets_queue.index("Wasteyard Secret 2")] = temp_secret
-        secrets_queue[17] = "Wasteyard Secret 2"
+    if options.cheftask_checks and secrets_queue[16] != "Wasteyard Secret 2":
+        secrets_queue[secrets_queue.index("Wasteyard Secret 2")] = secrets_queue[16]
+        secrets_queue[16] = "Wasteyard Secret 2"
+    if options.cheftask_checks and secrets_queue[39] != "Peppibot Factory Secret 1":
+        secrets_queue[secrets_queue.index("Peppibot Factory Secret 1")] = secrets_queue[39]
+        secrets_queue[39] = "Peppibot Factory Secret 1"
     return secrets_queue
 
 def set_rules(multiworld: MultiWorld, world: World, options: PTOptions, toppins: int):
