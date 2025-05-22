@@ -1800,6 +1800,9 @@ def set_rules(multiworld: MultiWorld, world: World, options: PTOptions, toppins:
             else:
                 add_rule(location, get_s_rank_rule(levels_map[levels_list[floor_first_lvl_index]], options.character) and get_s_rank_rule(levels_map[levels_list[floor_first_lvl_index + 1]], options.character) and get_s_rank_rule(levels_map[levels_list[floor_first_lvl_index + 2]], options.character) and get_s_rank_rule(levels_map[levels_list[floor_first_lvl_index + 3]], options.character))
         else:
+            if ("The Critic" in location.name) or ("The Ugly" in location.name) or ("Denoise" in location.name) or ("Faker" in location.name) or ("Face Off" in location.name):
+                if not options.prank_checks:
+                    location.progress_type = LocationProgressType.EXCLUDED
             add_rule(location, interpret_rule(location.name, 0))
 
     def get_toppin_prop(perc: int) -> int:
