@@ -831,16 +831,16 @@ def set_rules(multiworld: MultiWorld, world: World, options: PTOptions, toppins:
         "The Vigilante P Rank": "GRAB",
 
     #Noise
-        "The Noise Defeated": "GRAB | UPPER | SLAM",
-        "Chef Task: Denoise": "GRAB | UPPER | SLAM",
-        "The Noise S Rank": "GRAB | UPPER | SLAM",
-        "The Noise P Rank": "GRAB | UPPER | SLAM",
+        "The Noise Defeated": "GRAB | UPPER",
+        "Chef Task: Denoise": "GRAB | UPPER",
+        "The Noise S Rank": "GRAB | UPPER",
+        "The Noise P Rank": "GRAB | UPPER",
 
     #Fake Pep
-        "Fake Peppino Defeated": "GRAB | UPPER | SLAM",
-        "Chef Task: Faker": "GRAB | UPPER | SLAM",
-        "Fake Peppino S Rank": "GRAB | UPPER | SLAM",
-        "Fake Peppino P Rank": "GRAB | UPPER | SLAM",
+        "Fake Peppino Defeated": "GRAB | UPPER",
+        "Chef Task: Faker": "GRAB | UPPER",
+        "Fake Peppino S Rank": "GRAB | UPPER",
+        "Fake Peppino P Rank": "GRAB | UPPER",
 
     #Pizzaface
         "Pizzaface Defeated": "GRAB",
@@ -859,10 +859,10 @@ def set_rules(multiworld: MultiWorld, world: World, options: PTOptions, toppins:
         "Snotty Murdered": "NONE",
 
     #for swap mode
-        "The Doise Defeated": "GRAB | UPPER | SLAM",
-        "Chef Task: Denoise": "GRAB | UPPER | SLAM",
-        "The Doise S Rank": "GRAB | UPPER | SLAM",
-        "The Doise P Rank": "GRAB | UPPER | SLAM",
+        "The Doise Defeated": "GRAB | UPPER",
+        "Chef Task: Denoise": "GRAB | UPPER",
+        "The Doise S Rank": "GRAB | UPPER",
+        "The Doise P Rank": "GRAB | UPPER",
     }
 
     pt_peppino_extra_rules = { #internal rules for rando purposes; do not correspond to real checks
