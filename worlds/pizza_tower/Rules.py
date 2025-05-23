@@ -1808,6 +1808,18 @@ def set_rules(multiworld: MultiWorld, world: World, options: PTOptions, toppins:
                     location.progress_type = LocationProgressType.EXCLUDED
             add_rule(location, interpret_rule(location.name, 0))
 
+    #misc rules for s/p ranks
+
+    #must reach lap 2
+    add_rule(multiworld.get_location("Fun Farm S Rank", world.player), lambda state: any([state.has_all(["Grab", "Wallclimb"], world.player), state.has("Superjump", world.player)]))
+    add_rule(multiworld.get_location("Fun Farm P Rank", world.player), lambda state: any([state.has_all(["Grab", "Wallclimb"], world.player), state.has("Superjump", world.player)]))
+    #must reach secret 3
+    add_rule(multiworld.get_location("Crust Cove S Rank", world.player), lambda state: state.has("Taunt", world.player))
+    add_rule(multiworld.get_location("Crust Cove P Rank", world.player), lambda state: state.has("Taunt", world.player))
+    #must not wait at alarm gates
+    add_rule(multiworld.get_location("Don't Make A Sound S Rank", world.player), lambda state: state.has("Taunt", world.player))
+    add_rule(multiworld.get_location("Don't Make A Sound P Rank", world.player), lambda state: state.has("Taunt", world.player))
+
     def get_toppin_prop(perc: int) -> int:
         return floor(toppins * (perc / 100))
 
