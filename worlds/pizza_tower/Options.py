@@ -149,7 +149,7 @@ class BonusLadders(NamedRange):
     display_name = "Bonus Ladders"
     range_start = 0
     range_end = 5
-    default = 0
+    default = 3
     special_range_names = { "disabled": 0 }
 
 class TrapPercentage(Range):
