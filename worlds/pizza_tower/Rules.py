@@ -61,7 +61,6 @@ def level_gate_rando(world: World, is_noise: bool, logic_type: int) -> list[str]
         "Pizzascape",
         "Ancient Cheese",
         "Bloodsauce Dungeon",
-        "GOLF",
         "The Pig City",
         "Don't Make A Sound"
     ]
@@ -69,6 +68,7 @@ def level_gate_rando(world: World, is_noise: bool, logic_type: int) -> list[str]
         ok_start_levels.append("Freezerator")
     if logic_type > 0:
         ok_start_levels.append("Wasteyard")
+        ok_start_levels.append("GOLF")
 
     #copies of level and boss lists to be shuffled
     level_queue = [
