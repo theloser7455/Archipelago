@@ -32,7 +32,7 @@ pt_items = {
 
     "Clown Trap": (121, ItemClassification.trap),
     "Timer Trap": (122, ItemClassification.trap),
-    "Pizzaface": (123, ItemClassification.trap),
+    "Ghost Trap": (123, ItemClassification.trap),
     "Fake Santa Trap": (124, ItemClassification.trap),
     "Oktoberfest!": (125, ItemClassification.trap),
     "Granny Trap": (147, ItemClassification.trap),

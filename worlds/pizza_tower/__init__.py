@@ -133,10 +133,10 @@ class PizzaTowerWorld(World):
             for i in range(self.options.toppin_count): pizza_itempool.append(self.create_item("Toppin"))
         
         #add filler
-        one_percent_trap = (locations_to_fill - len(pizza_itempool)) / 1000
-        for i in range(floor(one_percent_trap * 5)):
-            pizza_itempool.append(self.create_item("Pizzaface"))
-        for i in range(floor(one_percent_trap * 5)):
+        one_percent_trap = (locations_to_fill - len(pizza_itempool)) * (int(self.options.trap_percentage) / 100)
+        for i in range(floor(one_percent_trap * 10)):
+            pizza_itempool.append(self.create_item("Ghost Trap"))
+        for i in range(floor(one_percent_trap * 10)):
             pizza_itempool.append(self.create_item("Timer Trap"))
         for i in range(floor(one_percent_trap * 20)):
             if self.options.jumpscare:
@@ -147,7 +147,7 @@ class PizzaTowerWorld(World):
             pizza_itempool.append(self.create_item("Granny Trap"))
         for i in range(floor(one_percent_trap * 20)):
             pizza_itempool.append(self.create_item("Fake Santa Trap"))
-        for i in range(floor(one_percent_trap * 30)):
+        for i in range(floor(one_percent_trap * 20)):
             pizza_itempool.append(self.create_item("Clown Trap"))
         
         one_percent_filler = (locations_to_fill - len(pizza_itempool)) / 100

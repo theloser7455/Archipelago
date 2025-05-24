@@ -209,6 +209,7 @@ class LogicDifficulty(Choice):
 pt_option_groups = [
     OptionGroup("General Options", [
         CharacterToPlay,
+        LogicDifficulty,
         OpenWorld,
         BonusLadders
     ]),
@@ -243,6 +244,7 @@ pt_option_groups = [
 
 @dataclass
 class PTOptions(PerGameCommonOptions):
+    character: CharacterToPlay
     toppin_count: ToppinCount
     floor_1_cost: Floor1Door
     floor_2_cost: Floor2Door
@@ -255,7 +257,6 @@ class PTOptions(PerGameCommonOptions):
     prank_checks: PRankChecks
     cheftask_checks: ChefTaskChecks
     shuffle_boss_keys: ShuffleBossKeys
-    character: CharacterToPlay
     randomize_levels: RandomizeLevels
     randomize_bosses: RandomizeBosses
     randomize_secrets: RandomizeSecrets
