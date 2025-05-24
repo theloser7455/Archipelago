@@ -709,7 +709,7 @@ def set_rules(multiworld: MultiWorld, world: World, options: PTOptions, toppins:
         "Chef Task: Nice Shot": "GRAB+CLIMB | GRAB+SJUMP | GRAB+UPPER",
 
     #The Pig City
-        "The Pig City Complete": "SLAM+SJUMP",
+        "The Pig City Complete": "SLAM+DJUMP",
         "The Pig City Mushroom Toppin": "NONE",
         "The Pig City Cheese Toppin": "SJUMP | CLIMB",
         "The Pig City Tomato Toppin": "SLAM",
@@ -718,9 +718,9 @@ def set_rules(multiworld: MultiWorld, world: World, options: PTOptions, toppins:
         "The Pig City Secret 1": "NONE",
         "The Pig City Secret 2": "SLAM+DJUMP",
         "The Pig City Secret 3": "SLAM+DJUMP",
-        "The Pig City Treasure": "SLAM+SJUMP",
-        "Chef Task: Say Oink!": "SLAM+SJUMP+TAUNT",
-        "Chef Task: Pan Fried": "SLAM+SJUMP",
+        "The Pig City Treasure": "SLAM+DJUMP",
+        "Chef Task: Say Oink!": "SLAM+DJUMP+TAUNT",
+        "Chef Task: Pan Fried": "SLAM+DJUMP",
         "Chef Task: Strike!": "SLAM+DJUMP+KICK",
 
     #Peppibot Factory
