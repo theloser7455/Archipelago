@@ -84,7 +84,7 @@ class PizzaTowerWorld(World):
             locations_to_fill += 2 #no toppins in noise tutorial
         #no tutorial in swap mode, so no tutorial checks
 
-        if self.options.open_world or not self.options.shuffle_boss_keys:
+        if not self.options.shuffle_boss_keys and not self.options.open_world:
             locations_to_fill -= 4
         #disable for now; unlocking laps is kind of annoying
         #pizza_itempool.append(self.create_item("Lap 2 Portals"))
