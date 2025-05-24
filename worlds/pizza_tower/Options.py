@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from Options import DefaultOnToggle, Range, NamedRange, Toggle, Choice, PerGameCommonOptions, OptionSet, OptionGroup
+from Options import DefaultOnToggle, Range, NamedRange, Toggle, Choice, PerGameCommonOptions, OptionSet, OptionGroup, DeathLink
 from .Items import pt_items
 
 class ToppinCount(Range):
@@ -266,6 +266,7 @@ class PTOptions(PerGameCommonOptions):
     jumpscare: Jumpscare
     fairly_random: FairlyRandom
     difficulty: LogicDifficulty
+    death_link: DeathLink
 
 #presets - feel free to suggest more
 

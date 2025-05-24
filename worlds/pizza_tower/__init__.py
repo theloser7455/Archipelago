@@ -184,5 +184,6 @@ class PizzaTowerWorld(World):
             "rando_secrets": {internal_from_external(sec): internal_from_external(self.secret_map[sec]) for sec in self.secret_map},
             "open_world": bool(self.options.open_world),
             "bonus_ladders": int(self.options.bonus_ladders),
-            "character": int(self.options.character.value)
+            "character": int(self.options.character.value),
+            "death_link": bool(self.options.death_link)
         }
