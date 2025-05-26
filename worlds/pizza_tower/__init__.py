@@ -47,7 +47,11 @@ class PizzaTowerWebWorld(WebWorld):
     option_presets = pt_option_presets
 
 class PizzaTowerWorld(World):
-    """It's Pizza Time!"""
+    """
+    Down-on-his-luck pizza chef Peppino Spaghetti and his restaurant are threatened by a sentient floating pizza... and this time
+    all of his abilities are gone, too! Climb up and bring down the Pizza Tower to save your restaurant in this cheesy, saucy,
+    Wario Land 4-inspired platformer!
+    """
     game = "Pizza Tower"
     topology_present = False
     options_dataclass = PTOptions
@@ -133,7 +137,7 @@ class PizzaTowerWorld(World):
             for i in range(self.options.toppin_count): pizza_itempool.append(self.create_item("Toppin"))
         
         #add filler
-        one_percent_trap = (locations_to_fill - len(pizza_itempool)) * (int(self.options.trap_percentage) / 100)
+        one_percent_trap = (locations_to_fill - len(pizza_itempool)) * (int(self.options.trap_percentage) / 100) / 100
         for i in range(floor(one_percent_trap * 10)):
             pizza_itempool.append(self.create_item("Ghost Trap"))
         for i in range(floor(one_percent_trap * 10)):
