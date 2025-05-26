@@ -1712,7 +1712,7 @@ def set_rules(multiworld: MultiWorld, world: World, options: PTOptions, toppins:
     }
 
     pt_swap_rules = { #for swap-specific rules
-
+        "Chef Task: Strike!": "SLAM+DJUMP+KICK | CRUSH+KICK | BOUNCE+SLAM+KICK | UPPER+SLAM+KICK | SJUMP+SLAM+KICK",
     }
 
     secrets_list = get_secrets_list() 
@@ -1751,12 +1751,14 @@ def set_rules(multiworld: MultiWorld, world: World, options: PTOptions, toppins:
             if mode == 2: rule_str = noise_boss_access_rules[rule_chk]
             if mode == 3: rule_str = noise_next_floor_access_rules[rule_chk]
         else:
-            if mode == 0:
-                if options.difficulty == 0: rule_str = pt_peppino_rules_easy[rule_chk] + " | " + pt_noise_rules_easy[rule_chk]
-                else: rule_str = pt_peppino_rules_easy[rule_chk] + " | " + pt_noise_rules_easy[rule_chk]
-            if mode == 1: rule_str = peppino_level_access_rules[rule_chk] + " | " + noise_level_access_rules[rule_chk]
-            if mode == 2: rule_str = peppino_boss_access_rules[rule_chk] + " | " + noise_boss_access_rules[rule_chk]
-            if mode == 3: rule_str = peppino_next_floor_access_rules[rule_chk] + " | " + noise_next_floor_access_rules[rule_chk]
+            if rule_chk in pt_swap_rules: rule_str = pt_swap_rules[rule_chk]
+            else:
+                if mode == 0:
+                    if options.difficulty == 0: rule_str = pt_peppino_rules_easy[rule_chk] + " | " + pt_noise_rules_easy[rule_chk]
+                    else: rule_str = pt_peppino_rules[rule_chk] + " | " + pt_noise_rules[rule_chk]
+                if mode == 1: rule_str = peppino_level_access_rules[rule_chk] + " | " + noise_level_access_rules[rule_chk]
+                if mode == 2: rule_str = peppino_boss_access_rules[rule_chk] + " | " + noise_boss_access_rules[rule_chk]
+                if mode == 3: rule_str = peppino_next_floor_access_rules[rule_chk] + " | " + noise_next_floor_access_rules[rule_chk]
         rules = rule_str.split(" | ")
         if "NONE" in rules:
             return lambda state: True
