@@ -119,7 +119,7 @@ def boss_gate_rando(world: World, is_noise: bool) -> list[str]:
     if world.options.character != 0:
         boss_queue[2] = "The Doise"
     world.random.shuffle(boss_queue)
-    if world.options.fairly_random:
+    if world.options.fairly_random and world.options.diificulty > 0:
         while boss_queue[0] == "The Vigilante" or boss_queue[0] == "Pepperman": #floor 1 boss should not be vigi or pepperman
             world.random.shuffle(boss_queue)
     return boss_queue
