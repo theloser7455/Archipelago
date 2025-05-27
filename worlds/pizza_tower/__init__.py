@@ -1,4 +1,5 @@
 from worlds.AutoWorld import World, WebWorld
+from BaseClasses import Tutorial
 from .Items import PTItem, pt_items
 from .Locations import PTLocation, pt_locations
 from .Options import PTOptions, pt_option_groups, pt_option_presets
@@ -46,6 +47,15 @@ class PizzaTowerWebWorld(WebWorld):
     option_groups = pt_option_groups
     option_presets = pt_option_presets
 
+    setup_en = Tutorial(
+        "MultiWorld Setup Guide",
+        "A guide to setting up Pizza Tower for Archipelago.",
+        "English",
+        "setup_en.md",
+        "setup/en",
+        ["Skizzers"]
+    )
+
 class PizzaTowerWorld(World):
     """
     Down-on-his-luck pizza chef Peppino Spaghetti and his restaurant are threatened by a sentient floating pizza... and this time
@@ -53,13 +63,13 @@ class PizzaTowerWorld(World):
     Wario Land 4-inspired platformer!
     """
     game = "Pizza Tower"
-    topology_present = False
+    topology_present = True
     options_dataclass = PTOptions
     options: PTOptions
     webworld = PizzaTowerWebWorld
 
     toppin_number: int
-    starting_moves = 0
+    starting_moves: int
 
     level_map: dict[str, str]
     boss_map: dict[str, str]
@@ -127,11 +137,11 @@ class PizzaTowerWorld(World):
                 elif self.options.character != 0 and (move in noise_moves or move in shared_moves):
                     pizza_itempool.append(self.create_item(move))
         
-        starting_moves = 0
+        self.starting_moves = 0
         for i in range(len(total_moves)):
-            starting_moves << 1
-            if total_moves[len(total_moves) - i - 1] not in self.options.move_rando_list or not self.options.do_move_rando:
-                starting_moves |= 1
+            self.starting_moves = self.starting_moves << 1
+            if total_moves[i] not in self.options.move_rando_list or not self.options.do_move_rando:
+                self.starting_moves |= 1
         
         #add keys
         if not self.options.open_world:
