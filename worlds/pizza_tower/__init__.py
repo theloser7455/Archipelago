@@ -59,7 +59,7 @@ class PizzaTowerWorld(World):
     webworld = PizzaTowerWebWorld
 
     toppin_number: int
-    starting_moves: int
+    starting_moves = 0
 
     level_map: dict[str, str]
     boss_map: dict[str, str]
@@ -122,15 +122,15 @@ class PizzaTowerWorld(World):
 
         if self.options.do_move_rando:
             for move in self.options.move_rando_list:
-                if self.options.character != 1 and move in pep_moves:
+                if self.options.character != 1 and (move in pep_moves or move in shared_moves):
                     pizza_itempool.append(self.create_item(move))
-                elif self.options.character != 0 and move in noise_moves:
+                elif self.options.character != 0 and (move in noise_moves or move in shared_moves):
                     pizza_itempool.append(self.create_item(move))
         
         starting_moves = 0
         for i in range(len(total_moves)):
             starting_moves << 1
-            if total_moves[len(total_moves) - i] not in self.options.move_rando_list or not self.options.do_move_rando:
+            if total_moves[len(total_moves) - i - 1] not in self.options.move_rando_list or not self.options.do_move_rando:
                 starting_moves |= 1
         
         #add keys
