@@ -59,6 +59,7 @@ class PizzaTowerWorld(World):
     webworld = PizzaTowerWebWorld
 
     toppin_number: int
+    starting_moves: int
 
     level_map: dict[str, str]
     boss_map: dict[str, str]
@@ -93,29 +94,44 @@ class PizzaTowerWorld(World):
         #disable for now; unlocking laps is kind of annoying
         #pizza_itempool.append(self.create_item("Lap 2 Portals"))
 
-        #shared moves
-        pizza_itempool.append(self.create_item("Mach 4"))
-        pizza_itempool.append(self.create_item("Uppercut"))
-        pizza_itempool.append(self.create_item("Superjump"))
-        pizza_itempool.append(self.create_item("Grab"))
-        pizza_itempool.append(self.create_item("Taunt"))
-        pizza_itempool.append(self.create_item("Supertaunt"))
-        pizza_itempool.append(self.create_item("Bodyslam"))
-        pizza_itempool.append(self.create_item("Breakdance"))
+        #define moves per character
+        shared_moves = [
+            "Mach 4",
+            "Uppercut",
+            "Superjump",
+            "Grab",
+            "Taunt",
+            "Supertaunt",
+            "Bodyslam",
+            "Breakdance"
+        ]
+        pep_moves = [
+            "Wallclimb",
+            "Double Jump",
+            "Rat Kick",
+            "none", #placeholder for missing move
+            "Spin Attack"
+        ]
+        noise_moves = [
+            "Wallbounce",
+            "Tornado",
+            "Crusher",
+            "Bomb"
+        ]
+        total_moves = shared_moves + pep_moves + noise_moves
 
-        #peppino's moves (and gus + brick)
-        if self.options.character != 1:
-            pizza_itempool.append(self.create_item("Wallclimb"))
-            pizza_itempool.append(self.create_item("Double Jump"))
-            pizza_itempool.append(self.create_item("Rat Kick"))
-            pizza_itempool.append(self.create_item("Spin Attack"))
-
-        #noise's moves
-        if self.options.character != 0:
-            pizza_itempool.append(self.create_item("Wallbounce"))
-            pizza_itempool.append(self.create_item("Tornado"))
-            pizza_itempool.append(self.create_item("Crusher"))
-            pizza_itempool.append(self.create_item("Bomb"))
+        if self.options.do_move_rando:
+            for move in self.options.move_rando_list:
+                if self.options.character != 1 and move in pep_moves:
+                    pizza_itempool.append(self.create_item(move))
+                elif self.options.character != 0 and move in noise_moves:
+                    pizza_itempool.append(self.create_item(move))
+        
+        starting_moves = 0
+        for i in range(len(total_moves)):
+            starting_moves << 1
+            if total_moves[len(total_moves) - i] not in self.options.move_rando_list or not self.options.do_move_rando:
+                starting_moves |= 1
         
         #add keys
         if not self.options.open_world:
@@ -189,5 +205,6 @@ class PizzaTowerWorld(World):
             "open_world": bool(self.options.open_world),
             "bonus_ladders": int(self.options.bonus_ladders),
             "character": int(self.options.character.value),
-            "death_link": bool(self.options.death_link)
+            "death_link": bool(self.options.death_link),
+            "starting_moves": int(self.starting_moves)
         }

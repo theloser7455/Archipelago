@@ -22,7 +22,7 @@ pt_items = {
     #"Dive": (113, ItemClassification.useful),
     "Double Jump": (114, ItemClassification.progression),
     "Rat Kick": (115, ItemClassification.progression),
-    "Wall Jump": (116, ItemClassification.progression),
+    #"Wall Jump": (116, ItemClassification.progression),
     "Spin Attack": (117, ItemClassification.useful),
 
     "Wallbounce": (118, ItemClassification.progression),

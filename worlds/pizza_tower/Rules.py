@@ -42,7 +42,6 @@ rule_moves = {
     "MACH4": "Mach 4",
     "SJUMP": "Superjump",
     "CLIMB": "Wallclimb",
-    "DIVE": "Dive",
     "TAUNT": "Taunt",
     "STAUNT": "Supertaunt",
     "SLAM": "Bodyslam",
@@ -1765,8 +1764,11 @@ def set_rules(multiworld: MultiWorld, world: World, options: PTOptions, toppins:
         lambda_components = []
         for rule in rules:
             tokens = rule.split("+")
-            itemset = [rule_moves[move] for move in tokens]
-            lambda_components.append(lambda state: state.has_all(itemset, world.player))
+            itemset = [rule_moves[move] for move in tokens if (rule_moves[move] in options.move_rando_list and options.do_move_rando)]
+            if itemset != []:
+                lambda_components.append(lambda state: state.has_all(itemset, world.player))
+            else:
+                lambda_components.append(lambda state: True)
         return lambda state: any(comp(state) for comp in lambda_components)
 
     def get_s_rank_rule(lvl: str, character: int) -> Callable:
@@ -1810,17 +1812,6 @@ def set_rules(multiworld: MultiWorld, world: World, options: PTOptions, toppins:
                     location.progress_type = LocationProgressType.EXCLUDED
             add_rule(location, interpret_rule(location.name, 0))
 
-    #misc rules for s/p ranks
-    if options.srank_checks:
-        add_rule(multiworld.get_location("Fun Farm S Rank", world.player), lambda state: any([state.has_all(["Grab", "Wallclimb"], world.player), state.has("Superjump", world.player)]))
-        add_rule(multiworld.get_location("Crust Cove S Rank", world.player), lambda state: state.has("Taunt", world.player))
-        add_rule(multiworld.get_location("Don't Make A Sound S Rank", world.player), lambda state: state.has("Taunt", world.player))
-    
-    if options.prank_checks:
-        add_rule(multiworld.get_location("Fun Farm P Rank", world.player), lambda state: any([state.has_all(["Grab", "Wallclimb"], world.player), state.has("Superjump", world.player)]))
-        add_rule(multiworld.get_location("Crust Cove P Rank", world.player), lambda state: state.has("Taunt", world.player))
-        add_rule(multiworld.get_location("Don't Make A Sound P Rank", world.player), lambda state: state.has("Taunt", world.player))
-
     def get_toppin_prop(perc: int) -> int:
         return floor(toppins * (perc / 100))
 
@@ -1860,5 +1851,5 @@ def set_rules(multiworld: MultiWorld, world: World, options: PTOptions, toppins:
             if options.character == 0: add_rule(multiworld.get_entrance(floors_list[i] + " to " + bosses_map[bosses_list[i]], world.player), interpret_rule(bosses_list[i], 2))
     #...and pizzaface
     if options.bonus_ladders < 5:
-        if options.character == 0: add_rule(multiworld.get_entrance("Floor 5 Staff Only to Pizzaface", world.player), lambda state: state.has("Superjump", world.player))
-        else: add_rule(multiworld.get_entrance("Floor 5 Staff Only to Pizzaface", world.player), lambda state: state.has_any(["Superjump", "Crusher"], world.player))
+        if "Superjump" in options.move_rando_list and options.do_move_rando: add_rule(multiworld.get_entrance("Floor 5 Staff Only to Pizzaface", world.player), lambda state: state.has("Superjump", world.player))
+        if options.character != 0 and "Crusher" in options.move_rando_list and options.do_move_rando: add_rule(multiworld.get_entrance("Floor 5 Staff Only to Pizzaface", world.player), lambda state: state.has("Crusher", world.player))

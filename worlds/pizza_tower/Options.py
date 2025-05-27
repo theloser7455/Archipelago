@@ -206,6 +206,36 @@ class LogicDifficulty(Choice):
     option_Expert = 1
     default = 0
 
+class RandomizeMoves(DefaultOnToggle):
+    """
+    Determines whether your moves will even be randomized. If disabled, only Toppins, Boss Keys, and filler will appear in the item pool.
+    """
+    display_name = "Randomize Moves"
+
+class MovesToRandomize(OptionSet):
+    """
+    Any move indicated here will be shuffled into the item pool. Any move not indicated here will be useable from the start.
+    """
+    display_name = "Randomize These Moves"
+    default = [
+        "Mach 4",
+        "Uppercut",
+        "Superjump",
+        "Grab",
+        "Taunt",
+        "Supertaunt",
+        "Bodyslam",
+        "Breakdance",
+        "Wallclimb",
+        "Double Jump",
+        "Rat Kick",
+        "Spin Attack",
+        "Wallbounce",
+        "Tornado",
+        "Crusher",
+        "Bomb"
+    ]
+
 pt_option_groups = [
     OptionGroup("General Options", [
         CharacterToPlay,
@@ -238,6 +268,8 @@ pt_option_groups = [
         RandomizeLevels,
         RandomizeBosses,
         RandomizeSecrets,
+        RandomizeMoves,
+        MovesToRandomize,
         FairlyRandom
     ])
 ]
@@ -267,6 +299,8 @@ class PTOptions(PerGameCommonOptions):
     jumpscare: Jumpscare
     fairly_random: FairlyRandom
     difficulty: LogicDifficulty
+    do_move_rando: RandomizeMoves
+    move_rando_list: MovesToRandomize
     death_link: DeathLink
 
 #presets - feel free to suggest more
