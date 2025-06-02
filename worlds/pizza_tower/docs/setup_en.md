@@ -32,4 +32,5 @@ After opening the game and selecting the file on the main menu (don't forget to 
 - Your slot name, which you wrote into your yaml
 - The room's password
 - The room's address and port, as indicated in the Multiworld room. It'll look something like archipelago.gg:38281
+
 If all the info is correct, the game will start a new save file automatically. This save file can be returned to later if you connect to the same room.
