@@ -15,12 +15,12 @@ First, let's get the mod installed.
 
 ### I'm using Pizza Oven!
 1. Install and set up Pizza Oven according to its "Setup" section on its Gamebanana page.
-2. Head on over to the Archipelago mod page, scroll down to the most recent release, and click "Pizza Oven 1-Click Install".
+2. Head on over to the [Archipelago mod page](https://gamebanana.com/mods/598236), scroll down to the most recent release, and click "Pizza Oven 1-Click Install".
 3. On the prompt that appears in Pizza Oven, click "Yes".
 4. Once the mod installs, click on the mod in Pizza Oven and then click "Launch".
 
 ### I'm using Delta Patcher!
-1. Head on over to the Archipelago mod page, scroll down to the most recent release, and click "Manual Download".
+1. Head on over to the [Archipelago mod page](https://gamebanana.com/mods/598236), scroll down to the most recent release, and click "Manual Download".
 2. Open Delta Patcher. You'll need to give it two files:
     - The first file, "Original file", will be Pizza Tower's `data.win`. This can be found by right-clicking Pizza Tower in your Steam library, then clicking on Manage -> Browse local files.
     - The second file, "XDelta patch", will be the `.xdelta` file in the `.zip` folder you downloaded earlier. Extract it and place it into the "XDelta patch" field.
