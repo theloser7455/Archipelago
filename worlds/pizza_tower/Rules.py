@@ -574,7 +574,7 @@ def set_rules(multiworld: MultiWorld, world: World, options: PTOptions, toppins:
 
     #Bloodsauce Dungeon
         "Bloodsauce Dungeon Complete": "SJUMP+SLAM | CLIMB+SLAM",
-        "Bloodsauce Dungeon Mushroom Toppin": "NONE",
+        "Bloodsauce Dungeon Mushroom Toppin": "SJUMP | CLIMB",
         "Bloodsauce Dungeon Cheese Toppin": "NONE",
         "Bloodsauce Dungeon Tomato Toppin": "SLAM",
         "Bloodsauce Dungeon Sausage Toppin": "SLAM",
@@ -1353,7 +1353,7 @@ def set_rules(multiworld: MultiWorld, world: World, options: PTOptions, toppins:
 
     #Bloodsauce Dungeon
         "Bloodsauce Dungeon Complete": "SLAM+SJUMP | TORN+SJUMP | CRUSH+SJUMP",
-        "Bloodsauce Dungeon Mushroom Toppin": "NONE",
+        "Bloodsauce Dungeon Mushroom Toppin": "SJUMP | BOUNCE | UPPER | CRUSH",
         "Bloodsauce Dungeon Cheese Toppin": "NONE",
         "Bloodsauce Dungeon Tomato Toppin": "SLAM | TORN | CRUSH",
         "Bloodsauce Dungeon Sausage Toppin": "SLAM | TORN | CRUSH",
@@ -1799,13 +1799,15 @@ def set_rules(multiworld: MultiWorld, world: World, options: PTOptions, toppins:
         if (("S Rank" in location.name) or ("P Rank" in location.name)) and (location.parent_region.name in levels_list):
             add_rule(location, get_s_rank_rule(location.parent_region.name, options.character))
         elif ("Chef Task: S Ranked" in location.name) or ("Chef Task: P Ranked" in location.name):
-            floor_first_lvl_index = (floors_list.index(location.parent_region.name) * 4)
-            if ("S Ranked" in location.name) and not options.srank_checks: location.progress_type = LocationProgressType.EXCLUDED
-            if ("P Ranked" in location.name) and not options.prank_checks: location.progress_type = LocationProgressType.EXCLUDED
-            if location.parent_region.name == "Floor 5 Staff Only":
-                add_rule(location, get_s_rank_rule(levels_map[levels_list[floor_first_lvl_index]], options.character) and get_s_rank_rule(levels_map[levels_list[floor_first_lvl_index + 1]], options.character) and get_s_rank_rule(levels_map[levels_list[floor_first_lvl_index + 2]], options.character))
+            if ("S Ranked" in location.name) and not options.srank_checks:
+                location.progress_type = LocationProgressType.EXCLUDED
+            if ("P Ranked" in location.name) and not options.prank_checks:
+                location.progress_type = LocationProgressType.EXCLUDED
+            if (location.parent_region.name != "Floor 5 Staff Only"):
+                floor_first_lvl_index = (floors_list.index(location.parent_region.name) * 4)
+                add_rule(location, lambda state: all([get_s_rank_rule(levels_map[levels_list[floor_first_lvl_index]], options.character), get_s_rank_rule(levels_map[levels_list[floor_first_lvl_index + 1]], options.character), get_s_rank_rule(levels_map[levels_list[floor_first_lvl_index + 2]], options.character), get_s_rank_rule(levels_map[levels_list[floor_first_lvl_index + 3]], options.character)]))
             else:
-                add_rule(location, get_s_rank_rule(levels_map[levels_list[floor_first_lvl_index]], options.character) and get_s_rank_rule(levels_map[levels_list[floor_first_lvl_index + 1]], options.character) and get_s_rank_rule(levels_map[levels_list[floor_first_lvl_index + 2]], options.character) and get_s_rank_rule(levels_map[levels_list[floor_first_lvl_index + 3]], options.character))
+                add_rule(location, lambda state: all([get_s_rank_rule(levels_map["Pizzascare"], options.character), get_s_rank_rule(levels_map["Don't Make A Sound"], options.character), get_s_rank_rule(levels_map["WAR"], options.character)]))
         else:
             if ("The Critic" in location.name) or ("The Ugly" in location.name) or ("Denoise" in location.name) or ("Faker" in location.name) or ("Face Off" in location.name):
                 if not options.prank_checks:
