@@ -6,6 +6,7 @@ from .Options import PTOptions, pt_option_groups, pt_option_presets
 from .Regions import create_regions
 from .Rules import set_rules
 from math import floor
+from typing import Any
 
 def internal_from_external(name: str):
     aliases = {
@@ -40,6 +41,40 @@ def internal_from_external(name: str):
         return aliases[name.replace(" Secret 2", "")] + "2"
     if "Secret 3" in name:
         return aliases[name.replace(" Secret 3", "")] + "3"
+    return aliases[name]
+
+def external_from_internal(name: str):
+    aliases = {
+        "entrance" : "John Gutter",
+        "medieval" : "Pizzascape",
+        "ruin" : "Ancient Cheese",
+        "dungeon" : "Bloodsauce Dungeon",
+        "badland" : "Oregano Desert",
+        "graveyard" : "Wasteyard",
+        "farm" : "Fun Farm",
+        "saloon" : "Fastfood Saloon",
+        "plage" : "Crust Cove",
+        "forest" : "Gnome Forest",
+        "space" : "Deep-Dish 9",
+        "minigolf" : "GOLF",
+        "street" : "The Pig City",
+        "industrial" : "Peppibot Factory",
+        "sewer" : "Oh Shit!",
+        "freezer" : "Freezerator",
+        "chateau" : "Pizzascare",
+        "kidsparty" : "Don't Make A Sound",
+        "war" : "WAR",
+        "boss_pepperman" : "Pepperman",
+        "boss_vigilante" : "The Vigilante",
+        "boss_noise" : "The Noise",
+        "boss_fakepep" : "Fake Peppino"
+    }
+    if "1" in name:
+        return aliases[name.replace("1", "")] + " Secret 1"
+    if "2" in name:
+        return aliases[name.replace("2", "")] + " Secret 2"
+    if "3" in name:
+        return aliases[name.replace("3", "")] + " Secret 3"
     return aliases[name]
 
 class PizzaTowerWebWorld(WebWorld):
@@ -77,6 +112,28 @@ class PizzaTowerWorld(World):
 
     item_name_to_id = {name: data[0] for name, data in pt_items.items()}
     location_name_to_id = pt_locations
+
+    @staticmethod
+    def interpret_slot_data(slot_data: dict[str, Any]) -> dict[str, Any]: #UT support function that causes a re-generation
+        return slot_data #we don't need to do any modification to the slot data, so just return it
+
+            #"rando_levels": {internal_from_external(level): internal_from_external(self.level_map[level]) for level in self.level_map},
+            #"rando_bosses": {internal_from_external(boss): internal_from_external(self.boss_map[boss]) for boss in self.boss_map},
+            #"rando_secrets": {internal_from_external(sec): internal_from_external(self.secret_map[sec]) for sec in self.secret_map},
+
+    def generate_early(self):
+        re_gen_passthrough = getattr(self.multiworld,"re_gen_passthrough",{})
+        if re_gen_passthrough and self.game in re_gen_passthrough:
+            slot_data = re_gen_passthrough[self.game]
+            self.level_map = {external_from_internal(level): external_from_internal(slot_data["rando_levels"][level]) for level in slot_data["rando_levels"]}
+            self.boss_map = {external_from_internal(boss): external_from_internal(slot_data["rando_bosses"][boss]) for boss in slot_data["rando_bosses"]}
+            self.secret_map = {external_from_internal(sec): external_from_internal(slot_data["rando_secrets"][sec]) for sec in slot_data["rando_secrets"]}
+            if self.options.character != 0:
+                self.boss_map = {k:(v if v != "The Noise" else "The Doise") for k,v in self.boss_map.items()}
+        else:
+            self.level_map = {}
+            self.boss_map = {}
+            self.secret_map = {}
 
     def create_item(self, item: str) -> PTItem:
         return PTItem(item, pt_items[item][1], pt_items[item][0], self.player)
