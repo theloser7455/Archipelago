@@ -1715,24 +1715,32 @@ def set_rules(multiworld: MultiWorld, world: World, options: PTOptions, toppins:
     }
 
     secrets_list = get_secrets_list() 
-    if options.randomize_levels:
-        levels_map = dict(zip(levels_list, level_gate_rando(world, options.character != 0, options.difficulty)))
+    if not world.level_map:
+        if options.randomize_levels:
+            levels_map = dict(zip(levels_list, level_gate_rando(world, options.character != 0, options.difficulty)))
+        else:
+            levels_map = dict(zip(levels_list, levels_list))
+        world.level_map = levels_map
     else:
-        levels_map = dict(zip(levels_list, levels_list))
+        levels_map = world.level_map
 
-    if options.randomize_bosses:
-        bosses_map = dict(zip(bosses_list, boss_gate_rando(world, options.character != 0)))
+    if not world.boss_map:
+        if options.randomize_bosses:
+            bosses_map = dict(zip(bosses_list, boss_gate_rando(world, options.character != 0)))
+        else:
+            bosses_map = dict(zip(bosses_list, bosses_list))
+        world.boss_map = bosses_map
     else:
-        bosses_map = dict(zip(bosses_list, bosses_list))
+        bosses_map = world.boss_map
 
-    if options.randomize_secrets:
-        secrets_map = dict(zip(secrets_list, secret_rando(world, options)))
+    if not world.secret_map:
+        if options.randomize_secrets:
+            secrets_map = dict(zip(secrets_list, secret_rando(world, options)))
+        else:
+            secrets_map = dict(zip(secrets_list, secrets_list))
+        world.secret_map = secrets_map
     else:
-        secrets_map = dict(zip(secrets_list, secrets_list))
-
-    world.level_map = levels_map
-    world.boss_map = bosses_map
-    world.secret_map = secrets_map
+        secrets_map = world.secret_map
 
     def interpret_rule(rule_chk: str, mode: int) -> Callable:
         if options.character == 0:
