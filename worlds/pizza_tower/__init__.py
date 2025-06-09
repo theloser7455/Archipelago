@@ -129,7 +129,7 @@ class PizzaTowerWorld(World):
             self.boss_map = {external_from_internal(boss): external_from_internal(slot_data["rando_bosses"][boss]) for boss in slot_data["rando_bosses"]}
             self.secret_map = {external_from_internal(sec): external_from_internal(slot_data["rando_secrets"][sec]) for sec in slot_data["rando_secrets"]}
             if self.options.character != 0:
-                self.boss_map = {k:(v if v != "The Noise" else "The Doise") for k,v in self.boss_map.items()}
+                self.boss_map = {(k if k != "The Noise" else "The Doise"):(v if v != "The Noise" else "The Doise") for k,v in self.boss_map.items()}
         else:
             self.level_map = {}
             self.boss_map = {}
