@@ -8,6 +8,62 @@ from .Rules import set_rules
 from math import floor
 from typing import Any
 
+pep_clothes = [
+    "Clothes: Unfunny Cook",
+    "Clothes: Money Green",
+    "Clothes: SAGE Blue",
+    "Clothes: Blood Red",
+    "Clothes: TV Purple",
+    "Clothes: Dark Cook",
+    "Clothes: Shitty Cook",
+    "Clothes: Golden God",
+    "Clothes: Garish Cook",
+    "Clothes: Mooney Orange",
+    "Clothes: Funny Polka",
+    "Clothes: Itchy Sweater",
+    "Clothes: Pizza Man",
+    "Clothes: Bowling Stripes",
+    "Clothes: Goldemanne",
+    "Clothes: Bad Bones",
+    "Clothes: PP Shirt",
+    "Clothes: War Camo",
+    "Clothes: John Suit",
+]
+
+noise_clothes = [
+    "Clothes: Boise",
+    "Clothes: Roise",
+    "Clothes: Poise",
+    "Clothes: Reverse",
+    "Clothes: Critic",
+    "Clothes: Outlaw",
+    "Clothes: Anti-Doise",
+    "Clothes: Flesh Eater",
+    "Clothes: Super",
+    "Clothes: Fast Porcupine",
+    "Clothes: Feminine Side",
+    "Clothes: The Real Doise",
+    "Clothes: Forest Goblin",
+    "Clothes: Racer",
+    "Clothes: Comedian",
+    "Clothes: Banana",
+    "Clothes: Noise TV",
+    "Clothes: Madman",
+    "Clothes: Bubbly",
+    "Clothes: Well Done",
+    "Clothes: Granny Kisses",
+    "Clothes: Tower Guy",
+]
+
+halloween_clothes = [
+    "Clothes: Candy Wrapper",
+    "Clothes: Bloodstained",
+    "Clothes: Autumn",
+    "Clothes: Pumpkin",
+    "Clothes: Fur",
+    "Clothes: Eyes",
+]
+
 def internal_from_external(name: str):
     aliases = {
         "John Gutter": "entrance",
@@ -219,6 +275,42 @@ class PizzaTowerWorld(World):
             self.toppin_number = self.options.toppin_count
             for i in range(self.options.toppin_count): pizza_itempool.append(self.create_item("Toppin"))
         
+        #add clothes, if there's room
+        if self.options.clothing_filler:
+            if self.options.character == 0:
+                if locations_to_fill < (len(pizza_itempool) + len(pep_clothes)):
+                    for i in range(locations_to_fill - len(pizza_itempool)):
+                        pizza_itempool.append(self.create_item(pep_clothes[i]))
+                else:
+                    for i in range(len(pep_clothes)):
+                        pizza_itempool.append(self.create_item(pep_clothes[i]))
+            elif self.options.character == 1:
+                if locations_to_fill < (len(pizza_itempool) + len(noise_clothes)):
+                    for i in range(locations_to_fill - len(pizza_itempool)):
+                        pizza_itempool.append(self.create_item(noise_clothes[i]))
+                else:
+                    for i in range(len(noise_clothes)):
+                        pizza_itempool.append(self.create_item(noise_clothes[i]))
+            elif self.options.character == 2:
+                if locations_to_fill < (len(pizza_itempool) + len(pep_clothes)):
+                    for i in range(locations_to_fill - len(pizza_itempool)):
+                        pizza_itempool.append(self.create_item(pep_clothes[i]))
+                else:
+                    for i in range(len(pep_clothes)):
+                        pizza_itempool.append(self.create_item(pep_clothes[i]))
+                    if locations_to_fill < (len(pizza_itempool) + len(noise_clothes)):
+                        for i in range(locations_to_fill - len(pizza_itempool)):
+                            pizza_itempool.append(self.create_item(noise_clothes[i]))
+                    else:
+                        for i in range(len(noise_clothes)):
+                            pizza_itempool.append(self.create_item(noise_clothes[i]))
+            if locations_to_fill < (len(pizza_itempool) + len(halloween_clothes)):
+                for i in range(locations_to_fill - len(pizza_itempool)):
+                    pizza_itempool.append(self.create_item(halloween_clothes[i]))
+            else:
+                for i in range(len(halloween_clothes)):
+                    pizza_itempool.append(self.create_item(halloween_clothes[i]))
+
         #add filler
         one_percent_trap = (locations_to_fill - len(pizza_itempool)) * (int(self.options.trap_percentage) / 100) / 100
         for i in range(floor(one_percent_trap * 10)):
@@ -278,5 +370,6 @@ class PizzaTowerWorld(World):
             "srank_checks": bool(self.options.srank_checks),
             "prank_checks": bool(self.options.prank_checks),
             "cheftask_checks": bool(self.options.cheftask_checks),
-            "difficulty": bool(self.options.difficulty)
+            "difficulty": bool(self.options.difficulty),
+            "palette_filler": bool(self.options.clothing_filler)
         }

@@ -236,6 +236,12 @@ class MovesToRandomize(OptionSet):
         "Bomb"
     ]
 
+class ClothingFiller(Toggle):
+    """
+    Determines whether outfits will be shuffled into the item pool.
+    """
+    display_name = "Shuffle Clothes"
+
 pt_option_groups = [
     OptionGroup("General Options", [
         CharacterToPlay,
@@ -302,6 +308,7 @@ class PTOptions(PerGameCommonOptions):
     do_move_rando: RandomizeMoves
     move_rando_list: MovesToRandomize
     death_link: DeathLink
+    clothing_filler: ClothingFiller
 
 #presets - feel free to suggest more
 
