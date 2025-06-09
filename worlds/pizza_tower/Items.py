@@ -62,5 +62,5 @@ pt_items = {
 
     "Nothing": (146, ItemClassification.filler),
 
-    "Jumpscare": (148, ItemClassification.filler) #replaces oktoberfest if options.jumpscare == true
+    "Jumpscare": (148, ItemClassification.trap) #replaces oktoberfest if options.jumpscare == true
 }

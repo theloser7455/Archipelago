@@ -216,5 +216,10 @@ class PizzaTowerWorld(World):
             "bonus_ladders": int(self.options.bonus_ladders),
             "character": int(self.options.character.value),
             "death_link": bool(self.options.death_link),
-            "starting_moves": int(self.starting_moves)
+            "starting_moves": int(self.starting_moves),
+            "treasure_checks": bool(self.options.treasure_checks),
+            "srank_checks": bool(self.options.srank_checks),
+            "prank_checks": bool(self.options.prank_checks),
+            "cheftask_checks": bool(self.options.cheftask_checks),
+            "difficulty": bool(self.options.difficulty)
         }
