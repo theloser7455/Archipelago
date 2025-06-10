@@ -371,5 +371,6 @@ class PizzaTowerWorld(World):
             "prank_checks": bool(self.options.prank_checks),
             "cheftask_checks": bool(self.options.cheftask_checks),
             "difficulty": bool(self.options.difficulty),
-            "palette_filler": bool(self.options.clothing_filler)
+            "palette_filler": bool(self.options.clothing_filler),
+            "secret_checks": bool(self.options.secret_checks)
         }
