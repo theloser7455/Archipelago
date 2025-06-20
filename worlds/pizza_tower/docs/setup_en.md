@@ -28,7 +28,7 @@ First, let's get the mod installed.
 
 ## Joining a MultiWorld
 
-After opening the game and selecting the file on the main menu (don't forget to select the character that you chose in your YAML!), input the required information on the next screen:
+After opening the game and selecting the file on the main menu (the character you selected in your YAML will automatically be loaded), input the required information on the next screen:
 - Your slot name, which you wrote into your yaml
 - The room's password
 - The room's address and port, as indicated in the Multiworld room. It'll look something like archipelago.gg:38281
