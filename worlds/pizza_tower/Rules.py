@@ -723,19 +723,19 @@ def set_rules(multiworld: MultiWorld, world: World, options: PTOptions, toppins:
         "Chef Task: Strike!": "SLAM+DJUMP+KICK",
 
     #Peppibot Factory
-        "Peppibot Factory Complete": "SJUMP+CLIMB+SLAM",
+        "Peppibot Factory Complete": "SJUMP+CLIMB+SLAM | SJUMP+UPPER+SLAM",
         "Peppibot Factory Mushroom Toppin": "SJUMP",
-        "Peppibot Factory Cheese Toppin": "SJUMP+CLIMB",
-        "Peppibot Factory Tomato Toppin": "SJUMP+CLIMB",
-        "Peppibot Factory Sausage Toppin": "SJUMP+CLIMB",
-        "Peppibot Factory Pineapple Toppin": "SJUMP+CLIMB+SLAM",
+        "Peppibot Factory Cheese Toppin": "SJUMP+CLIMB | SJUMP+UPPER",
+        "Peppibot Factory Tomato Toppin": "SJUMP+CLIMB | SJUMP+UPPER",
+        "Peppibot Factory Sausage Toppin": "SJUMP+CLIMB | SJUMP+UPPER",
+        "Peppibot Factory Pineapple Toppin": "SJUMP+CLIMB+SLAM | SJUMP+UPPER+SLAM",
         "Peppibot Factory Secret 1": "SJUMP",
-        "Peppibot Factory Secret 2": "SJUMP+CLIMB+UPPER",
-        "Peppibot Factory Secret 3": "SJUMP+CLIMB+SLAM",
-        "Peppibot Factory Treasure": "SJUMP+CLIMB+SLAM",
-        "Chef Task: There Can Be Only One": "SJUMP+CLIMB+SLAM",
+        "Peppibot Factory Secret 2": "SJUMP+UPPER",
+        "Peppibot Factory Secret 3": "SJUMP+CLIMB+SLAM | SJUMP+UPPER+SLAM",
+        "Peppibot Factory Treasure": "SJUMP+CLIMB+SLAM | SJUMP+UPPER+SLAM",
+        "Chef Task: There Can Be Only One": "SJUMP+CLIMB+SLAM | SJUMP+UPPER+SLAM",
         "Chef Task: Whoop This!": "SJUMP",
-        "Chef Task: Unflattening": "SJUMP+CLIMB+SLAM",
+        "Chef Task: Unflattening": "SJUMP+CLIMB+SLAM | SJUMP+UPPER+SLAM",
 
     #Oh Shit!
         "Oh Shit! Complete": "SLAM+CLIMB",
@@ -1813,9 +1813,12 @@ def set_rules(multiworld: MultiWorld, world: World, options: PTOptions, toppins:
                 location.progress_type = LocationProgressType.EXCLUDED
             if (location.parent_region.name != "Floor 5 Staff Only"):
                 floor_first_lvl_index = (floors_list.index(location.parent_region.name) * 4)
-                add_rule(location, lambda state: all([get_s_rank_rule(levels_map[levels_list[floor_first_lvl_index]], options.character), get_s_rank_rule(levels_map[levels_list[floor_first_lvl_index + 1]], options.character), get_s_rank_rule(levels_map[levels_list[floor_first_lvl_index + 2]], options.character), get_s_rank_rule(levels_map[levels_list[floor_first_lvl_index + 3]], options.character)]))
+                for i in range(4):
+                    add_rule(location, get_s_rank_rule(levels_map[levels_list[floor_first_lvl_index + i]], options.character))
             else:
-                add_rule(location, lambda state: all([get_s_rank_rule(levels_map["Pizzascare"], options.character), get_s_rank_rule(levels_map["Don't Make A Sound"], options.character), get_s_rank_rule(levels_map["WAR"], options.character)]))
+                floor_first_lvl_index = (floors_list.index(location.parent_region.name) * 3)
+                for i in range(4):
+                    add_rule(location, get_s_rank_rule(levels_map[levels_list[floor_first_lvl_index + i]], options.character))
         else:
             if ("The Critic" in location.name) or ("The Ugly" in location.name) or ("Denoise" in location.name) or ("Faker" in location.name) or ("Face Off" in location.name):
                 if not options.prank_checks:
