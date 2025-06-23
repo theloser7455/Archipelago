@@ -1562,19 +1562,19 @@ def set_rules(multiworld: MultiWorld, world: World, options: PTOptions, toppins:
         "Chef Task: Cross To Bare": "SJUMP+SLAM | BOUNCE+SLAM | SJUMP+TORN | BOUNCE+TORN | SJUMP+CRUSH | BOUNCE+CRUSH",
 
     #Don't Make A Sound
-        "Don't Make A Sound Complete": "SJUMP+SLAM+GRAB | SJUMP+CRUSH+GRAB",
+        "Don't Make A Sound Complete": "SJUMP+SLAM+GRAB",
         "Don't Make A Sound Mushroom Toppin": "NONE",
         "Don't Make A Sound Cheese Toppin": "SJUMP | CRUSH | BOUNCE | UPPER",
         "Don't Make A Sound Tomato Toppin": "SJUMP+SLAM | SJUMP+TORN | SJUMP+CRUSH",
         "Don't Make A Sound Sausage Toppin": "SJUMP+SLAM | SJUMP+CRUSH",
-        "Don't Make A Sound Pineapple Toppin": "SJUMP+SLAM+GRAB | SJUMP+CRUSH+GRAB",
+        "Don't Make A Sound Pineapple Toppin": "SJUMP+SLAM+GRAB",
         "Don't Make A Sound Secret 1": "NONE",
         "Don't Make A Sound Secret 2": "SJUMP | CRUSH | BOUNCE | UPPER",
         "Don't Make A Sound Secret 3": "SJUMP",
-        "Don't Make A Sound Treasure": "SJUMP+SLAM+GRAB | SJUMP+CRUSH+GRAB",
-        "Chef Task: Let Them Sleep": "SJUMP+SLAM+GRAB | SJUMP+CRUSH+GRAB",
-        "Chef Task: Jumpspared": "SJUMP+SLAM+GRAB | SJUMP+CRUSH+GRAB",
-        "Chef Task: And This... Is My Gun On A Stick!": "SJUMP+SLAM+GRAB | SJUMP+CRUSH+GRAB",
+        "Don't Make A Sound Treasure": "SJUMP+SLAM+GRAB",
+        "Chef Task: Let Them Sleep": "SJUMP+SLAM+GRAB",
+        "Chef Task: Jumpspared": "SJUMP+SLAM+GRAB",
+        "Chef Task: And This... Is My Gun On A Stick!": "SJUMP+SLAM+GRAB",
 
     #WAR
         "WAR Complete": "GRAB+SJUMP+SLAM | GRAB+SJUMP+CRUSH | GRAB+SJUMP+TORN",
