@@ -846,13 +846,13 @@ def set_rules(multiworld: MultiWorld, world: World, options: PTOptions, toppins:
         "Chef Task: Face Off": "GRAB",
 
     #Tutorial
-        "Tutorial Complete": "SLAM+CLIMB+SJUMP+GRAB",
+        "Tutorial Complete": "SLAM+SJUMP+GRAB",
         "Tutorial Complete in under 2 minutes": "SLAM+CLIMB+SJUMP+GRAB",
         "Tutorial Mushroom Toppin": "SLAM",
-        "Tutorial Cheese Toppin": "SLAM+CLIMB",
-        "Tutorial Tomato Toppin": "SLAM+CLIMB",
-        "Tutorial Sausage Toppin": "SLAM+CLIMB+SJUMP",
-        "Tutorial Pineapple Toppin": "SLAM+CLIMB+SJUMP+GRAB",
+        "Tutorial Cheese Toppin": "SLAM+CLIMB | SLAM+SJUMP",
+        "Tutorial Tomato Toppin": "SLAM+CLIMB | SLAM+SJUMP",
+        "Tutorial Sausage Toppin": "SLAM+SJUMP",
+        "Tutorial Pineapple Toppin": "SLAM+SJUMP+GRAB",
 
     #misc
         "Snotty Murdered": "NONE",
