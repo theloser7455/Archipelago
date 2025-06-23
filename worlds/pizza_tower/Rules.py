@@ -4,7 +4,7 @@ from .Options import PTOptions
 from ..generic.Rules import set_rule, add_rule
 from math import floor
 from typing import Callable
-from BaseClasses import LocationProgressType
+from BaseClasses import LocationProgressType, Location, Entrance
 
 levels_list = [ #ctop handled separately
     "John Gutter",
@@ -1742,7 +1742,8 @@ def set_rules(multiworld: MultiWorld, world: World, options: PTOptions, toppins:
     else:
         secrets_map = world.secret_map
 
-    def interpret_rule(rule_chk: str, mode: int) -> Callable:
+    def interpret_rule(rule_chk: str, mode: int, location: Location | Entrance):
+        set_rule(location, lambda state: False)
         if options.character == 0:
             if mode == 0:
                 if options.difficulty == 0: rule_str = pt_peppino_rules_easy[rule_chk]
@@ -1768,19 +1769,18 @@ def set_rules(multiworld: MultiWorld, world: World, options: PTOptions, toppins:
                 if mode == 3: rule_str = peppino_next_floor_access_rules[rule_chk] + " | " + noise_next_floor_access_rules[rule_chk]
         rules = rule_str.split(" | ")
         if "NONE" in rules:
-            return lambda state: True
-        lambda_components = []
+            set_rule(location, lambda state: True)
+            return
         for rule in rules:
             tokens = rule.split("+")
             itemset = [rule_moves[move] for move in tokens if (rule_moves[move] in options.move_rando_list and options.do_move_rando)]
             if itemset != []:
-                lambda_components.append(lambda state: state.has_all(itemset, world.player))
+                add_rule(location, lambda state: state.has_all(itemset, world.player), "or")
             else:
-                lambda_components.append(lambda state: True)
-        return lambda state: any(comp(state) for comp in lambda_components)
+                add_rule(location, lambda state: True, "or")
 
-    def get_s_rank_rule(lvl: str, character: int) -> Callable:
-        return interpret_rule(lvl + " Complete", 0) #TODO make this better without making the logic handler freak out
+    def add_s_rank_rule(lvl: str, location: Location):
+        interpret_rule(lvl + " Complete", 0, location) #TODO make this better without making the logic handler freak out
 
     #connect regions
     multiworld.get_region("Menu", world.player).connect(multiworld.get_region("Floor 1 Tower Lobby", world.player), "Menu to Floor 1 Tower Lobby")
@@ -1805,7 +1805,7 @@ def set_rules(multiworld: MultiWorld, world: World, options: PTOptions, toppins:
     #set rules
     for location in multiworld.get_locations(world.player):
         if (("S Rank" in location.name) or ("P Rank" in location.name)) and (location.parent_region.name in levels_list):
-            add_rule(location, get_s_rank_rule(location.parent_region.name, options.character))
+            add_s_rank_rule(location.parent_region.name, location)
         elif ("Chef Task: S Ranked" in location.name) or ("Chef Task: P Ranked" in location.name):
             if ("S Ranked" in location.name) and not options.srank_checks:
                 location.progress_type = LocationProgressType.EXCLUDED
@@ -1814,16 +1814,16 @@ def set_rules(multiworld: MultiWorld, world: World, options: PTOptions, toppins:
             if (location.parent_region.name != "Floor 5 Staff Only"):
                 floor_first_lvl_index = (floors_list.index(location.parent_region.name) * 4)
                 for i in range(4):
-                    add_rule(location, get_s_rank_rule(levels_map[levels_list[floor_first_lvl_index + i]], options.character))
+                    add_s_rank_rule(levels_map[levels_list[floor_first_lvl_index + i]], location)
             else:
                 floor_first_lvl_index = (floors_list.index(location.parent_region.name) * 3)
-                for i in range(4):
-                    add_rule(location, get_s_rank_rule(levels_map[levels_list[floor_first_lvl_index + i]], options.character))
+                for i in range(3):
+                    add_s_rank_rule(levels_map[levels_list[floor_first_lvl_index + i]], location)
         else:
             if ("The Critic" in location.name) or ("The Ugly" in location.name) or ("Denoise" in location.name) or ("Faker" in location.name) or ("Face Off" in location.name):
                 if not options.prank_checks:
                     location.progress_type = LocationProgressType.EXCLUDED
-            add_rule(location, interpret_rule(location.name, 0))
+            interpret_rule(location.name, 0, location)
 
     def get_toppin_prop(perc: int) -> int:
         return floor(toppins * (perc / 100))
@@ -1845,23 +1845,23 @@ def set_rules(multiworld: MultiWorld, world: World, options: PTOptions, toppins:
     #access rules for floors
     for i in range(4): 
         if options.bonus_ladders < (i+1):
-            add_rule(multiworld.get_entrance(floors_list[i] + " to " + floors_list[i+1], world.player), interpret_rule(floors_list[i], 3))
+            interpret_rule(floors_list[i], 3, multiworld.get_entrance(floors_list[i] + " to " + floors_list[i+1], world.player))
 
     #access rules for levels
     for i in range(4):
         if options.bonus_ladders < (i+1):
             for ii in range(4):
                 level_name = levels_map[levels_list[(4*i)+ii]]
-                add_rule(multiworld.get_entrance(floors_list[i] + " to " + level_name, world.player), interpret_rule(levels_list[(4*i)+ii], 1))
+                interpret_rule(levels_list[(4*i)+ii], 1, multiworld.get_entrance(floors_list[i] + " to " + level_name, world.player))
     for i in range(3):
         if options.bonus_ladders < 5:
             level_name = levels_map[levels_list[i+16]]
-            add_rule(multiworld.get_entrance("Floor 5 Staff Only to " + level_name, world.player), interpret_rule(levels_list[i+16], 1))
+            interpret_rule(levels_list[i+16], 1, multiworld.get_entrance("Floor 5 Staff Only to " + level_name, world.player))
 
     #access rules for bosses
     for i in range(4):
         if options.bonus_ladders < (i+1):
-            if options.character == 0: add_rule(multiworld.get_entrance(floors_list[i] + " to " + bosses_map[bosses_list[i]], world.player), interpret_rule(bosses_list[i], 2))
+            interpret_rule(bosses_list[i], 2, multiworld.get_entrance(floors_list[i] + " to " + bosses_map[bosses_list[i]], world.player))
     #...and pizzaface
     if options.bonus_ladders < 5:
         if "Superjump" in options.move_rando_list and options.do_move_rando: add_rule(multiworld.get_entrance("Floor 5 Staff Only to Pizzaface", world.player), lambda state: state.has("Superjump", world.player))
