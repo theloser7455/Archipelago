@@ -511,9 +511,9 @@ def set_rules(multiworld: MultiWorld, world: World, options: PTOptions, toppins:
         "Tutorial Complete": "SLAM+SJUMP+GRAB | SLAM+CLIMB+GRAB",
         "Tutorial Complete in under 2 minutes": "SLAM+SJUMP+GRAB | SLAM+CLIMB+GRAB",
         "Tutorial Mushroom Toppin": "SLAM",
-        "Tutorial Cheese Toppin": "SLAM+SJUMP | SLAM+CLIMB",
-        "Tutorial Tomato Toppin": "SLAM+SJUMP | SLAM+CLIMB",
-        "Tutorial Sausage Toppin": "SLAM+SJUMP | SLAM+CLIMB",
+        "Tutorial Cheese Toppin": "SLAM+SJUMP+GRAB | SLAM+CLIMB",
+        "Tutorial Tomato Toppin": "SLAM+SJUMP+GRAB | SLAM+CLIMB",
+        "Tutorial Sausage Toppin": "SLAM+SJUMP+GRAB | SLAM+CLIMB",
         "Tutorial Pineapple Toppin": "SLAM+SJUMP+GRAB | SLAM+CLIMB+GRAB",
 
     #misc
@@ -678,7 +678,7 @@ def set_rules(multiworld: MultiWorld, world: World, options: PTOptions, toppins:
         "Chef Task: Lumberjack": "SLAM+DJUMP+SPIN+SJUMP | SLAM+DJUMP+KICK+SJUMP | SLAM+DJUMP+SPIN+CLIMB | SLAM+DJUMP+KICK+CLIMB",
 
     #Deep-Dish 9
-        "Deep-Dish 9 Complete": "SLAM+SJUMP | SLAM+CLIMB",
+        "Deep-Dish 9 Complete": "SLAM+CLIMB",
         "Deep-Dish 9 Mushroom Toppin": "SLAM",
         "Deep-Dish 9 Cheese Toppin": "SLAM+UPPER | SLAM+SJUMP | SLAM+CLIMB",
         "Deep-Dish 9 Tomato Toppin": "SLAM+SJUMP | SLAM+CLIMB",
@@ -686,9 +686,9 @@ def set_rules(multiworld: MultiWorld, world: World, options: PTOptions, toppins:
         "Deep-Dish 9 Pineapple Toppin": "SLAM+SJUMP | SLAM+CLIMB",
         "Deep-Dish 9 Secret 1": "SLAM+UPPER | SLAM+SJUMP | SLAM+CLIMB",
         "Deep-Dish 9 Secret 2": "SLAM+SJUMP | SLAM+CLIMB",
-        "Deep-Dish 9 Secret 3": "SLAM+SJUMP | SLAM+CLIMB",
-        "Deep-Dish 9 Treasure": "SLAM+SJUMP | SLAM+CLIMB",
-        "Chef Task: Blast 'Em Asteroids": "SLAM+SJUMP | SLAM+CLIMB",
+        "Deep-Dish 9 Secret 3": "SLAM+CLIMB",
+        "Deep-Dish 9 Treasure": "SLAM+CLIMB",
+        "Chef Task: Blast 'Em Asteroids": "SLAM+CLIMB",
         "Chef Task: Turbo Tunnel": "SLAM+SJUMP | SLAM+CLIMB",
         "Chef Task: Man Meteor": "SLAM+SJUMP | SLAM+CLIMB",
 
@@ -849,9 +849,9 @@ def set_rules(multiworld: MultiWorld, world: World, options: PTOptions, toppins:
         "Tutorial Complete": "SLAM+SJUMP+GRAB",
         "Tutorial Complete in under 2 minutes": "SLAM+CLIMB+SJUMP+GRAB",
         "Tutorial Mushroom Toppin": "SLAM",
-        "Tutorial Cheese Toppin": "SLAM+CLIMB | SLAM+SJUMP",
-        "Tutorial Tomato Toppin": "SLAM+CLIMB | SLAM+SJUMP",
-        "Tutorial Sausage Toppin": "SLAM+SJUMP",
+        "Tutorial Cheese Toppin": "SLAM+CLIMB",
+        "Tutorial Tomato Toppin": "SLAM+CLIMB",
+        "Tutorial Sausage Toppin": "SLAM+CLIMB+SJUMP",
         "Tutorial Pineapple Toppin": "SLAM+SJUMP+GRAB",
 
     #misc
