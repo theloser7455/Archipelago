@@ -1779,9 +1779,7 @@ def set_rules(multiworld: MultiWorld, world: World, options: PTOptions, toppins:
 
     def rule_from_itemset(state: CollectionState, itemsets):
         for itemset in itemsets:
-            if itemset == []:
-                return True
-            elif state.has_all(itemset, world.player):
+            if itemset == [] or state.has_all(itemset, world.player):
                 return True
         return False
     
