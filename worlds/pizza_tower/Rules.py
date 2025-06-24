@@ -4,7 +4,7 @@ from .Options import PTOptions
 from ..generic.Rules import set_rule, add_rule
 from math import floor
 from typing import Callable
-from BaseClasses import LocationProgressType, Location, Entrance
+from BaseClasses import LocationProgressType, Location, Entrance, CollectionState
 
 levels_list = [ #ctop handled separately
     "John Gutter",
@@ -1767,18 +1767,24 @@ def set_rules(multiworld: MultiWorld, world: World, options: PTOptions, toppins:
                 if mode == 1: rule_str = peppino_level_access_rules[rule_chk] + " | " + noise_level_access_rules[rule_chk]
                 if mode == 2: rule_str = peppino_boss_access_rules[rule_chk] + " | " + noise_boss_access_rules[rule_chk]
                 if mode == 3: rule_str = peppino_next_floor_access_rules[rule_chk] + " | " + noise_next_floor_access_rules[rule_chk]
+        itemsets = []
         rules = rule_str.split(" | ")
         if "NONE" in rules:
             set_rule(location, lambda state: True)
             return
         for rule in rules:
             tokens = rule.split("+")
-            itemset = [rule_moves[move] for move in tokens if (rule_moves[move] in options.move_rando_list and options.do_move_rando)]
-            if itemset != []:
-                add_rule(location, lambda state: state.has_all(itemset, world.player), "or")
-            else:
-                add_rule(location, lambda state: True, "or")
+            itemsets.append([rule_moves[move] for move in tokens if (rule_moves[move] in options.move_rando_list and options.do_move_rando)])
+        set_rule(location, lambda state: rule_from_itemset(state, itemsets))
 
+    def rule_from_itemset(state: CollectionState, itemsets):
+        for itemset in itemsets:
+            if itemset == []:
+                return True
+            elif state.has_all(itemset, world.player):
+                return True
+        return False
+    
     def add_s_rank_rule(lvl: str, location: Location):
         interpret_rule(lvl + " Complete", 0, location) #TODO make this better without making the logic handler freak out
 
