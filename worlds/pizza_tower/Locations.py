@@ -510,4 +510,7 @@ pt_locations = { #TODO allow pumpkins to be checks eventually maybe
     "Tricky Treat Side Path Pumpkin 3": 454,
     "Tricky Treat Side Path Pumpkin 4": 455,
     "Tricky Treat Side Path Pumpkin 5": 456,
+
+    "Chef Task: Pumpkin Munchkin": 457,
+    "Chef Task: Tricksy": 458,
 }
