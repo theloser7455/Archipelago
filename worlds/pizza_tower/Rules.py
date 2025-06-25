@@ -4,7 +4,7 @@ from .Options import PTOptions
 from ..generic.Rules import set_rule, add_rule
 from math import floor
 from typing import Callable
-from BaseClasses import LocationProgressType, Location, Entrance
+from BaseClasses import LocationProgressType, Location, Entrance, CollectionState
 
 levels_list = [ #ctop handled separately
     "John Gutter",
@@ -1767,18 +1767,22 @@ def set_rules(multiworld: MultiWorld, world: World, options: PTOptions, toppins:
                 if mode == 1: rule_str = peppino_level_access_rules[rule_chk] + " | " + noise_level_access_rules[rule_chk]
                 if mode == 2: rule_str = peppino_boss_access_rules[rule_chk] + " | " + noise_boss_access_rules[rule_chk]
                 if mode == 3: rule_str = peppino_next_floor_access_rules[rule_chk] + " | " + noise_next_floor_access_rules[rule_chk]
+        itemsets = []
         rules = rule_str.split(" | ")
         if "NONE" in rules:
             set_rule(location, lambda state: True)
             return
         for rule in rules:
             tokens = rule.split("+")
-            itemset = [rule_moves[move] for move in tokens if (rule_moves[move] in options.move_rando_list and options.do_move_rando)]
-            if itemset != []:
-                add_rule(location, lambda state: state.has_all(itemset, world.player), "or")
-            else:
-                add_rule(location, lambda state: True, "or")
+            itemsets.append([rule_moves[move] for move in tokens if (rule_moves[move] in options.move_rando_list and options.do_move_rando)])
+        set_rule(location, lambda state: rule_from_itemset(state, itemsets))
 
+    def rule_from_itemset(state: CollectionState, itemsets):
+        for itemset in itemsets:
+            if itemset == [] or state.has_all(itemset, world.player):
+                return True
+        return False
+    
     def add_s_rank_rule(lvl: str, location: Location):
         interpret_rule(lvl + " Complete", 0, location) #TODO make this better without making the logic handler freak out
 
@@ -1828,20 +1832,6 @@ def set_rules(multiworld: MultiWorld, world: World, options: PTOptions, toppins:
     def get_toppin_prop(perc: int) -> int:
         return floor(toppins * (perc / 100))
 
-    #toppin requirements for bosses
-    add_rule(multiworld.get_entrance("Floor 1 Tower Lobby to " + bosses_map["Pepperman"], world.player), lambda state: state.has("Toppin", world.player, get_toppin_prop(options.floor_1_cost)))
-    add_rule(multiworld.get_entrance("Floor 2 Western District to " + bosses_map["The Vigilante"], world.player), lambda state: state.has("Toppin", world.player, get_toppin_prop(options.floor_2_cost)))
-    add_rule(multiworld.get_entrance("Floor 3 Vacation Resort to " + bosses_map[bosses_list[2]], world.player), lambda state: state.has("Toppin", world.player, get_toppin_prop(options.floor_3_cost))) #the noise or the doise, depending on character played
-    add_rule(multiworld.get_entrance("Floor 4 Slum to " + bosses_map["Fake Peppino"], world.player), lambda state: state.has("Toppin", world.player, get_toppin_prop(options.floor_4_cost)))
-    add_rule(multiworld.get_entrance("Floor 5 Staff Only to Pizzaface", world.player), lambda state: state.has("Toppin", world.player, get_toppin_prop(options.floor_5_cost)))
-
-    #boss key requirements for floors
-    if not options.open_world:
-        add_rule(multiworld.get_entrance("Floor 1 Tower Lobby to Floor 2 Western District", world.player), lambda state: state.has("Boss Key", world.player, 1))
-        add_rule(multiworld.get_entrance("Floor 2 Western District to Floor 3 Vacation Resort", world.player), lambda state: state.has("Boss Key", world.player, 2))
-        add_rule(multiworld.get_entrance("Floor 3 Vacation Resort to Floor 4 Slum", world.player), lambda state: state.has("Boss Key", world.player, 3))
-        add_rule(multiworld.get_entrance("Floor 4 Slum to Floor 5 Staff Only", world.player), lambda state: state.has("Boss Key", world.player, 4))
-
     #access rules for floors
     for i in range(4): 
         if options.bonus_ladders < (i+1):
@@ -1864,5 +1854,19 @@ def set_rules(multiworld: MultiWorld, world: World, options: PTOptions, toppins:
             interpret_rule(bosses_list[i], 2, multiworld.get_entrance(floors_list[i] + " to " + bosses_map[bosses_list[i]], world.player))
     #...and pizzaface
     if options.bonus_ladders < 5:
-        if "Superjump" in options.move_rando_list and options.do_move_rando: add_rule(multiworld.get_entrance("Floor 5 Staff Only to Pizzaface", world.player), lambda state: state.has("Superjump", world.player))
-        if options.character != 0 and "Crusher" in options.move_rando_list and options.do_move_rando: add_rule(multiworld.get_entrance("Floor 5 Staff Only to Pizzaface", world.player), lambda state: state.has("Crusher", world.player))
+        if "Superjump" in options.move_rando_list and options.do_move_rando: set_rule(multiworld.get_entrance("Floor 5 Staff Only to Pizzaface", world.player), lambda state: state.has("Superjump", world.player))
+        #if options.character != 0 and "Crusher" in options.move_rando_list and options.do_move_rando: add_rule(multiworld.get_entrance("Floor 5 Staff Only to Pizzaface", world.player), lambda state: state.has("Crusher", world.player))
+
+    #toppin requirements for bosses
+    add_rule(multiworld.get_entrance("Floor 1 Tower Lobby to " + bosses_map["Pepperman"], world.player), lambda state: state.has("Toppin", world.player, get_toppin_prop(options.floor_1_cost)))
+    add_rule(multiworld.get_entrance("Floor 2 Western District to " + bosses_map["The Vigilante"], world.player), lambda state: state.has("Toppin", world.player, get_toppin_prop(options.floor_2_cost)))
+    add_rule(multiworld.get_entrance("Floor 3 Vacation Resort to " + bosses_map[bosses_list[2]], world.player), lambda state: state.has("Toppin", world.player, get_toppin_prop(options.floor_3_cost))) #the noise or the doise, depending on character played
+    add_rule(multiworld.get_entrance("Floor 4 Slum to " + bosses_map["Fake Peppino"], world.player), lambda state: state.has("Toppin", world.player, get_toppin_prop(options.floor_4_cost)))
+    add_rule(multiworld.get_entrance("Floor 5 Staff Only to Pizzaface", world.player), lambda state: state.has("Toppin", world.player, get_toppin_prop(options.floor_5_cost)))
+
+    #boss key requirements for floors
+    if not options.open_world:
+        add_rule(multiworld.get_entrance("Floor 1 Tower Lobby to Floor 2 Western District", world.player), lambda state: state.has("Boss Key", world.player, 1))
+        add_rule(multiworld.get_entrance("Floor 2 Western District to Floor 3 Vacation Resort", world.player), lambda state: state.has("Boss Key", world.player, 2))
+        add_rule(multiworld.get_entrance("Floor 3 Vacation Resort to Floor 4 Slum", world.player), lambda state: state.has("Boss Key", world.player, 3))
+        add_rule(multiworld.get_entrance("Floor 4 Slum to Floor 5 Staff Only", world.player), lambda state: state.has("Boss Key", world.player, 4))
