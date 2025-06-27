@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from Options import DefaultOnToggle, Range, NamedRange, Toggle, Choice, PerGameCommonOptions, OptionSet, OptionGroup, DeathLink
+from Options import DefaultOnToggle, Range, NamedRange, Toggle, Choice, PerGameCommonOptions, OptionSet, OptionGroup, OptionCounter, DeathLink
 from .Items import pt_items
 
 class ToppinCount(Range):
@@ -242,6 +242,35 @@ class ClothingFiller(Toggle):
     """
     display_name = "Shuffle Clothes"
 
+class FillerWeights(OptionCounter):
+    """
+    Determines how often each filler item appears in the itempool
+    """
+    default = {
+        "Permanent 10 Points": 40,
+        "Permanent 50 Points": 7,
+        "Permanent 100 Points": 3,
+        "Cross Buff": 20,
+        "Pizza Shield": 10,
+        "Nothing": 5,
+        "Primo Burg": 15,
+    }
+    display_name = "Filler Weights"
+
+class TrapWeights(OptionCounter):
+    """
+    Determines how often each trap appears in the itempool
+    """
+    default = {
+        "Clown Trap": 20,
+        "Fake Santa Trap": 20,
+        "Oktoberfest!": 20,
+        "Granny Trap": 20,
+        "Timer Trap": 10,
+        "Ghost Trap": 10,
+    }
+    display_name = "Trap Weights"
+
 pt_option_groups = [
     OptionGroup("General Options", [
         CharacterToPlay,
@@ -265,9 +294,11 @@ pt_option_groups = [
         PRankChecks,
         ChefTaskChecks
     ]),
-    OptionGroup("Traps", [
-        EnabledTraps,
+    OptionGroup("Filler and Traps", [
         TrapPercentage,
+        ClothingFiller,
+        FillerWeights,
+        TrapWeights,
         Jumpscare
     ]),
     OptionGroup("Randomization Options", [
@@ -309,6 +340,8 @@ class PTOptions(PerGameCommonOptions):
     move_rando_list: MovesToRandomize
     death_link: DeathLink
     clothing_filler: ClothingFiller
+    trap_weights: TrapWeights
+    filler_weights: FillerWeights
 
 #presets - feel free to suggest more
 
