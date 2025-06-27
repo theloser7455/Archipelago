@@ -161,14 +161,17 @@ class PizzaTowerWorld(World):
         #disable for now; unlocking laps is kind of annoying
         #pizza_itempool.append(self.create_item("Lap 2 Portals"))
 
+        pep_moves = get_item_from_category("Moves Peppino")
+        noise_moves = get_item_from_category("Moves Noise")
+        shared_moves = get_item_from_category("Moves Shared")
         if self.options.do_move_rando:
             for move in self.options.move_rando_list:
-                if self.options.character != 1 and (move in get_item_from_category("Moves Peppino") or move in get_item_from_category("Moves Shared")):
+                if self.options.character != 1 and (move in pep_moves or move in shared_moves):
                     pizza_itempool.append(self.create_item(move))
-                elif self.options.character != 0 and (move in get_item_from_category("Moves Noise") or move in get_item_from_category("Moves Shared")):
+                elif self.options.character != 0 and (move in noise_moves or move in shared_moves):
                     pizza_itempool.append(self.create_item(move))
         
-        total_moves = get_item_from_category("Moves Peppino") + get_item_from_category("Moves Noise") + get_item_from_category("Moves Shared")
+        total_moves = pep_moves + noise_moves + shared_moves
         self.starting_moves = 0
         for i in range(len(total_moves)):
             self.starting_moves = self.starting_moves << 1
