@@ -243,7 +243,12 @@ class PizzaTowerWorld(World):
         self.multiworld.completion_condition[self.player] = lambda state: state.can_reach("The Crumbling Tower of Pizza Complete", "Location", self.player)
 
     def get_filler_item_name(self) -> str:
-        return self.random.choice(get_item_from_category("Filler"))
+        weighted_filler = []
+        for filler in get_item_from_category("Filler"):
+            for i in range(self.options.filler_weights[filler]):
+                weighted_filler.append(filler)
+        
+        return self.random.choice(weighted_filler)
 
     def fill_slot_data(self):
         return {
