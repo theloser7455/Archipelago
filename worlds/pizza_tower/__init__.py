@@ -203,7 +203,7 @@ class PizzaTowerWorld(World):
                 total_clothes += get_item_from_category("Clothes Noise")
             
             for clothing in total_clothes:
-                if locations_to_fill < len(pizza_itempool):
+                if locations_to_fill <= len(pizza_itempool):
                     break
                 pizza_itempool.append(self.create_item(clothing))
 
