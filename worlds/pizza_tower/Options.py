@@ -257,6 +257,14 @@ class FillerWeights(OptionCounter):
     }
     display_name = "Filler Weights"
 
+class ShuffleLap2(Toggle):
+    """
+    On: Shuffles an item into the pool that enables all lap 2 portals
+
+    Off: Enables all lap 2 portals from the start
+    """
+    display_name = "Shuffle Lap 2 Portals"
+
 class TrapWeights(OptionCounter):
     """
     Determines how often each trap appears in the itempool
@@ -285,7 +293,8 @@ pt_option_groups = [
         Floor3Door,
         Floor4Door,
         Floor5Door,
-        ShuffleBossKeys
+        ShuffleBossKeys,
+        ShuffleLap2
     ]),
     OptionGroup("Extra Checks", [
         TreasureChecks,
@@ -340,6 +349,7 @@ class PTOptions(PerGameCommonOptions):
     move_rando_list: MovesToRandomize
     death_link: DeathLink
     clothing_filler: ClothingFiller
+    shuffle_lap2: ShuffleLap2
     trap_weights: TrapWeights
     filler_weights: FillerWeights
 
