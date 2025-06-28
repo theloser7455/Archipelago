@@ -1,68 +1,12 @@
 from worlds.AutoWorld import World, WebWorld
 from BaseClasses import Tutorial
-from .Items import PTItem, pt_items
+from .Items import PTItem, pt_items, get_item_from_category
 from .Locations import PTLocation, pt_locations
 from .Options import PTOptions, pt_option_groups, pt_option_presets
 from .Regions import create_regions
 from .Rules import set_rules
 from math import floor
 from typing import Any
-
-pep_clothes = [
-    "Clothes: Unfunny Cook",
-    "Clothes: Money Green",
-    "Clothes: SAGE Blue",
-    "Clothes: Blood Red",
-    "Clothes: TV Purple",
-    "Clothes: Dark Cook",
-    "Clothes: Shitty Cook",
-    "Clothes: Golden God",
-    "Clothes: Garish Cook",
-    "Clothes: Mooney Orange",
-    "Clothes: Funny Polka",
-    "Clothes: Itchy Sweater",
-    "Clothes: Pizza Man",
-    "Clothes: Bowling Stripes",
-    "Clothes: Goldemanne",
-    "Clothes: Bad Bones",
-    "Clothes: PP Shirt",
-    "Clothes: War Camo",
-    "Clothes: John Suit",
-]
-
-noise_clothes = [
-    "Clothes: Boise",
-    "Clothes: Roise",
-    "Clothes: Poise",
-    "Clothes: Reverse",
-    "Clothes: Critic",
-    "Clothes: Outlaw",
-    "Clothes: Anti-Doise",
-    "Clothes: Flesh Eater",
-    "Clothes: Super",
-    "Clothes: Fast Porcupine",
-    "Clothes: Feminine Side",
-    "Clothes: The Real Doise",
-    "Clothes: Forest Goblin",
-    "Clothes: Racer",
-    "Clothes: Comedian",
-    "Clothes: Banana",
-    "Clothes: Noise TV",
-    "Clothes: Madman",
-    "Clothes: Bubbly",
-    "Clothes: Well Done",
-    "Clothes: Granny Kisses",
-    "Clothes: Tower Guy",
-]
-
-halloween_clothes = [
-    "Clothes: Candy Wrapper",
-    "Clothes: Bloodstained",
-    "Clothes: Autumn",
-    "Clothes: Pumpkin",
-    "Clothes: Fur",
-    "Clothes: Eyes",
-]
 
 def internal_from_external(name: str):
     aliases = {
@@ -166,7 +110,7 @@ class PizzaTowerWorld(World):
     boss_map: dict[str, str]
     secret_map: dict[str, str]
 
-    item_name_to_id = {name: data[0] for name, data in pt_items.items()}
+    item_name_to_id = {name: data[1] for name, data in pt_items.items()}
     location_name_to_id = pt_locations
 
     @staticmethod
@@ -192,7 +136,7 @@ class PizzaTowerWorld(World):
             self.secret_map = {}
 
     def create_item(self, item: str) -> PTItem:
-        return PTItem(item, pt_items[item][1], pt_items[item][0], self.player)
+        return PTItem(item, pt_items[item][2], pt_items[item][1], self.player)
 
     def create_regions(self):
         create_regions(self.player, self.multiworld, self.options)
@@ -217,32 +161,9 @@ class PizzaTowerWorld(World):
         #disable for now; unlocking laps is kind of annoying
         #pizza_itempool.append(self.create_item("Lap 2 Portals"))
 
-        #define moves per character
-        shared_moves = [
-            "Mach 4",
-            "Uppercut",
-            "Superjump",
-            "Grab",
-            "Taunt",
-            "Supertaunt",
-            "Bodyslam",
-            "Breakdance"
-        ]
-        pep_moves = [
-            "Wallclimb",
-            "Double Jump",
-            "Rat Kick",
-            "none", #placeholder for missing move
-            "Spin Attack"
-        ]
-        noise_moves = [
-            "Wallbounce",
-            "Tornado",
-            "Crusher",
-            "Bomb"
-        ]
-        total_moves = shared_moves + pep_moves + noise_moves
-
+        pep_moves = get_item_from_category("Moves Peppino")
+        noise_moves = get_item_from_category("Moves Noise")
+        shared_moves = get_item_from_category("Moves Shared")
         if self.options.do_move_rando:
             for move in self.options.move_rando_list:
                 if self.options.character != 1 and (move in pep_moves or move in shared_moves):
@@ -250,6 +171,7 @@ class PizzaTowerWorld(World):
                 elif self.options.character != 0 and (move in noise_moves or move in shared_moves):
                     pizza_itempool.append(self.create_item(move))
         
+        total_moves = pep_moves + noise_moves + shared_moves
         self.starting_moves = 0
         for i in range(len(total_moves)):
             self.starting_moves = self.starting_moves << 1
@@ -277,71 +199,40 @@ class PizzaTowerWorld(World):
         
         #add clothes, if there's room
         if self.options.clothing_filler:
-            if self.options.character == 0:
-                if locations_to_fill < (len(pizza_itempool) + len(pep_clothes)):
-                    for i in range(locations_to_fill - len(pizza_itempool)):
-                        pizza_itempool.append(self.create_item(pep_clothes[i]))
-                else:
-                    for i in range(len(pep_clothes)):
-                        pizza_itempool.append(self.create_item(pep_clothes[i]))
-            elif self.options.character == 1:
-                if locations_to_fill < (len(pizza_itempool) + len(noise_clothes)):
-                    for i in range(locations_to_fill - len(pizza_itempool)):
-                        pizza_itempool.append(self.create_item(noise_clothes[i]))
-                else:
-                    for i in range(len(noise_clothes)):
-                        pizza_itempool.append(self.create_item(noise_clothes[i]))
-            elif self.options.character == 2:
-                if locations_to_fill < (len(pizza_itempool) + len(pep_clothes)):
-                    for i in range(locations_to_fill - len(pizza_itempool)):
-                        pizza_itempool.append(self.create_item(pep_clothes[i]))
-                else:
-                    for i in range(len(pep_clothes)):
-                        pizza_itempool.append(self.create_item(pep_clothes[i]))
-                    if locations_to_fill < (len(pizza_itempool) + len(noise_clothes)):
-                        for i in range(locations_to_fill - len(pizza_itempool)):
-                            pizza_itempool.append(self.create_item(noise_clothes[i]))
-                    else:
-                        for i in range(len(noise_clothes)):
-                            pizza_itempool.append(self.create_item(noise_clothes[i]))
-            if locations_to_fill < (len(pizza_itempool) + len(halloween_clothes)):
-                for i in range(locations_to_fill - len(pizza_itempool)):
-                    pizza_itempool.append(self.create_item(halloween_clothes[i]))
-            else:
-                for i in range(len(halloween_clothes)):
-                    pizza_itempool.append(self.create_item(halloween_clothes[i]))
+            total_clothes = get_item_from_category("Clothes Shared")
+            if self.options.character != 1:
+                total_clothes += get_item_from_category("Clothes Peppino")
+            if self.options.character != 0:
+                total_clothes += get_item_from_category("Clothes Noise")
+            
+            for clothing in total_clothes:
+                if locations_to_fill <= len(pizza_itempool):
+                    break
+                pizza_itempool.append(self.create_item(clothing))
 
-        #add filler
+        #add traps
         one_percent_trap = (locations_to_fill - len(pizza_itempool)) * (int(self.options.trap_percentage) / 100) / 100
-        for i in range(floor(one_percent_trap * 10)):
-            pizza_itempool.append(self.create_item("Ghost Trap"))
-        for i in range(floor(one_percent_trap * 10)):
-            pizza_itempool.append(self.create_item("Timer Trap"))
-        for i in range(floor(one_percent_trap * 20)):
-            if self.options.jumpscare:
-                pizza_itempool.append(self.create_item("Jumpscare"))
-            else:
-                pizza_itempool.append(self.create_item("Oktoberfest!"))
-        for i in range(floor(one_percent_trap * 20)):
-            pizza_itempool.append(self.create_item("Granny Trap"))
-        for i in range(floor(one_percent_trap * 20)):
-            pizza_itempool.append(self.create_item("Fake Santa Trap"))
-        for i in range(floor(one_percent_trap * 20)):
-            pizza_itempool.append(self.create_item("Clown Trap"))
+        total_trapweights = 0
+        for trapweight in self.options.trap_weights:
+            total_trapweights += self.options.trap_weights[trapweight]
+        trapweight_mult = 100 / total_trapweights
+        for trap in get_item_from_category("Trap"):
+            if (trap == "Oktoberfest!" and self.options.jumpscare) or (trap == "Jumpscare" and not self.options.jumpscare):
+                continue
+            for i in range(floor(one_percent_trap * (self.options.trap_weights[trap] * trapweight_mult))):
+                pizza_itempool.append(self.create_item(trap))
         
+        #add filler
         one_percent_filler = (locations_to_fill - len(pizza_itempool)) / 100
-        for i in range(floor(one_percent_filler * 3)):
-            pizza_itempool.append(self.create_item("Permanent 100 Points"))
-        for i in range(floor(one_percent_filler * 7)):
-            pizza_itempool.append(self.create_item("Permanent 50 Points"))
-        for i in range(floor(one_percent_filler * 20)):
-            pizza_itempool.append(self.create_item("Cross Buff"))
-        for i in range(floor(one_percent_filler * 10)):
-            pizza_itempool.append(self.create_item("Pizza Shield"))
-        for i in range(floor(one_percent_filler * 5)):
-            pizza_itempool.append(self.create_item("Nothing"))
-        for i in range(floor(one_percent_filler * 40)):
-            pizza_itempool.append(self.create_item("Permanent 10 Points"))
+        total_fillerweights = 0
+        for fillerweight in self.options.filler_weights:
+            total_fillerweights += self.options.filler_weights[fillerweight]
+        fillerweight_mult = 100 / total_fillerweights
+        for filler in get_item_from_category("Filler"):
+            for i in range(floor(one_percent_filler * (self.options.filler_weights[filler] * fillerweight_mult))):
+                pizza_itempool.append(self.create_item(filler))
+        
+        #if there's still slots left over from rounding fill them with primo burgs
         for i in range(locations_to_fill - len(pizza_itempool)):
             pizza_itempool.append(self.create_item("Primo Burg"))
 
@@ -350,6 +241,14 @@ class PizzaTowerWorld(World):
     def set_rules(self):
         set_rules(self.multiworld, self, self.options, self.toppin_number)
         self.multiworld.completion_condition[self.player] = lambda state: state.can_reach("The Crumbling Tower of Pizza Complete", "Location", self.player)
+
+    def get_filler_item_name(self) -> str:
+        weighted_filler = []
+        for filler in get_item_from_category("Filler"):
+            for i in range(self.options.filler_weights[filler]):
+                weighted_filler.append(filler)
+        
+        return self.random.choice(weighted_filler)
 
     def fill_slot_data(self):
         return {
