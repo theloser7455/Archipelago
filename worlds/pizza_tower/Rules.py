@@ -1827,7 +1827,7 @@ def set_rules(multiworld: MultiWorld, world: World, options: PTOptions, toppins:
     def add_s_rank_rule(lvl: str, location: Location):
         interpret_rule(lvl + " Complete", 0, location) #TODO make this better without making the logic handler freak out
         if options.shuffle_lap2:
-            if options.difficulty != 1 and lvl not in lap1_levels:
+            if options.difficulty == 0 or not (lvl in lap1_levels):
                 add_rule(location, lambda state: state.has("Lap 2 Portals", world.player))
 
     #connect regions
