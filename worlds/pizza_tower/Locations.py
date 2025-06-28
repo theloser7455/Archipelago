@@ -600,7 +600,7 @@ checks_in_sets_boss = { boss: { boss + " " + check for check in boss_checks } fo
 
 pt_location_groups = checks_in_sets_lvl
 for lvl in levels_list:
-    pt_location_groups[lvl].add("haha")
+    pt_location_groups[lvl].add("haha") # remnant from testing. this is no laughing matter. i'm sorry
 pt_location_groups.update(checks_in_sets_boss)
 for boss in boss_names:
     pt_location_groups[boss].add(boss_achievements[boss])
