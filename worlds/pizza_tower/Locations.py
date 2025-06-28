@@ -514,3 +514,124 @@ pt_locations = { #TODO allow pumpkins to be checks eventually maybe
     "Chef Task: Pumpkin Munchkin": 457,
     "Chef Task: Tricksy": 458,
 }
+
+# location groups definition starts here
+
+levels_list = [ #ctop handled separately
+    "John Gutter",
+    "Pizzascape",
+    "Ancient Cheese",
+    "Bloodsauce Dungeon",
+    "Oregano Desert",
+    "Wasteyard",
+    "Fun Farm",
+    "Fastfood Saloon",
+    "Crust Cove",
+    "Gnome Forest",
+    "Deep-Dish 9",
+    "GOLF",
+    "The Pig City",
+    "Peppibot Factory",
+    "Oh Shit!",
+    "Freezerator",
+    "Pizzascare",
+    "Don't Make A Sound",
+    "WAR"
+]
+
+level_checks = [
+    "Complete",
+    "Mushroom Toppin",
+    "Cheese Toppin",
+    "Tomato Toppin",
+    "Sausage Toppin",
+    "Pineapple Toppin",
+    "S Rank",
+    "P Rank",
+    "Pumpkin"
+]
+
+level_achievements = {
+    "John Gutter": {"Chef Task: Let's Make This Quick", "Chef Task: John Gutted", "Chef Task: Primate Rage"},
+    "Pizzascape": {"Chef Task: Shining Armor", "Chef Task: Spherical", "Chef Task: Spoonknight"},
+    "Ancient Cheese": {"Chef Task: Thrill Seeker", "Chef Task: Volleybomb", "Chef Task: Delicacy"},
+    "Bloodsauce Dungeon": {"Chef Task: Eruption Man", "Chef Task: Very Very Hot Sauce", "Chef Task: Unsliced Pizzaman"},
+    "Oregano Desert": {"Chef Task: Peppino's Rain Dance", "Chef Task: Unnecessary Violence", "Chef Task: Alien Cow"},
+    "Wasteyard": {"Chef Task: Alive and Well", "Chef Task: Ghosted", "Chef Task: Pretend Ghost"},
+    "Fun Farm": {"Chef Task: Good Egg", "Chef Task: No One Is Safe", "Chef Task: Cube Menace"},
+    "Fastfood Saloon": {"Chef Task: Royal Flush", "Chef Task: Already Pressed", "Chef Task: Non-Alcoholic"},
+    "Crust Cove": {"Chef Task: X", "Chef Task: Demolition Expert", "Chef Task: Blowback"},
+    "Gnome Forest": {"Chef Task: Bee Nice", "Chef Task: Bullseye", "Chef Task: Lumberjack"},
+    "Deep-Dish 9": {"Chef Task: Blast 'Em Asteroids", "Chef Task: Man Meteor", "Chef Task: Turbo Tunnel"},
+    "GOLF": {"Chef Task: Nice Shot", "Chef Task: Helpful Burger", "Chef Task: Primo Golfer"},
+    "The Pig City": {"Chef Task: Strike!", "Chef Task: Say Oink!", "Chef Task: Pan Fried"},
+    "Peppibot Factory": {"Chef Task: There Can Be Only One", "Chef Task: Unflattening", "Chef Task: Whoop This!"},
+    "Oh Shit!": {"Chef Task: Penny Pincher", "Chef Task: Can't Fool Me", "Chef Task: Food Clan"},
+    "Freezerator": {"Chef Task: Frozen Nuggets", "Chef Task: Season's Greetings", "Chef Task: Ice Climber"},
+    "Pizzascare": {"Chef Task: Haunted Playground", "Chef Task: Skullsplitter", "Chef Task: Cross To Bare"},
+    "Don't Make A Sound": {"Chef Task: And This... Is My Gun-On-A-Stick!", "Chef Task: Jumpspared", "Chef Task: Let Them Sleep"},
+    "WAR": {"Chef Task: Decorated Veteran", "Chef Task: Sharpshooter", "Chef Task: Trip To The Warzone"}
+}
+
+boss_names = [
+    "Pepperman",
+    "The Vigilante",
+    "The Noise",
+    "The Doise",
+    "Fake Peppino"
+]
+
+boss_checks = [
+    "Defeated",
+    "S Rank",
+    "P Rank"
+]
+
+boss_achievements = {
+    "Pepperman": "Chef Task: The Critic",
+    "The Vigilante": "Chef Task: The Ugly",
+    "The Noise": "Chef Task: Denoise",
+    "The Doise": "Chef Task: Denoise",
+    "Fake Peppino": "Chef Task: Faker"
+}
+
+checks_in_sets_lvl = { lvl: { lvl + " " + check for check in level_checks} for lvl in levels_list }
+checks_in_sets_boss = { boss: { boss + " " + check for check in boss_checks } for boss in boss_names }
+
+pt_location_groups = checks_in_sets_lvl
+for lvl in levels_list:
+    pt_location_groups[lvl].add("haha")
+pt_location_groups.update(checks_in_sets_boss)
+for boss in boss_names:
+    pt_location_groups[boss].add(boss_achievements[boss])
+pt_location_groups.update({"The Crumbling Tower of Pizza": {
+    "The Crumbling Tower of Pizza Complete", 
+    "The Crumbling Tower of Pizza S Rank", 
+    "The Crumbling Tower of Pizza P Rank", 
+    "The Crumbling Tower of Pizza Pumpkin"
+}})
+pt_location_groups.update({"Tutorial": {
+    "Tutorial Complete",
+    "Tutorial Complete in under 2 minutes", 
+    "Tutorial Mushroom Toppin", 
+    "Tutorial Cheese Toppin", 
+    "Tutorial Tomato Toppin", 
+    "Tutorial Sausage Toppin", 
+    "Tutorial Pineapple Toppin"
+}})
+pt_location_groups.update({"Tricky Treat": {
+    "Tricky Treat Main Path Pumpkin 1",
+    "Tricky Treat Main Path Pumpkin 2",
+    "Tricky Treat Main Path Pumpkin 3",
+    "Tricky Treat Main Path Pumpkin 4",
+    "Tricky Treat Main Path Pumpkin 5",
+    "Tricky Treat Side Path Pumpkin 1",
+    "Tricky Treat Side Path Pumpkin 2",
+    "Tricky Treat Side Path Pumpkin 3",
+    "Tricky Treat Side Path Pumpkin 4",
+    "Tricky Treat Side Path Pumpkin 5"
+}})
+pt_location_groups.update({"Pizzaface": {
+    "Pizzaface Defeated",
+    "Chef Task: Face Off"
+}})

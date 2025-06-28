@@ -124,3 +124,18 @@ pt_items = {
     "Clothes: Fur":             ("Clothes Shared", 347, ItemClassification.filler),
     "Clothes: Eyes":            ("Clothes Shared", 348, ItemClassification.filler),
 }
+
+item_categories = [
+    "Progression",
+    "Moves Shared",
+    "Moves Peppino",
+    "Moves Noise",
+    "Trap",
+    "Filler",
+    "Transformation",
+    "Clothes Shared",
+    "Clothes Peppino",
+    "Clothes Noise"
+]
+
+pt_item_groups = { cat: set(get_item_from_category(cat)) for cat in item_categories }

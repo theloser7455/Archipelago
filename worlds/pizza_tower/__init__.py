@@ -1,7 +1,7 @@
 from worlds.AutoWorld import World, WebWorld
 from BaseClasses import Tutorial
-from .Items import PTItem, pt_items, get_item_from_category
-from .Locations import PTLocation, pt_locations
+from .Items import PTItem, pt_items, get_item_from_category, pt_item_groups
+from .Locations import PTLocation, pt_locations, pt_location_groups
 from .Options import PTOptions, pt_option_groups, pt_option_presets
 from .Regions import create_regions
 from .Rules import set_rules
@@ -112,6 +112,9 @@ class PizzaTowerWorld(World):
 
     item_name_to_id = {name: data[1] for name, data in pt_items.items()}
     location_name_to_id = pt_locations
+
+    item_name_groups = pt_item_groups # not extremely important for this world but it's here for completeness
+    location_name_groups = pt_location_groups
 
     @staticmethod
     def interpret_slot_data(slot_data: dict[str, Any]) -> dict[str, Any]: #UT support function that causes a re-generation
