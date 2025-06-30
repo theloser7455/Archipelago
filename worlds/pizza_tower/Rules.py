@@ -391,7 +391,7 @@ def set_rules(multiworld: MultiWorld, world: World, options: PTOptions, toppins:
         "GOLF S Rank": "SJUMP | CLIMB+GRAB | CLIMB+SLAM",
 
     #The Pig City
-        "The Pig City Complete": "SJUMP+SLAM+DJUMP | CLIMB+SLAM+DJUMP | UPPER+SLAM+DJUMP",
+        "The Pig City Complete": "SLAM+DJUMP",
         "The Pig City Mushroom Toppin": "NONE",
         "The Pig City Cheese Toppin": "SJUMP | CLIMB",
         "The Pig City Tomato Toppin": "SLAM",
@@ -761,7 +761,7 @@ def set_rules(multiworld: MultiWorld, world: World, options: PTOptions, toppins:
         "Chef Task: Say Oink!": "SLAM+DJUMP+TAUNT",
         "Chef Task: Pan Fried": "SLAM+DJUMP",
         "Chef Task: Strike!": "SLAM+DJUMP+KICK",
-        "The Pig City S Rank": "SJUMP+SLAM+DJUMP | CLIMB+SLAM+DJUMP",
+        "The Pig City S Rank": "SJUMP+SLAM+DJUMP | CLIMB+SLAM+DJUMP | UPPER+SLAM+DJUMP",
 
     #Peppibot Factory
         "Peppibot Factory Complete": "SJUMP+CLIMB+SLAM | SJUMP+UPPER+SLAM",
