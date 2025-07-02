@@ -174,7 +174,7 @@ class PizzaTowerWorld(World):
                 elif self.options.character != 0 and (move in noise_moves or move in shared_moves):
                     pizza_itempool.append(self.create_item(move))
         
-        total_moves = pep_moves + noise_moves + shared_moves
+        total_moves = shared_moves + pep_moves + noise_moves
         self.starting_moves = 0
         for i in range(len(total_moves)):
             self.starting_moves = self.starting_moves << 1
