@@ -154,6 +154,7 @@ class PizzaTowerWorld(World):
         if self.options.srank_checks: locations_to_fill += 24
         if self.options.prank_checks: locations_to_fill += 24
         if self.options.cheftask_checks: locations_to_fill += 72
+        if self.options.pumpkin_checks: locations_to_fill += 30
         if self.options.character == 0:
             locations_to_fill += 7 #2 tutorial checks and its 5 toppins
         elif self.options.character == 1:
@@ -202,13 +203,12 @@ class PizzaTowerWorld(World):
             for i in range(self.options.toppin_count): pizza_itempool.append(self.create_item("Toppin"))
 
         #add pumpkins, if we can
-        if self.options.pumpkin_count > (locations_to_fill - len(pizza_itempool)):
-            self.pumpkin_number = (locations_to_fill - len(pizza_itempool))
-            for i in range(locations_to_fill - len(pizza_itempool)): pizza_itempool.append(self.create_item("Pumpkin"))
-        else:
-            self.pumpkin_number = self.options.pumpkin_count
-            for i in range(self.options.toppin_count): pizza_itempool.append(self.create_item("Pumpkin"))
-
+        if self.options.pumpkin_checks:
+            for i in range(self.options.pumpkin_count):
+                if locations_to_fill <= len(pizza_itempool):
+                    break
+                pizza_itempool.append(self.create_item("Pumpkin"))
+                self.pumpkin_number = i
         
         #add clothes, if there's room
         if self.options.clothing_filler:
