@@ -1344,7 +1344,7 @@ def set_rules(multiworld: MultiWorld, world: World, options: PTOptions, toppins:
         "Chef Task: Ice Climber": "NONE",
         "Chef Task: Season's Greetings": "STAUNT | GRAB",
         "Chef Task: Frozen Nuggets": "NONE",
-        "Freezerator S Rank": "NONE",
+        "Freezerator S Rank": "SLAM | CRUSH | TORN | BOUNCE",
 
     #Pizzascare
         "Pizzascare Complete": "CRUSH | SJUMP+SLAM | SJUMP+TORN | UPPER+SLAM | UPPER+TORN | BOUNCE",
@@ -1722,7 +1722,7 @@ def set_rules(multiworld: MultiWorld, world: World, options: PTOptions, toppins:
         "Chef Task: Ice Climber": "NONE",
         "Chef Task: Season's Greetings": "GRAB",
         "Chef Task: Frozen Nuggets": "NONE",
-        "Freezerator S Rank": "NONE",
+        "Freezerator S Rank": "SLAM | CRUSH | TORN | BOUNCE",
 
     #Pizzascare
         "Pizzascare Complete": "SJUMP+SLAM | BOUNCE+SLAM | SJUMP+TORN | BOUNCE+TORN | SJUMP+CRUSH | BOUNCE+CRUSH",
