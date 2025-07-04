@@ -150,7 +150,7 @@ def secret_rando(world: World, options: PTOptions) -> list[str]:
         secrets_queue[39] = "Peppibot Factory Secret 1"
     return secrets_queue
 
-def set_rules(multiworld: MultiWorld, world: World, options: PTOptions, toppins: int):
+def set_rules(multiworld: MultiWorld, world: World, options: PTOptions, toppins: int, pumpkins: int):
     bosses_list = [ #pizzaface is handled separately because he does not give a rank
         "Pepperman",
         "The Vigilante",
@@ -2015,6 +2015,8 @@ def set_rules(multiworld: MultiWorld, world: World, options: PTOptions, toppins:
     multiworld.get_region("Pizzaface", world.player).connect(multiworld.get_region("The Crumbling Tower of Pizza", world.player), "Pizzaface to The Crumbling Tower of Pizza")
     if options.character != 2:
         multiworld.get_region("Floor 1 Tower Lobby", world.player).connect(multiworld.get_region("Tutorial", world.player), "Floor 1 Tower Lobby to Tutorial")
+    if options.pumpkin_checks:
+        multiworld.get_region("Floor 1 Tower Lobby", world.player).connect(multiworld.get_region("Tricky Treat", world.player), "Floor 1 Tower Lobby to Tricky Treat")
 
     for i in range(4):
         for ii in range(4):
@@ -2085,6 +2087,9 @@ def set_rules(multiworld: MultiWorld, world: World, options: PTOptions, toppins:
     add_rule(multiworld.get_entrance("Floor 3 Vacation Resort to " + bosses_map[bosses_list[2]], world.player), lambda state: state.has("Toppin", world.player, get_toppin_prop(options.floor_3_cost))) #the noise or the doise, depending on character played
     add_rule(multiworld.get_entrance("Floor 4 Slum to " + bosses_map["Fake Peppino"], world.player), lambda state: state.has("Toppin", world.player, get_toppin_prop(options.floor_4_cost)))
     add_rule(multiworld.get_entrance("Floor 5 Staff Only to Pizzaface", world.player), lambda state: state.has("Toppin", world.player, get_toppin_prop(options.floor_5_cost)))
+
+    #pumpkin requirement for tricky treat
+    add_rule(multiworld.get_entrance("Floor 1 Tower Lobby to Tricky Treat", world.player), lambda state: state.has("Pumpkin", world.player, pumpkins * (options.tricky_treat_cost / 100)))
 
     #boss key requirements for floors
     if not options.open_world:

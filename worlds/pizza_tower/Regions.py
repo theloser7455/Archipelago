@@ -192,6 +192,8 @@ def create_regions(player: int, world: MultiWorld, options: PTOptions):
     if options.prank_checks:
         levels_checks.append("P Rank")
         bosses_checks.append("P Rank")
+    if options.pumpkin_checks:
+        levels_checks.append("Pumpkin")
     if options.character == 0:
         tutorial_checks += [
             "Mushroom Toppin",
@@ -235,6 +237,7 @@ def create_regions(player: int, world: MultiWorld, options: PTOptions):
     #odd regions
     region_pface = Region("Pizzaface", player, world, None)
     region_ctop = Region("The Crumbling Tower of Pizza", player, world, None)
+    region_trickytreat = Region("Tricky Treat", player, world, None)
 
     #odd locations
     region_pface.locations.append(PTLocation(player, "Pizzaface Defeated", 219, region_pface))
@@ -245,6 +248,14 @@ def create_regions(player: int, world: MultiWorld, options: PTOptions):
     if options.prank_checks:
         region_ctop.locations.append(PTLocation(player, "The Crumbling Tower of Pizza P Rank", 328, region_ctop))
     tower_regions[4].locations.append(PTLocation(player, "Snotty Murdered", 220, tower_regions[4]))
+
+    if options.pumpkin_checks:
+        for i in range(5):
+            loc = "Tricky Treat Main Path Pumpkin " + i
+            region_trickytreat.locations.append(PTLocation(player, loc, pt_locations(loc), region_trickytreat))
+        for i in range(5):
+            loc = "Tricky Treat Side Path Pumpkin " + i
+            region_trickytreat.locations.append(PTLocation(player, loc, pt_locations(loc), region_trickytreat))
 
     #must handle chef tasks separately since they aren't common to all levels
     #weird naming here. cheftask_checks is the option bool, cheftasks_checks is the list of task names
@@ -271,6 +282,7 @@ def create_regions(player: int, world: MultiWorld, options: PTOptions):
 
     tower_regions.append(region_pface)
     tower_regions.append(region_ctop)
+    tower_regions.append(region_trickytreat)
 
     world.regions += tower_regions
 
