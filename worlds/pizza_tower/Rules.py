@@ -2089,7 +2089,7 @@ def set_rules(multiworld: MultiWorld, world: World, options: PTOptions, toppins:
     add_rule(multiworld.get_entrance("Floor 5 Staff Only to Pizzaface", world.player), lambda state: state.has("Toppin", world.player, get_toppin_prop(options.floor_5_cost)))
 
     #pumpkin requirement for tricky treat
-    add_rule(multiworld.get_entrance("Floor 1 Tower Lobby to Tricky Treat", world.player), lambda state: state.has("Pumpkin", world.player, pumpkins * (options.tricky_treat_cost / 100)))
+    add_rule(multiworld.get_entrance("Floor 1 Tower Lobby to Tricky Treat", world.player), lambda state: state.has("Pumpkin", world.player, floor(pumpkins * (options.tricky_treat_cost / 100))))
 
     #boss key requirements for floors
     if not options.open_world:

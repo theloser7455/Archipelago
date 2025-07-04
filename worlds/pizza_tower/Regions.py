@@ -250,6 +250,7 @@ def create_regions(player: int, world: MultiWorld, options: PTOptions):
     tower_regions[4].locations.append(PTLocation(player, "Snotty Murdered", 220, tower_regions[4]))
 
     if options.pumpkin_checks:
+        region_ctop.locations.append(PTLocation(player, "The Crumbling Tower of Pizza Pumpkin"), 446, region_ctop)
         for i in range(5):
             loc = f"Tricky Treat Main Path Pumpkin {i+1}"
             region_trickytreat.locations.append(PTLocation(player, loc, pt_locations[loc], region_trickytreat))
