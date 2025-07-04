@@ -16,7 +16,7 @@ pt_items = {
     "Toppin":                   ("Progression", 101, ItemClassification.progression_skip_balancing),
     "Boss Key":                 ("Progression", 102, ItemClassification.progression),
     "Lap 2 Portals":            ("Progression", 149, ItemClassification.progression),
-    "Pumpkin":                  ("Progression", 150, ItemClassification.progression),
+    "Pumpkin":                  ("Progression", 150, ItemClassification.progression_skip_balancing),
 
     "Mach 4":                   ("Moves Shared", 103, ItemClassification.progression),
     "Uppercut":                 ("Moves Shared", 104, ItemClassification.progression),
