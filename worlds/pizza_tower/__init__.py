@@ -154,7 +154,9 @@ class PizzaTowerWorld(World):
         if self.options.srank_checks: locations_to_fill += 24
         if self.options.prank_checks: locations_to_fill += 24
         if self.options.cheftask_checks: locations_to_fill += 72
-        if self.options.pumpkin_checks: locations_to_fill += 30
+        if self.options.pumpkin_checks:
+            locations_to_fill += 30
+            if self.options.cheftask_checks: locations_to_fill += 2 #tricky treat chef tasks
         if self.options.character == 0:
             locations_to_fill += 7 #2 tutorial checks and its 5 toppins
         elif self.options.character == 1:

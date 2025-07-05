@@ -2051,6 +2051,15 @@ def set_rules(multiworld: MultiWorld, world: World, options: PTOptions, toppins:
                 for i in range(3):
                     lvls_on_floor.append(levels_map[levels_list[floor_first_lvl_index + i]])
             add_s_ranked_task_rule(lvls_on_floor, location)
+        elif ("Chef Task: Pumpkin Munchkin" in location.name):
+            add_rule(location, lambda state: state.has("Pumpkin", world.player, floor(pumpkins * (options.tricky_treat_cost / 100))))
+            lvls = levels_list
+            lvls.append("The Crumbling Tower of Pizza")
+            for lvl in lvls:
+                add_rule(location, interpret_rule(lvl + " Pumpkin", 0))
+            for i in range(5):
+                add_rule(location, interpret_rule(f"Tricky Treat Main Path Pumpkin {i+1}", 0))
+                add_rule(location, interpret_rule(f"Tricky Treat Side Path Pumpkin {i+1}", 0))
         else:
             if ("The Critic" in location.name) or ("The Ugly" in location.name) or ("Denoise" in location.name) or ("Faker" in location.name) or ("Face Off" in location.name):
                 if not options.prank_checks:
