@@ -257,6 +257,8 @@ def create_regions(player: int, world: MultiWorld, options: PTOptions):
         for i in range(5):
             loc = f"Tricky Treat Side Path Pumpkin {i+1}"
             region_trickytreat.locations.append(PTLocation(player, loc, pt_locations[loc], region_trickytreat))
+        if options.cheftask_checks:
+            region_trickytreat.locations.append(PTLocation(player, "Chef Task: Tricksy", 458, region_trickytreat))
 
     #must handle chef tasks separately since they aren't common to all levels
     #weird naming here. cheftask_checks is the option bool, cheftasks_checks is the list of task names

@@ -584,6 +584,7 @@ def set_rules(multiworld: MultiWorld, world: World, options: PTOptions, toppins:
         "Tricky Treat Side Path Pumpkin 3": "UPPER | CLIMB | SJUMP",
         "Tricky Treat Side Path Pumpkin 4": "CLIMB | SJUMP",
         "Tricky Treat Side Path Pumpkin 5": "CLIMB",
+        "Chef Task: Tricksy": "CLIMB",
     }
 
     pt_peppino_rules_easy = { #access rules within levels, which do not change
@@ -973,6 +974,7 @@ def set_rules(multiworld: MultiWorld, world: World, options: PTOptions, toppins:
         "Tricky Treat Side Path Pumpkin 3": "UPPER | CLIMB | SJUMP",
         "Tricky Treat Side Path Pumpkin 4": "CLIMB | SJUMP",
         "Tricky Treat Side Path Pumpkin 5": "CLIMB",
+        "Chef Task: Tricksy": "CLIMB"
     }
 
     pt_peppino_extra_rules = { #internal rules for rando purposes; do not correspond to real checks
@@ -1465,6 +1467,7 @@ def set_rules(multiworld: MultiWorld, world: World, options: PTOptions, toppins:
         "Tricky Treat Side Path Pumpkin 3": "UPPER | BOUNCE | SJUMP | CRUSH",
         "Tricky Treat Side Path Pumpkin 4": "UPPER | BOUNCE | SJUMP | CRUSH",
         "Tricky Treat Side Path Pumpkin 5": "BOUNCE | SJUMP | CRUSH",
+        "Chef Task: Tricksy": "BOUNCE+UPPER | SJUMP | CRUSH",
     }
 
     pt_noise_rules_easy = { #access rules within levels, which do not change
@@ -1843,6 +1846,7 @@ def set_rules(multiworld: MultiWorld, world: World, options: PTOptions, toppins:
         "Tricky Treat Side Path Pumpkin 3": "UPPER | BOUNCE | SJUMP | CRUSH",
         "Tricky Treat Side Path Pumpkin 4": "UPPER | BOUNCE | SJUMP",
         "Tricky Treat Side Path Pumpkin 5": "BOUNCE | SJUMP",
+        "Chef Task: Tricksy": "BOUNCE+UPPER | SJUMP",
     }
 
     pt_noise_extra_rules = { #internal rules for rando purposes; do not correspond to real checks
