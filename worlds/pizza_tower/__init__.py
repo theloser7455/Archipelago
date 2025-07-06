@@ -174,7 +174,7 @@ class PizzaTowerWorld(World):
                 elif self.options.character != 0 and (move in noise_moves or move in shared_moves):
                     pizza_itempool.append(self.create_item(move))
         
-        total_moves = pep_moves + noise_moves + shared_moves
+        total_moves = shared_moves + pep_moves + noise_moves
         self.starting_moves = 0
         for i in range(len(total_moves)):
             self.starting_moves = self.starting_moves << 1
@@ -220,9 +220,12 @@ class PizzaTowerWorld(World):
             total_trapweights += self.options.trap_weights[trapweight]
         trapweight_mult = 100 / total_trapweights
         for trap in get_item_from_category("Trap"):
+            get_trapweight = trap
             if (trap == "Oktoberfest!" and self.options.jumpscare) or (trap == "Jumpscare" and not self.options.jumpscare):
                 continue
-            for i in range(floor(one_percent_trap * (self.options.trap_weights[trap] * trapweight_mult))):
+            if trap == "Jumpscare":
+                get_trapweight = "Oktoberfest!"
+            for i in range(floor(one_percent_trap * (self.options.trap_weights[get_trapweight] * trapweight_mult))):
                 pizza_itempool.append(self.create_item(trap))
         
         #add filler
