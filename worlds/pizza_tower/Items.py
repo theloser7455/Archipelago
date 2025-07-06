@@ -15,7 +15,7 @@ def get_item_from_category(category: str) -> list:
 pt_items = {
     "Toppin":                   ("Progression", 101, ItemClassification.progression_skip_balancing),
     "Boss Key":                 ("Progression", 102, ItemClassification.progression),
-    "Lap 2 Portals":            ("Progression", 149, ItemClassification.useful),
+    "Lap 2 Portals":            ("Progression", 149, ItemClassification.progression),
 
     "Mach 4":                   ("Moves Shared", 103, ItemClassification.progression),
     "Uppercut":                 ("Moves Shared", 104, ItemClassification.progression),
