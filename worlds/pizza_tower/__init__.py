@@ -161,8 +161,8 @@ class PizzaTowerWorld(World):
 
         if not self.options.shuffle_boss_keys and not self.options.open_world:
             locations_to_fill -= 4
-        #disable for now; unlocking laps is kind of annoying
-        #pizza_itempool.append(self.create_item("Lap 2 Portals"))
+        if self.options.shuffle_lap2:
+            pizza_itempool.append(self.create_item("Lap 2 Portals"))
 
         pep_moves = get_item_from_category("Moves Peppino")
         noise_moves = get_item_from_category("Moves Noise")
@@ -277,5 +277,6 @@ class PizzaTowerWorld(World):
             "cheftask_checks": bool(self.options.cheftask_checks),
             "difficulty": bool(self.options.difficulty),
             "palette_filler": bool(self.options.clothing_filler),
-            "secret_checks": bool(self.options.secret_checks)
+            "secret_checks": bool(self.options.secret_checks),
+            "shuffle_lap2": bool(self.options.shuffle_lap2)
         }
