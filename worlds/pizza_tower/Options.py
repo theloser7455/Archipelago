@@ -279,6 +279,32 @@ class TrapWeights(OptionDict):
     }
     display_name = "Trap Weights"
 
+class PumpkinChecks(Toggle):
+    """
+    Adds the game's 30 pumpkins to the pool as locations
+    """
+    display_name = "Pumpkin Checks"
+
+class PumpkinCount(Range):
+    """
+    Number of Pumpkins shuffled into the item pool if pumpkin checks is turned on.
+
+    May be less than expected if the item pool is too small.
+    """
+    display_name = "Pumpkin Count"
+    range_start = 0
+    range_end = 50
+    default = 30
+
+class TrickyTreatDoor(Range):
+    """
+    Percentage of Pumpkins required to access Tricky Treat.
+    """
+    display_name = "Tricky Treat Door Pumpkins"
+    range_start = 0
+    range_end = 100
+    default = 67
+
 pt_option_groups = [
     OptionGroup("General Options", [
         CharacterToPlay,
@@ -293,15 +319,18 @@ pt_option_groups = [
         Floor3Door,
         Floor4Door,
         Floor5Door,
-        ShuffleBossKeys,
-        ShuffleLap2
+        ShuffleBossKeys
     ]),
     OptionGroup("Extra Checks", [
         TreasureChecks,
         SecretChecks,
         SRankChecks,
         PRankChecks,
-        ChefTaskChecks
+        ChefTaskChecks,
+        PumpkinChecks,
+        PumpkinCount,
+        TrickyTreatDoor,
+        ShuffleLap2
     ]),
     OptionGroup("Filler and Traps", [
         TrapPercentage,
@@ -352,6 +381,9 @@ class PTOptions(PerGameCommonOptions):
     shuffle_lap2: ShuffleLap2
     trap_weights: TrapWeights
     filler_weights: FillerWeights
+    pumpkin_checks: PumpkinChecks
+    pumpkin_count: PumpkinCount
+    tricky_treat_cost: TrickyTreatDoor
 
 #presets - feel free to suggest more
 

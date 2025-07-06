@@ -150,7 +150,7 @@ def secret_rando(world: World, options: PTOptions) -> list[str]:
         secrets_queue[39] = "Peppibot Factory Secret 1"
     return secrets_queue
 
-def set_rules(multiworld: MultiWorld, world: World, options: PTOptions, toppins: int):
+def set_rules(multiworld: MultiWorld, world: World, options: PTOptions, toppins: int, pumpkins: int):
     bosses_list = [ #pizzaface is handled separately because he does not give a rank
         "Pepperman",
         "The Vigilante",
@@ -552,6 +552,39 @@ def set_rules(multiworld: MultiWorld, world: World, options: PTOptions, toppins:
         "Chef Task: Denoise": "NONE",
         "The Doise S Rank": "NONE",
         "The Doise P Rank": "NONE",
+    
+    #pumpkins
+        "John Gutter Pumpkin": "SJUMP | CLIMB | UPPER | GRAB",
+        "Pizzascape Pumpkin": "GRAB+SJUMP | GRAB+CLIMB",
+        "Ancient Cheese Pumpkin": "UPPER+SLAM+CLIMB | UPPER+SLAM+SJUMP | GRAB+CLIMB+SLAM | GRAB+SJUMP+SLAM",
+        "Bloodsauce Dungeon Pumpkin": "SLAM",
+        "Oregano Desert Pumpkin": "UPPER+GRAB | SJUMP+GRAB | CLIMB",
+        "Wasteyard Pumpkin": "SJUMP | CLIMB | UPPER",
+        "Fun Farm Pumpkin": "SLAM+UPPER+GRAB | SLAM+SJUMP | SLAM+CLIMB",
+        "Fastfood Saloon Pumpkin": "SLAM+UPPER+CLIMB | SLAM+SJUMP+UPPER",
+        "Crust Cove Pumpkin": "CLIMB+SLAM+SJUMP",
+        "Gnome Forest Pumpkin": "SLAM+DJUMP",
+        "Deep-Dish 9 Pumpkin": "SLAM+SJUMP | SLAM+CLIMB",
+        "GOLF Pumpkin": "NONE",
+        "The Pig City Pumpkin": "SLAM+DJUMP",
+        "Peppibot Factory Pumpkin": "SJUMP+UPPER | CLIMB+GRAB | CLIMB+UPPER",
+        "Oh Shit! Pumpkin": "SLAM+CLIMB",
+        "Freezerator Pumpkin": "SJUMP+SLAM | CLIMB+SLAM",
+        "Pizzascare Pumpkin": "NONE",
+        "Don't Make A Sound Pumpkin": "SJUMP | CLIMB",
+        "WAR Pumpkin": "GRAB+SJUMP | GRAB+CLIMB | UPPER+SJUMP | UPPER+CLIMB | GRAB+SLAM | UPPER+SLAM",
+        "The Crumbling Tower of Pizza Pumpkin": "GRAB+SLAM | UPPER+SLAM",
+        "Tricky Treat Main Path Pumpkin 1": "NONE",
+        "Tricky Treat Main Path Pumpkin 2": "NONE",
+        "Tricky Treat Main Path Pumpkin 3": "UPPER | CLIMB | SJUMP",
+        "Tricky Treat Main Path Pumpkin 4": "CLIMB",
+        "Tricky Treat Main Path Pumpkin 5": "CLIMB",
+        "Tricky Treat Side Path Pumpkin 1": "UPPER | CLIMB | SJUMP",
+        "Tricky Treat Side Path Pumpkin 2": "CLIMB | SJUMP",
+        "Tricky Treat Side Path Pumpkin 3": "UPPER | CLIMB | SJUMP",
+        "Tricky Treat Side Path Pumpkin 4": "CLIMB | SJUMP",
+        "Tricky Treat Side Path Pumpkin 5": "CLIMB",
+        "Chef Task: Tricksy": "CLIMB",
     }
 
     pt_peppino_rules_easy = { #access rules within levels, which do not change
@@ -931,16 +964,17 @@ def set_rules(multiworld: MultiWorld, world: World, options: PTOptions, toppins:
         "Don't Make A Sound Pumpkin": "CLIMB+SLAM | CLIMB+SJUMP",
         "WAR Pumpkin": "GRAB+SJUMP+SLAM | GRAB+CLIMB+SLAM",
         "The Crumbling Tower of Pizza Pumpkin": "GRAB+SLAM",
-        "Tricky Treat Main Path Pumpkin 1": 447,
-        "Tricky Treat Main Path Pumpkin 2": 448,
-        "Tricky Treat Main Path Pumpkin 3": 449,
-        "Tricky Treat Main Path Pumpkin 4": 450,
-        "Tricky Treat Main Path Pumpkin 5": 451,
-        "Tricky Treat Side Path Pumpkin 1": 452,
-        "Tricky Treat Side Path Pumpkin 2": 453,
-        "Tricky Treat Side Path Pumpkin 3": 454,
-        "Tricky Treat Side Path Pumpkin 4": 455,
-        "Tricky Treat Side Path Pumpkin 5": 456,
+        "Tricky Treat Main Path Pumpkin 1": "NONE",
+        "Tricky Treat Main Path Pumpkin 2": "NONE",
+        "Tricky Treat Main Path Pumpkin 3": "UPPER | CLIMB | SJUMP",
+        "Tricky Treat Main Path Pumpkin 4": "CLIMB",
+        "Tricky Treat Main Path Pumpkin 5": "CLIMB",
+        "Tricky Treat Side Path Pumpkin 1": "UPPER | CLIMB | SJUMP",
+        "Tricky Treat Side Path Pumpkin 2": "CLIMB | SJUMP",
+        "Tricky Treat Side Path Pumpkin 3": "UPPER | CLIMB | SJUMP",
+        "Tricky Treat Side Path Pumpkin 4": "CLIMB | SJUMP",
+        "Tricky Treat Side Path Pumpkin 5": "CLIMB",
+        "Chef Task: Tricksy": "CLIMB"
     }
 
     pt_peppino_extra_rules = { #internal rules for rando purposes; do not correspond to real checks
@@ -1091,20 +1125,20 @@ def set_rules(multiworld: MultiWorld, world: World, options: PTOptions, toppins:
         "Pizzascape S Rank": "GRAB+SJUMP | UPPER | GRAB+BOUNCE | GRAB+CRUSH",
 
     #Ancient Cheese
-        "Ancient Cheese Complete": "GRAB+SJUMP+SLAM | GRAB+SJUMP+TORN | UPPER+SJUMP+SLAM | UPPER+SJUMP+TORN",
+        "Ancient Cheese Complete": "GRAB+SJUMP+CRUSH | GRAB+SJUMP+SLAM | GRAB+SJUMP+TORN | UPPER+SJUMP+SLAM | UPPER+SJUMP+TORN | UPPER+SJUMP+CRUSH | UPPER+BOUNCE+SLAM | UPPER+BOUNCE+TORN | UPPER+BOUNCE+CRUSH",
         "Ancient Cheese Mushroom Toppin": "NONE",
         "Ancient Cheese Cheese Toppin": "GRAB | UPPER",
-        "Ancient Cheese Tomato Toppin": "GRAB+SJUMP+SLAM | GRAB+SJUMP+TORN | UPPER+SJUMP+SLAM | UPPER+SJUMP+TORN",
-        "Ancient Cheese Sausage Toppin": "GRAB+SJUMP+SLAM | GRAB+SJUMP+TORN | UPPER+SJUMP+SLAM | UPPER+SJUMP+TORN",
-        "Ancient Cheese Pineapple Toppin": "GRAB+SJUMP+SLAM | GRAB+SJUMP+TORN | UPPER+SJUMP+SLAM | UPPER+SJUMP+TORN",
+        "Ancient Cheese Tomato Toppin": "GRAB+BOUNCE | GRAB+SJUMP | UPPER",
+        "Ancient Cheese Sausage Toppin": "GRAB+BOUNCE+SLAM | GRAB+BOUNCE+TORN | GRAB+BOUNCE+CRUSH | GRAB+SJUMP+CRUSH | GRAB+SJUMP+SLAM | GRAB+SJUMP+TORN | UPPER+SLAM | UPPER+TORN | UPPER+CRUSH",
+        "Ancient Cheese Pineapple Toppin": "GRAB+BOUNCE+SLAM | GRAB+BOUNCE+TORN | GRAB+BOUNCE+CRUSH | GRAB+SJUMP+CRUSH | GRAB+SJUMP+SLAM | GRAB+SJUMP+TORN | UPPER+SLAM | UPPER+TORN | UPPER+CRUSH",
         "Ancient Cheese Secret 1": "NONE",
-        "Ancient Cheese Secret 2": "GRAB+SJUMP | UPPER | GRAB+BOUNCE | GRAB+CRUSH",
-        "Ancient Cheese Secret 3": "GRAB+SJUMP+SLAM | GRAB+SJUMP+TORN | UPPER+SJUMP+SLAM | UPPER+SJUMP+TORN",
-        "Ancient Cheese Treasure": "GRAB+SJUMP | UPPER | GRAB+BOUNCE | GRAB+CRUSH",
-        "Chef Task: Thrill Seeker": "GRAB+SJUMP+SLAM | GRAB+SJUMP+TORN | UPPER+SJUMP+SLAM | UPPER+SJUMP+TORN",
-        "Chef Task: Volleybomb": "GRAB+SJUMP | UPPER | GRAB+BOUNCE | GRAB+CRUSH",
+        "Ancient Cheese Secret 2": "GRAB+BOUNCE | GRAB+SJUMP | UPPER",
+        "Ancient Cheese Secret 3": "GRAB+BOUNCE+SLAM | GRAB+BOUNCE+TORN | GRAB+BOUNCE+CRUSH | GRAB+SJUMP+CRUSH | GRAB+SJUMP+SLAM | GRAB+SJUMP+TORN | UPPER+SLAM | UPPER+TORN | UPPER+CRUSH",
+        "Ancient Cheese Treasure": "GRAB+BOUNCE | GRAB+SJUMP | UPPER",
+        "Chef Task: Thrill Seeker": "GRAB+SJUMP+CRUSH | GRAB+SJUMP+SLAM | GRAB+SJUMP+TORN | UPPER+SJUMP+SLAM | UPPER+SJUMP+TORN | UPPER+SJUMP+CRUSH | UPPER+BOUNCE+SLAM | UPPER+BOUNCE+TORN | UPPER+BOUNCE+CRUSH",
+        "Chef Task: Volleybomb": "GRAB+BOUNCE | GRAB+SJUMP | UPPER",
         "Chef Task: Delicacy": "NONE",
-        "Ancient Cheese S Rank": "GRAB+SJUMP+SLAM | GRAB+SJUMP+TORN | UPPER+SJUMP+SLAM | UPPER+SJUMP+TORN",
+        "Ancient Cheese S Rank": "GRAB+SJUMP+CRUSH | GRAB+SJUMP+SLAM | GRAB+SJUMP+TORN | UPPER+SJUMP+SLAM | UPPER+SJUMP+TORN | UPPER+SJUMP+CRUSH | UPPER+BOUNCE+SLAM | UPPER+BOUNCE+TORN | UPPER+BOUNCE+CRUSH",
 
     #Bloodsauce Dungeon
         "Bloodsauce Dungeon Complete": "SJUMP+SLAM | SJUMP+TORN | SJUMP+CRUSH | SJUMP+BOUNCE",
@@ -1401,6 +1435,39 @@ def set_rules(multiworld: MultiWorld, world: World, options: PTOptions, toppins:
 
     #misc
         "Snotty Murdered": "NONE",
+
+    #pumpkins
+        "John Gutter Pumpkin": "SJUMP | BOUNCE | UPPER | GRAB | CRUSH",
+        "Pizzascape Pumpkin": "GRAB+SJUMP | GRAB+BOUNCE | GRAB+CRUSH | UPPER",
+        "Ancient Cheese Pumpkin": "GRAB+BOUNCE+SLAM | GRAB+BOUNCE+TORN | GRAB+BOUNCE+CRUSH | GRAB+SJUMP+CRUSH | GRAB+SJUMP+SLAM | GRAB+SJUMP+TORN | UPPER+SLAM | UPPER+TORN | UPPER+CRUSH",
+        "Bloodsauce Dungeon Pumpkin": "SLAM | CRUSH | BOUNCE | TORN",
+        "Oregano Desert Pumpkin": "SJUMP | UPPER | CRUSH | BOUNCE",
+        "Wasteyard Pumpkin": "SJUMP | UPPER | CRUSH | BOUNCE",
+        "Fun Farm Pumpkin": "SJUMP+SLAM | SJUMP+TORN | BOUNCE | CRUSH | UPPER+SLAM | UPPER+TORN",
+        "Fastfood Saloon Pumpkin": "SJUMP+GRAB | UPPER+GRAB | CRUSH+GRAB | BOUNCE+GRAB",
+        "Crust Cove Pumpkin": "CRUSH | SJUMP+TORN | SJUMP+SLAM | SJUMP+BOUNCE",
+        "Gnome Forest Pumpkin": "CRUSH | SJUMP+GRAB+SLAM | BOUNCE+GRAB+SLAM | UPPER+GRAB+SLAM",
+        "Deep-Dish 9 Pumpkin": "SLAM | CRUSH | BOUNCE | TORN",
+        "GOLF Pumpkin": "NONE",
+        "The Pig City Pumpkin": "CRUSH | SLAM",
+        "Peppibot Factory Pumpkin": "SJUMP | CRUSH | UPPER",
+        "Oh Shit! Pumpkin": "SJUMP+SLAM | SJUMP+TORN | BOUNCE | CRUSH | UPPER+SLAM | UPPER+TORN",
+        "Freezerator Pumpkin": "NONE",
+        "Pizzascare Pumpkin": "NONE",
+        "Don't Make A Sound Pumpkin": "SJUMP | CRUSH | UPPER | BOUNCE",
+        "WAR Pumpkin": "GRAB+CRUSH | GRAB+SJUMP | GRAB+BOUNCE | GRAB+SLAM | UPPER+CRUSH | UPPER+SJUMP | UPPER+BOUNCE | UPPER+SLAM",
+        "The Crumbling Tower of Pizza Pumpkin": "GRAB+SLAM | GRAB+TORN | GRAB+CRUSH | GRAB+BOUNCE | UPPER+SLAM | UPPER+TORN | UPPER+CRUSH | UPPER+BOUNCE",
+        "Tricky Treat Main Path Pumpkin 1": "NONE",
+        "Tricky Treat Main Path Pumpkin 2": "NONE",
+        "Tricky Treat Main Path Pumpkin 3": "UPPER | BOUNCE | SJUMP | CRUSH",
+        "Tricky Treat Main Path Pumpkin 4": "BOUNCE | SJUMP | CRUSH",
+        "Tricky Treat Main Path Pumpkin 5": "BOUNCE+UPPER | SJUMP | CRUSH",
+        "Tricky Treat Side Path Pumpkin 1": "UPPER | BOUNCE | SJUMP | CRUSH",
+        "Tricky Treat Side Path Pumpkin 2": "UPPER | BOUNCE | SJUMP | CRUSH",
+        "Tricky Treat Side Path Pumpkin 3": "UPPER | BOUNCE | SJUMP | CRUSH",
+        "Tricky Treat Side Path Pumpkin 4": "UPPER | BOUNCE | SJUMP | CRUSH",
+        "Tricky Treat Side Path Pumpkin 5": "BOUNCE | SJUMP | CRUSH",
+        "Chef Task: Tricksy": "BOUNCE+UPPER | SJUMP | CRUSH",
     }
 
     pt_noise_rules_easy = { #access rules within levels, which do not change
@@ -1548,7 +1615,7 @@ def set_rules(multiworld: MultiWorld, world: World, options: PTOptions, toppins:
         "Chef Task: X": "SJUMP+SLAM | SJUMP+CRUSH | SJUMP+TORN",
         "Crust Cove S Rank": "SJUMP+SLAM+TAUNT | SJUMP+CRUSH+TAUNT | SJUMP+TORN+TAUNT",
 
-        #Gnome Forest
+    #Gnome Forest
         "Gnome Forest Complete": "BOUNCE+CRUSH | SJUMP+CRUSH",
         "Gnome Forest Mushroom Toppin": "CRUSH",
         "Gnome Forest Cheese Toppin": "CRUSH",
@@ -1747,6 +1814,39 @@ def set_rules(multiworld: MultiWorld, world: World, options: PTOptions, toppins:
 
     #misc
         "Snotty Murdered": "NONE",
+    
+    #pumpkins
+        "John Gutter Pumpkin": "SJUMP | BOUNCE | UPPER | CRUSH",
+        "Pizzascape Pumpkin": "GRAB+SJUMP | GRAB+BOUNCE | GRAB+UPPER",
+        "Ancient Cheese Pumpkin": "GRAB+SJUMP+SLAM | GRAB+UPPER+SLAM | GRAB+BOUNCE+SLAM | GRAB+SJUMP+TORN | GRAB+UPPER+TORN | GRAB+BOUNCE+TORN | GRAB+SJUMP+CRUSH | GRAB+UPPER+CRUSH | GRAB+BOUNCE+CRUSH",
+        "Bloodsauce Dungeon Pumpkin": "SLAM | CRUSH | BOUNCE | TORN",
+        "Oregano Desert Pumpkin": "SJUMP | UPPER | CRUSH | BOUNCE",
+        "Wasteyard Pumpkin": "SJUMP | UPPER | CRUSH | BOUNCE",
+        "Fun Farm Pumpkin": "BOUNCE+SLAM | UPPER+SLAM | SJUMP+SLAM | BOUNCE+TORN | UPPER+TORN | SJUMP+TORN | CRUSH",
+        "Fastfood Saloon Pumpkin": "SJUMP+GRAB",
+        "Crust Cove Pumpkin": "SJUMP+TORN | SJUMP+SLAM | SJUMP+BOUNCE | SJUMP+CRUSH",
+        "Gnome Forest Pumpkin": "CRUSH",
+        "Deep-Dish 9 Pumpkin": "SLAM+SJUMP | TORN+SJUMP | CRUSH+SJUMP | SLAM+BOUNCE | TORN+BOUNCE | CRUSH+BOUNCE | SLAM+UPPER | TORN+UPPER | CRUSH+UPPER",
+        "GOLF Pumpkin": "GRAB+BOUNCE | GRAB+UPPER | GRAB+SJUMP | GRAB+CRUSH",
+        "The Pig City Pumpkin": "SJUMP+SLAM | CRUSH | BOUNCE+SLAM | UPPER+SLAM",
+        "Peppibot Factory Pumpkin": "SJUMP",
+        "Oh Shit! Pumpkin": "SLAM+BOUNCE | TORN+BOUNCE | SLAM+SJUMP | TORN+SJUMP | SLAM+UPPER | TORN+UPPER | CRUSH+SJUMP | CRUSH+BOUNCE | CRUSH+UPPER",
+        "Freezerator Pumpkin": "NONE",
+        "Pizzascare Pumpkin": "NONE",
+        "Don't Make A Sound Pumpkin": "SJUMP+SLAM | SJUMP+CRUSH",
+        "WAR Pumpkin": "GRAB+BOUNCE | GRAB+SJUMP",
+        "The Crumbling Tower of Pizza Pumpkin": "GRAB+SLAM | GRAB+TORN | GRAB+CRUSH",
+        "Tricky Treat Main Path Pumpkin 1": "NONE",
+        "Tricky Treat Main Path Pumpkin 2": "NONE",
+        "Tricky Treat Main Path Pumpkin 3": "UPPER | BOUNCE | SJUMP | CRUSH",
+        "Tricky Treat Main Path Pumpkin 4": "BOUNCE | SJUMP",
+        "Tricky Treat Main Path Pumpkin 5": "BOUNCE+UPPER | SJUMP",
+        "Tricky Treat Side Path Pumpkin 1": "UPPER | BOUNCE | SJUMP | CRUSH",
+        "Tricky Treat Side Path Pumpkin 2": "UPPER | BOUNCE | SJUMP | CRUSH",
+        "Tricky Treat Side Path Pumpkin 3": "UPPER | BOUNCE | SJUMP | CRUSH",
+        "Tricky Treat Side Path Pumpkin 4": "UPPER | BOUNCE | SJUMP",
+        "Tricky Treat Side Path Pumpkin 5": "BOUNCE | SJUMP",
+        "Chef Task: Tricksy": "BOUNCE+UPPER | SJUMP",
     }
 
     pt_noise_extra_rules = { #internal rules for rando purposes; do not correspond to real checks
@@ -1919,6 +2019,8 @@ def set_rules(multiworld: MultiWorld, world: World, options: PTOptions, toppins:
     multiworld.get_region("Pizzaface", world.player).connect(multiworld.get_region("The Crumbling Tower of Pizza", world.player), "Pizzaface to The Crumbling Tower of Pizza")
     if options.character != 2:
         multiworld.get_region("Floor 1 Tower Lobby", world.player).connect(multiworld.get_region("Tutorial", world.player), "Floor 1 Tower Lobby to Tutorial")
+    if options.pumpkin_checks:
+        multiworld.get_region("Floor 1 Tower Lobby", world.player).connect(multiworld.get_region("Tricky Treat", world.player), "Floor 1 Tower Lobby to Tricky Treat")
 
     for i in range(4):
         for ii in range(4):
@@ -1949,6 +2051,15 @@ def set_rules(multiworld: MultiWorld, world: World, options: PTOptions, toppins:
                 for i in range(3):
                     lvls_on_floor.append(levels_map[levels_list[floor_first_lvl_index + i]])
             add_s_ranked_task_rule(lvls_on_floor, location)
+        elif ("Chef Task: Pumpkin Munchkin" in location.name):
+            add_rule(location, lambda state: state.has("Pumpkin", world.player, floor(pumpkins * (options.tricky_treat_cost / 100))))
+            lvls = levels_list
+            lvls.append("The Crumbling Tower of Pizza")
+            for lvl in lvls:
+                add_rule(location, interpret_rule(lvl + " Pumpkin", 0))
+            for i in range(5):
+                add_rule(location, interpret_rule(f"Tricky Treat Main Path Pumpkin {i+1}", 0))
+                add_rule(location, interpret_rule(f"Tricky Treat Side Path Pumpkin {i+1}", 0))
         else:
             if ("The Critic" in location.name) or ("The Ugly" in location.name) or ("Denoise" in location.name) or ("Faker" in location.name) or ("Face Off" in location.name):
                 if not options.prank_checks:
@@ -1989,6 +2100,9 @@ def set_rules(multiworld: MultiWorld, world: World, options: PTOptions, toppins:
     add_rule(multiworld.get_entrance("Floor 3 Vacation Resort to " + bosses_map[bosses_list[2]], world.player), lambda state: state.has("Toppin", world.player, get_toppin_prop(options.floor_3_cost))) #the noise or the doise, depending on character played
     add_rule(multiworld.get_entrance("Floor 4 Slum to " + bosses_map["Fake Peppino"], world.player), lambda state: state.has("Toppin", world.player, get_toppin_prop(options.floor_4_cost)))
     add_rule(multiworld.get_entrance("Floor 5 Staff Only to Pizzaface", world.player), lambda state: state.has("Toppin", world.player, get_toppin_prop(options.floor_5_cost)))
+
+    #pumpkin requirement for tricky treat
+    add_rule(multiworld.get_entrance("Floor 1 Tower Lobby to Tricky Treat", world.player), lambda state: state.has("Pumpkin", world.player, floor(pumpkins * (options.tricky_treat_cost / 100))))
 
     #boss key requirements for floors
     if not options.open_world:

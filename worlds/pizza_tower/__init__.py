@@ -105,6 +105,7 @@ class PizzaTowerWorld(World):
 
     toppin_number: int
     starting_moves: int
+    pumpkin_number: int
 
     level_map: dict[str, str]
     boss_map: dict[str, str]
@@ -153,6 +154,9 @@ class PizzaTowerWorld(World):
         if self.options.srank_checks: locations_to_fill += 24
         if self.options.prank_checks: locations_to_fill += 24
         if self.options.cheftask_checks: locations_to_fill += 72
+        if self.options.pumpkin_checks:
+            locations_to_fill += 30
+            if self.options.cheftask_checks: locations_to_fill += 2 #tricky treat chef tasks
         if self.options.character == 0:
             locations_to_fill += 7 #2 tutorial checks and its 5 toppins
         elif self.options.character == 1:
@@ -199,6 +203,14 @@ class PizzaTowerWorld(World):
         else:
             self.toppin_number = self.options.toppin_count
             for i in range(self.options.toppin_count): pizza_itempool.append(self.create_item("Toppin"))
+
+        #add pumpkins, if we can
+        if self.options.pumpkin_checks:
+            for i in range(self.options.pumpkin_count):
+                if locations_to_fill <= len(pizza_itempool):
+                    break
+                pizza_itempool.append(self.create_item("Pumpkin"))
+                self.pumpkin_number = i+1
         
         #add clothes, if there's room
         if self.options.clothing_filler:
@@ -245,7 +257,7 @@ class PizzaTowerWorld(World):
         self.multiworld.itempool += pizza_itempool
 
     def set_rules(self):
-        set_rules(self.multiworld, self, self.options, self.toppin_number)
+        set_rules(self.multiworld, self, self.options, self.toppin_number, self.pumpkin_number)
         self.multiworld.completion_condition[self.player] = lambda state: state.can_reach("The Crumbling Tower of Pizza Complete", "Location", self.player)
 
     def get_filler_item_name(self) -> str:
@@ -278,5 +290,7 @@ class PizzaTowerWorld(World):
             "difficulty": bool(self.options.difficulty),
             "palette_filler": bool(self.options.clothing_filler),
             "secret_checks": bool(self.options.secret_checks),
-            "shuffle_lap2": bool(self.options.shuffle_lap2)
+            "shuffle_lap2": bool(self.options.shuffle_lap2),
+            "pumpkin_checks": bool(self.options.pumpkin_checks),
+            "pumpkin_count": floor(self.pumpkin_number * (self.options.tricky_treat_cost / 100))
         }
