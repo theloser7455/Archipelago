@@ -210,7 +210,7 @@ class PizzaTowerWorld(World):
                 if locations_to_fill <= len(pizza_itempool):
                     break
                 pizza_itempool.append(self.create_item("Pumpkin"))
-                self.pumpkin_number = i
+                self.pumpkin_number = i+1
         
         #add clothes, if there's room
         if self.options.clothing_filler:
