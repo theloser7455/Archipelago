@@ -319,15 +319,18 @@ pt_option_groups = [
         Floor3Door,
         Floor4Door,
         Floor5Door,
-        ShuffleBossKeys,
-        ShuffleLap2
+        ShuffleBossKeys
     ]),
     OptionGroup("Extra Checks", [
         TreasureChecks,
         SecretChecks,
         SRankChecks,
         PRankChecks,
-        ChefTaskChecks
+        ChefTaskChecks,
+        PumpkinChecks,
+        PumpkinCount,
+        TrickyTreatDoor,
+        ShuffleLap2
     ]),
     OptionGroup("Filler and Traps", [
         TrapPercentage,
