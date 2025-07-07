@@ -205,6 +205,7 @@ class PizzaTowerWorld(World):
             for i in range(self.options.toppin_count): pizza_itempool.append(self.create_item("Toppin"))
 
         #add pumpkins, if we can
+        self.pumpkin_number = 0
         if self.options.pumpkin_checks:
             for i in range(self.options.pumpkin_count):
                 if locations_to_fill <= len(pizza_itempool):
