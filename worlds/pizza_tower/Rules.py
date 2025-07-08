@@ -51,7 +51,8 @@ rule_moves = {
     "CRUSH": "Crusher",
     "BOUNCE": "Wallbounce",
     "TORN": "Tornado",
-    "BOMB": "Bomb"
+    "BOMB": "Bomb",
+    "LAP2": "Lap 2 Portals"
 }
 
 #these levels don't require a second lap on expert difficulty
@@ -210,7 +211,7 @@ def set_rules(multiworld: MultiWorld, world: World, options: PTOptions, toppins:
         "John Gutter Secret 3": "SJUMP | CLIMB",
         "John Gutter Treasure": "SJUMP | CLIMB",
         "Chef Task: John Gutted": "SJUMP | CLIMB",
-        "Chef Task: Primate Rage": "SJUMP | CLIMB",
+        "Chef Task: Primate Rage": "LAP2+SJUMP | LAP2+CLIMB",
         "Chef Task: Let's Make This Quick": "SJUMP | CLIMB",
         "John Gutter S Rank": "SJUMP | CLIMB",
 
@@ -417,7 +418,7 @@ def set_rules(multiworld: MultiWorld, world: World, options: PTOptions, toppins:
         "Peppibot Factory Secret 2": "SJUMP | CLIMB+GRAB | CLIMB+UPPER",
         "Peppibot Factory Secret 3": "SJUMP+SLAM | CLIMB+GRAB+SLAM | CLIMB+UPPER+SLAM",
         "Peppibot Factory Treasure": "SJUMP+SLAM | CLIMB+GRAB+SLAM | CLIMB+UPPER+SLAM",
-        "Chef Task: There Can Be Only One": "SJUMP+SLAM | CLIMB+GRAB+SLAM | CLIMB+UPPER+SLAM",
+        "Chef Task: There Can Be Only One": "LAP2+SJUMP+SLAM | LAP2+CLIMB+GRAB+SLAM | LAP2+CLIMB+UPPER+SLAM",
         "Chef Task: Whoop This!": "SJUMP | CLIMB+GRAB | CLIMB+UPPER",
         "Chef Task: Unflattening": "SJUMP+SLAM | CLIMB+GRAB+SLAM | CLIMB+UPPER+SLAM",
         "Peppibot Factory S Rank": "SJUMP+SLAM | CLIMB+GRAB+SLAM | CLIMB+UPPER+SLAM",
@@ -600,7 +601,7 @@ def set_rules(multiworld: MultiWorld, world: World, options: PTOptions, toppins:
         "John Gutter Secret 3": "SJUMP",
         "John Gutter Treasure": "SJUMP",
         "Chef Task: John Gutted": "SJUMP",
-        "Chef Task: Primate Rage": "SJUMP",
+        "Chef Task: Primate Rage": "LAP2+SJUMP",
         "Chef Task: Let's Make This Quick": "SJUMP+MACH4", 
         "John Gutter S Rank": "SJUMP+SLAM",
 
@@ -807,7 +808,7 @@ def set_rules(multiworld: MultiWorld, world: World, options: PTOptions, toppins:
         "Peppibot Factory Secret 2": "SJUMP+UPPER",
         "Peppibot Factory Secret 3": "SJUMP+CLIMB+SLAM | SJUMP+UPPER+SLAM",
         "Peppibot Factory Treasure": "SJUMP+CLIMB+SLAM | SJUMP+UPPER+SLAM",
-        "Chef Task: There Can Be Only One": "SJUMP+CLIMB+SLAM | SJUMP+UPPER+SLAM",
+        "Chef Task: There Can Be Only One": "LAP2+SJUMP+CLIMB+SLAM | LAP2+SJUMP+UPPER+SLAM",
         "Chef Task: Whoop This!": "SJUMP",
         "Chef Task: Unflattening": "SJUMP+CLIMB+SLAM | SJUMP+UPPER+SLAM",
         "Peppibot Factory S Rank": "SJUMP+CLIMB+SLAM | SJUMP+UPPER+SLAM",
@@ -1104,7 +1105,7 @@ def set_rules(multiworld: MultiWorld, world: World, options: PTOptions, toppins:
         "John Gutter Secret 3": "SJUMP | UPPER | CRUSH | BOUNCE",
         "John Gutter Treasure": "SJUMP | UPPER | CRUSH | BOUNCE",
         "Chef Task: John Gutted": "SJUMP | UPPER | CRUSH | BOUNCE",
-        "Chef Task: Primate Rage": "SJUMP | UPPER | CRUSH | BOUNCE",
+        "Chef Task: Primate Rage": "LAP2+SJUMP | LAP2+UPPER | LAP2+CRUSH | LAP2+BOUNCE",
         "Chef Task: Let's Make This Quick": "SJUMP | UPPER | CRUSH | BOUNCE",
         "John Gutter S Rank": "SJUMP | UPPER | CRUSH | BOUNCE",
 
@@ -1311,7 +1312,7 @@ def set_rules(multiworld: MultiWorld, world: World, options: PTOptions, toppins:
         "Peppibot Factory Secret 2": "SJUMP | CRUSH | UPPER",
         "Peppibot Factory Secret 3": "SJUMP+BOUNCE | SJUMP+TORN | UPPER+BOUNCE | UPPER+TORN | CRUSH",
         "Peppibot Factory Treasure": "SJUMP+BOUNCE | SJUMP+TORN | UPPER+BOUNCE | UPPER+TORN | CRUSH",
-        "Chef Task: There Can Be Only One": "SJUMP+BOUNCE | SJUMP+TORN | UPPER+BOUNCE | UPPER+TORN | CRUSH",
+        "Chef Task: There Can Be Only One": "LAP2+SJUMP+BOUNCE | LAP2+SJUMP+TORN | LAP2+UPPER+BOUNCE | LAP2+UPPER+TORN | LAP2+CRUSH",
         "Chef Task: Whoop This!": "SJUMP | CRUSH | UPPER",
         "Chef Task: Unflattening": "SJUMP+BOUNCE | SJUMP+TORN | UPPER+BOUNCE | UPPER+TORN | CRUSH",
         "Peppibot Factory S Rank": "SJUMP+BOUNCE | SJUMP+TORN | UPPER+BOUNCE | UPPER+TORN | CRUSH",
@@ -1483,7 +1484,7 @@ def set_rules(multiworld: MultiWorld, world: World, options: PTOptions, toppins:
         "John Gutter Secret 3": "SJUMP",
         "John Gutter Treasure": "SJUMP",
         "Chef Task: John Gutted": "SJUMP",
-        "Chef Task: Primate Rage": "SJUMP",
+        "Chef Task: Primate Rage": "LAP2+SJUMP",
         "Chef Task: Let's Make This Quick": "SJUMP+MACH4",
         "John Gutter S Rank": "SJUMP+SLAM | SJUMP+CRUSH | SJUMP+TORN",
 
@@ -1690,7 +1691,7 @@ def set_rules(multiworld: MultiWorld, world: World, options: PTOptions, toppins:
         "Peppibot Factory Secret 2": "SJUMP",
         "Peppibot Factory Secret 3": "SJUMP+SLAM | SJUMP+TORN | SJUMP+CRUSH",
         "Peppibot Factory Treasure": "SJUMP+SLAM | SJUMP+TORN | SJUMP+CRUSH",
-        "Chef Task: There Can Be Only One": "SJUMP+SLAM | SJUMP+TORN | SJUMP+CRUSH",
+        "Chef Task: There Can Be Only One": "LAP2+SJUMP+SLAM | LAP2+SJUMP+TORN | LAP2+SJUMP+CRUSH",
         "Chef Task: Whoop This!": "SJUMP",
         "Chef Task: Unflattening": "SJUMP+SLAM | SJUMP+TORN | SJUMP+CRUSH",
         "Peppibot Factory S Rank": "SJUMP+SLAM | SJUMP+TORN | SJUMP+CRUSH",
@@ -1988,8 +1989,8 @@ def set_rules(multiworld: MultiWorld, world: World, options: PTOptions, toppins:
         if "NONE" in rules:
             return (lambda state: True)
         for rule in rules:
-            tokens = rule.split("+")
-            itemsets.append([rule_moves[move] for move in tokens if (rule_moves[move] in options.move_rando_list and options.do_move_rando)])
+            tokens = rule.split("+")      
+            itemsets.append([rule_moves[move] for move in tokens if ((rule_moves[move] in options.move_rando_list and options.do_move_rando) or ("LAP2" in move and options.shuffle_lap2))])
         return lambda state: rule_from_itemset(state, itemsets)
 
     def rule_from_itemset(state: CollectionState, itemsets):
