@@ -20,6 +20,7 @@ Completing levels, collecting Toppins, and defeating bosses will each provide an
 - S Ranks
 - P Ranks
 - Chef Tasks (Achievements)
+- Pumpkins
 
 Completing any of these tasks will immediately "check" that location; in other words, you do not have to complete the level to retrieve a collectible location's item.
 
